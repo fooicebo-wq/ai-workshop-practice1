@@ -1,0 +1,11 @@
+{
+  "name": "gis-crm-api",
+  "main": "worker.js",
+  "compatibility_date": "2024-01-01",
+  "kv_namespaces": [
+    {
+      "binding": "CRM_DATA",
+      "id": "0a5265bcf4524fd287173bb60bc15798"
+    }
+  ]
+}

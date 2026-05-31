@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>集思室內設計 CRM</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  .tab-active { border-bottom: 3px solid #2563eb; color: #2563eb; font-weight: 700; }
+  .modal-bg { background: rgba(0,0,0,0.4); }
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+<!-- Header -->
+<header class="bg-white shadow-sm">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="grid grid-cols-2 gap-0.5">
+        <span class="w-7 h-7 border-2 border-yellow-700 text-yellow-700 flex items-center justify-center font-bold text-sm">集</span>
+        <span class="w-7 h-7 border-2 border-yellow-700 text-yellow-700 flex items-center justify-center font-bold text-sm">思</span>
+      </div>
+      <div>
+        <div class="text-xs text-gray-500 tracking-widest">室　內　設　計</div>
+        <div class="text-xs text-gray-400 tracking-wider">G I S  D E S I G N</div>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <span id="sync-status" class="text-xs text-green-500 hidden">☁️ 已同步</span>
+      <h1 class="text-lg font-bold text-gray-700">客戶管理系統</h1>
+    </div>
+  </div>
+</header>
+
+<!-- Tabs -->
+<div class="max-w-6xl mx-auto px-4 mt-6">
+  <div class="flex border-b border-gray-200 mb-6">
+    <button onclick="switchTab('customers')" id="tab-customers"
+      class="tab-active px-6 py-3 text-sm mr-2">👤 客戶管理</button>
+    <button onclick="switchTab('quotes')" id="tab-quotes"
+      class="px-6 py-3 text-sm text-gray-500 hover:text-blue-600">📄 報價單</button>
+  </div>
+
+  <!-- 客戶管理 -->
+  <div id="page-customers">
+    <div class="flex justify-between items-center mb-4">
+      <input id="search-customers" type="text" placeholder="搜尋客戶..."
+        oninput="renderCustomers()"
+        class="border rounded-lg px-3 py-2 text-sm w-60 focus:outline-none focus:ring-2 focus:ring-blue-300">
+      <button onclick="openCustomerModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium">
+        ＋ 新增客戶
+      </button>
+    </div>
+    <div id="customers-list" class="grid gap-3">
+      <div class="text-center text-gray-400 py-12">載入中...</div>
+    </div>
+  </div>
+
+  <!-- 報價單 -->
+  <div id="page-quotes" class="hidden">
+    <div class="flex justify-between items-center mb-4">
+      <input id="search-quotes" type="text" placeholder="搜尋報價單..."
+        oninput="renderQuotes()"
+        class="border rounded-lg px-3 py-2 text-sm w-60 focus:outline-none focus:ring-2 focus:ring-blue-300">
+      <button onclick="openQuoteModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium">
+        ＋ 新增報價單
+      </button>
+    </div>
+    <div id="quotes-list" class="grid gap-3">
+      <div class="text-center text-gray-400 py-12">載入中...</div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal：客戶 -->
+<div id="modal-customer" class="hidden fixed inset-0 modal-bg flex items-center justify-center z-50">
+  <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg mx-4 p-6">
+    <h2 id="modal-customer-title" class="text-lg font-bold mb-5 text-gray-800">新增客戶</h2>
+    <div class="grid grid-cols-2 gap-4">
+      <div class="col-span-2">
+        <label class="block text-xs font-medium text-gray-600 mb-1">公司名稱 *</label>
+        <input id="c-company" type="text" placeholder="元心建材興業有限公司"
+          class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300">
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-gray-600 mb-1">聯絡人姓名</label>
+        <input id="c-name" type="text" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300">
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-gray-600 mb-1">職稱</label>
+        <input id="c-title" type="text" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300">
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-gray-600 mb-1">電話</label>
+        <input id="c-phone" type="text" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300">
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-gray-600 mb-1">手機</label>
+        <input id="c-mobile" type="text" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300">
+      </div>
+      <div class="col-span-2">
+        <label class="block text-xs font-medium text-gray-600 mb-1">Email</label>
+        <input id="c-email" type="email" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300">
+      </div>
+      <div class="col-span-2">
+        <label class="block text-xs font-medium text-gray-600 mb-1">地址</label>
+        <input id="c-address" type="text" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300">
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-gray-600 mb-1">網址</label>
+        <input id="c-website" type="text" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300">
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-gray-600 mb-1">統一編號</label>
+        <input id="c-taxid" type="text" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300">
+      </div>
+      <div class="col-span-2">
+        <label class="block text-xs font-medium text-gray-600 mb-1">備註</label>
+        <textarea id="c-note" rows="2" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"></textarea>
+      </div>
+    </div>
+    <div class="flex justify-end gap-3 mt-6">
+      <button onclick="closeModal('modal-customer')" class="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg">取消</button>
+      <button onclick="saveCustomer()" class="px-5 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium">儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal：報價單 -->
+<div id="modal-quote" class="hidden fixed inset-0 modal-bg flex items-center justify-center z-50">
+  <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl mx-4 p-6 max-h-[90vh] overflow-y-auto">
+    <h2 id="modal-quote-title" class="text-lg font-bold mb-5 text-gray-800">新增報價單</h2>
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block text-xs font-medium text-gray-600 mb-1">客戶 *</label>
+        <select id="q-customer" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300">
+          <option value="">請選擇客戶</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-gray-600 mb-1">報價日期</label>
+        <input id="q-date" type="date" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300">
+      </div>
+      <div class="col-span-2">
+        <label class="block text-xs font-medium text-gray-600 mb-1">報價說明</label>
+        <input id="q-title" type="text" placeholder="例：衛浴採購 / 磁磚工程"
+          class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300">
+      </div>
+    </div>
+    <div class="mt-5">
+      <div class="flex justify-between items-center mb-2">
+        <label class="text-xs font-medium text-gray-600">品項明細</label>
+        <button onclick="addItem()" class="text-xs text-blue-600 hover:text-blue-800">＋ 新增品項</button>
+      </div>
+      <div class="border rounded-lg overflow-hidden">
+        <table class="w-full text-sm">
+          <thead class="bg-gray-100 text-gray-600">
+            <tr>
+              <th class="px-3 py-2 text-left">品名</th>
+              <th class="px-2 py-2 text-center w-20">數量</th>
+              <th class="px-2 py-2 text-right w-28">單價</th>
+              <th class="px-2 py-2 text-right w-28">小計</th>
+              <th class="w-8"></th>
+            </tr>
+          </thead>
+          <tbody id="items-body"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="mt-4 flex justify-end">
+      <div class="text-sm space-y-1 text-right">
+        <div class="text-gray-500">合計（未稅）：<span id="subtotal" class="font-medium">$0</span></div>
+        <div class="text-gray-500">稅額（5%）：<span id="tax" class="font-medium">$0</span></div>
+        <div class="text-base font-bold text-blue-700">含稅總計：<span id="total">$0</span></div>
+      </div>
+    </div>
+    <div class="mt-4">
+      <label class="block text-xs font-medium text-gray-600 mb-1">備註</label>
+      <textarea id="q-note" rows="2" placeholder="付款條件、不含項目等..."
+        class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"></textarea>
+    </div>
+    <div class="flex justify-end gap-3 mt-6">
+      <button onclick="closeModal('modal-quote')" class="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg">取消</button>
+      <button onclick="saveQuote()" class="px-5 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium">儲存</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = 'https://gis-crm-api.fooicebo.workers.dev';
+let customers = [];
+let quotes = [];
+let editingCustomerId = null;
+let editingQuoteId = null;
+let quoteItems = [];
+
+// ===== 雲端 API =====
+async function load() {
+  try {
+    [customers, quotes] = await Promise.all([
+      fetch(`${API}/customers`).then(r => r.json()),
+      fetch(`${API}/quotes`).then(r => r.json()),
+    ]);
+    // 若雲端無資料，寫入預設客戶
+    if (!customers.length) {
+      customers = [
+        { id:'c001', company:'集思室內設計 GIS INTERIOR DESIGN', name:'陳勝寶', title:'設計總監',
+          phone:'04-3505-2921', mobile:'0987-623-677', email:'fooicebo@gmail.com',
+          address:'台中市南區新華街30號', website:'', taxid:'82614272',
+          note:'建築設計・室內裝修設計・系統櫃設計' },
+        { id:'c002', company:'元心建材興業有限公司', name:'賴俊穎', title:'業務總監',
+          phone:'04-23139955', mobile:'0963-922033', email:'james@yes-ceramics.com',
+          address:'台中市北屯區松竹路三段660號', website:'https://yes-ceramics.com',
+          taxid:'45880971', note:'LINE ID: jameslai0527 | 磁磚・SPC・木地板・水磨石・不鏽鋼浴槽' },
+      ];
+      await saveToCloud('customers');
+    }
+    renderCustomers();
+    showSync();
+  } catch(e) {
+    document.getElementById('customers-list').innerHTML =
+      '<div class="text-center text-red-400 py-12">⚠️ 無法連線到雲端，請稍後再試</div>';
+  }
+}
+
+async function saveToCloud(type) {
+  await fetch(`${API}/${type}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(type === 'customers' ? customers : quotes),
+  });
+  showSync();
+}
+
+function showSync() {
+  const el = document.getElementById('sync-status');
+  el.classList.remove('hidden');
+  setTimeout(() => el.classList.add('hidden'), 2000);
+}
+
+// ===== Tab =====
+function switchTab(tab) {
+  document.getElementById('page-customers').classList.toggle('hidden', tab !== 'customers');
+  document.getElementById('page-quotes').classList.toggle('hidden', tab !== 'quotes');
+  document.getElementById('tab-customers').className = tab === 'customers'
+    ? 'tab-active px-6 py-3 text-sm mr-2' : 'px-6 py-3 text-sm text-gray-500 hover:text-blue-600 mr-2';
+  document.getElementById('tab-quotes').className = tab === 'quotes'
+    ? 'tab-active px-6 py-3 text-sm' : 'px-6 py-3 text-sm text-gray-500 hover:text-blue-600';
+  if (tab === 'quotes') renderQuotes();
+  if (tab === 'customers') renderCustomers();
+}
+
+// ===== 客戶 =====
+function renderCustomers() {
+  const q = (document.getElementById('search-customers').value || '').toLowerCase();
+  const list = customers.filter(c => (c.company+c.name+c.phone+c.email).toLowerCase().includes(q));
+  const el = document.getElementById('customers-list');
+  if (!list.length) { el.innerHTML = '<div class="text-center text-gray-400 py-12">尚無客戶資料</div>'; return; }
+  el.innerHTML = list.map(c => `
+    <div class="bg-white rounded-xl shadow-sm border p-4 flex items-start justify-between hover:shadow-md transition">
+      <div>
+        <div class="font-semibold text-gray-800">${c.company}</div>
+        <div class="text-sm text-gray-500 mt-0.5">${c.name ? c.name + (c.title ? '・'+c.title : '') : ''}</div>
+        <div class="flex flex-wrap gap-3 mt-2 text-xs text-gray-400">
+          ${c.phone ? `<span>📞 ${c.phone}</span>` : ''}
+          ${c.mobile ? `<span>📱 ${c.mobile}</span>` : ''}
+          ${c.email ? `<span>✉️ ${c.email}</span>` : ''}
+          ${c.website ? `<a href="${c.website}" target="_blank" class="text-blue-400 hover:underline">🌐 網站</a>` : ''}
+        </div>
+        ${c.address ? `<div class="text-xs text-gray-400 mt-1">📍 ${c.address}</div>` : ''}
+        ${c.note ? `<div class="text-xs text-gray-300 mt-1">${c.note}</div>` : ''}
+      </div>
+      <div class="flex gap-2 ml-4 shrink-0">
+        <button onclick="openCustomerModal('${c.id}')" class="text-xs text-blue-600 hover:underline">編輯</button>
+        <button onclick="deleteCustomer('${c.id}')" class="text-xs text-red-400 hover:underline">刪除</button>
+      </div>
+    </div>`).join('');
+}
+
+function openCustomerModal(id = null) {
+  editingCustomerId = id;
+  ['company','name','title','phone','mobile','email','address','website','taxid','note']
+    .forEach(f => document.getElementById('c-'+f).value = '');
+  document.getElementById('modal-customer-title').textContent = id ? '編輯客戶' : '新增客戶';
+  if (id) {
+    const c = customers.find(x => x.id === id);
+    if (c) ['company','name','title','phone','mobile','email','address','website','taxid','note']
+      .forEach(f => document.getElementById('c-'+f).value = c[f] || '');
+  }
+  document.getElementById('modal-customer').classList.remove('hidden');
+}
+
+async function saveCustomer() {
+  const company = document.getElementById('c-company').value.trim();
+  if (!company) { alert('請輸入公司名稱'); return; }
+  const data = {
+    id: editingCustomerId || Date.now().toString(),
+    company, name: document.getElementById('c-name').value,
+    title: document.getElementById('c-title').value,
+    phone: document.getElementById('c-phone').value,
+    mobile: document.getElementById('c-mobile').value,
+    email: document.getElementById('c-email').value,
+    address: document.getElementById('c-address').value,
+    website: document.getElementById('c-website').value,
+    taxid: document.getElementById('c-taxid').value,
+    note: document.getElementById('c-note').value,
+  };
+  if (editingCustomerId) {
+    const idx = customers.findIndex(x => x.id === editingCustomerId);
+    customers[idx] = data;
+  } else {
+    customers.unshift(data);
+  }
+  await saveToCloud('customers');
+  closeModal('modal-customer');
+  renderCustomers();
+}
+
+async function deleteCustomer(id) {
+  if (!confirm('確定刪除此客戶？')) return;
+  customers = customers.filter(c => c.id !== id);
+  await saveToCloud('customers');
+  renderCustomers();
+}
+
+// ===== 報價單 =====
+function renderQuotes() {
+  const q = (document.getElementById('search-quotes').value || '').toLowerCase();
+  const list = quotes.filter(q2 => {
+    const c = customers.find(x => x.id === q2.customerId);
+    return ((c?.company||'') + q2.title + q2.date).toLowerCase().includes(q);
+  });
+  const el = document.getElementById('quotes-list');
+  if (!list.length) { el.innerHTML = '<div class="text-center text-gray-400 py-12">尚無報價單</div>'; return; }
+  el.innerHTML = list.map(q2 => {
+    const c = customers.find(x => x.id === q2.customerId);
+    const sub = (q2.items||[]).reduce((s,i) => s+(i.qty*i.price), 0);
+    return `
+    <div class="bg-white rounded-xl shadow-sm border p-4 flex items-start justify-between hover:shadow-md transition">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="font-semibold text-gray-800">${c?.company||'未知客戶'}</span>
+          <span class="text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">${q2.title||'報價單'}</span>
+        </div>
+        <div class="text-xs text-gray-400 mt-1">📅 ${q2.date} ｜ 品項 ${(q2.items||[]).length} 項</div>
+        <div class="text-sm font-bold text-blue-700 mt-1">含稅總計：$${Math.round(sub*1.05).toLocaleString()}</div>
+        ${q2.note ? `<div class="text-xs text-gray-400 mt-1">${q2.note}</div>` : ''}
+      </div>
+      <div class="flex gap-2 ml-4 shrink-0">
+        <button onclick="openQuoteModal('${q2.id}')" class="text-xs text-blue-600 hover:underline">編輯</button>
+        <button onclick="deleteQuote('${q2.id}')" class="text-xs text-red-400 hover:underline">刪除</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openQuoteModal(id = null) {
+  editingQuoteId = id;
+  quoteItems = [];
+  document.getElementById('modal-quote-title').textContent = id ? '編輯報價單' : '新增報價單';
+  document.getElementById('q-date').value = new Date().toISOString().slice(0,10);
+  document.getElementById('q-title').value = '';
+  document.getElementById('q-note').value = '';
+  const sel = document.getElementById('q-customer');
+  sel.innerHTML = '<option value="">請選擇客戶</option>' +
+    customers.map(c => `<option value="${c.id}">${c.company}</option>`).join('');
+  if (id) {
+    const q2 = quotes.find(x => x.id === id);
+    if (q2) {
+      sel.value = q2.customerId;
+      document.getElementById('q-date').value = q2.date;
+      document.getElementById('q-title').value = q2.title || '';
+      document.getElementById('q-note').value = q2.note || '';
+      quoteItems = q2.items ? [...q2.items] : [];
+    }
+  }
+  if (!quoteItems.length) quoteItems.push({ name:'', qty:1, price:0 });
+  renderItems();
+  document.getElementById('modal-quote').classList.remove('hidden');
+}
+
+function addItem() { quoteItems.push({ name:'', qty:1, price:0 }); renderItems(); }
+function removeItem(i) {
+  quoteItems.splice(i, 1);
+  if (!quoteItems.length) quoteItems.push({ name:'', qty:1, price:0 });
+  renderItems();
+}
+
+function renderItems() {
+  document.getElementById('items-body').innerHTML = quoteItems.map((item, i) => `
+    <tr class="border-t">
+      <td class="px-2 py-1.5"><input type="text" value="${item.name}" placeholder="品名"
+        oninput="quoteItems[${i}].name=this.value"
+        class="w-full border-0 text-sm focus:outline-none bg-transparent"></td>
+      <td class="px-2 py-1.5"><input type="number" value="${item.qty}" min="1"
+        oninput="quoteItems[${i}].qty=+this.value; calcTotal()"
+        class="w-full border rounded px-1 py-0.5 text-sm text-center focus:outline-none focus:ring-1 focus:ring-blue-300"></td>
+      <td class="px-2 py-1.5"><input type="number" value="${item.price}" min="0"
+        oninput="quoteItems[${i}].price=+this.value; calcTotal()"
+        class="w-full border rounded px-1 py-0.5 text-sm text-right focus:outline-none focus:ring-1 focus:ring-blue-300"></td>
+      <td class="px-2 py-1.5 text-right text-sm text-gray-600">$${(item.qty*item.price).toLocaleString()}</td>
+      <td class="px-1 py-1.5 text-center"><button onclick="removeItem(${i})" class="text-red-300 hover:text-red-500 text-lg">×</button></td>
+    </tr>`).join('');
+  calcTotal();
+}
+
+function calcTotal() {
+  const sub = quoteItems.reduce((s,i) => s+(i.qty*i.price), 0);
+  const tax = Math.round(sub*0.05);
+  document.getElementById('subtotal').textContent = '$'+sub.toLocaleString();
+  document.getElementById('tax').textContent = '$'+tax.toLocaleString();
+  document.getElementById('total').textContent = '$'+(sub+tax).toLocaleString();
+}
+
+async function saveQuote() {
+  if (!document.getElementById('q-customer').value) { alert('請選擇客戶'); return; }
+  const data = {
+    id: editingQuoteId || Date.now().toString(),
+    customerId: document.getElementById('q-customer').value,
+    date: document.getElementById('q-date').value,
+    title: document.getElementById('q-title').value,
+    items: quoteItems.filter(i => i.name),
+    note: document.getElementById('q-note').value,
+  };
+  if (editingQuoteId) { const idx = quotes.findIndex(x => x.id === editingQuoteId); quotes[idx] = data; }
+  else quotes.unshift(data);
+  await saveToCloud('quotes');
+  closeModal('modal-quote');
+  renderQuotes();
+}
+
+async function deleteQuote(id) {
+  if (!confirm('確定刪除此報價單？')) return;
+  quotes = quotes.filter(q => q.id !== id);
+  await saveToCloud('quotes');
+  renderQuotes();
+}
+
+function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+// 初始載入
+load();
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "gis-crm": {
+      "command": "node",
+      "args": ["C:\\Users\\user\\Downloads\\練習1-檔案整理(自已練習)\\學習\\crm-mcp\\index.js"]
+    }
+  }
+}

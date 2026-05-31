@@ -1,0 +1,396 @@
+﻿<!doctype html>
+<html lang="zh-Hant" data-theme="moonlit">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>用 AI 經營一家公司：5/31 全天工作坊</title>
+  <link rel="icon" type="image/x-icon" href="/slide/_assets/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/slide/_assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/slide/_assets/favicon-192.png">
+  <link rel="stylesheet" href="/slide/_assets/styles.css?v=1780186386906">
+  <script src="/slide/_assets/deck-stage.js?v=1780186386906"></script>
+</head>
+<body>
+<deck-stage>
+<section class="slide cover " data-screen-label="01 Cover">
+  <div class="top">
+    <img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-light.png" alt="詹姆士 AI 工作坊">
+    <div class="date">2026 / 5 / 31 · 台中</div>
+  </div>
+  <div class="body">
+    <span class="eyebrow" style="color:var(--accent);">AI OPERATING WORKSHOP</span>
+    <h1>用 AI<br>經營一家公司<span class="accent">。</span></h1>
+    <p class="lede">完全不會 coding 的老闆，也能親手把公司的資料、流程交給 AI。</p>
+    <div class="meta-row"><div class="item"><div class="label">Date</div><div class="value">2026 / 5 / 31</div></div><div class="item"><div class="label">Format</div><div class="value">台中 · 全天 · 15 人</div></div><div class="item"><div class="label">Instructor</div><div class="value">建材學霸詹姆士</div></div></div>
+  </div>
+</section>
+
+
+<section class="slide agenda" data-screen-label="02 Agenda">
+  <div style="display:flex;flex-direction:column;gap:20px;">
+    <span class="eyebrow">WORKSHOP MAP</span>
+    <h1 class="h">今天不是學工具，<br>是把公司接到 AI。</h1>
+  </div>
+  <ol>
+    <li class="linkable"><a href="#3" data-slide="3"><div><div class="ti">AI 從哪裡開始</div><div class="de">從線上問答到公司資料庫</div></div></a></li><li class="linkable"><a href="#6" data-slide="6"><div><div class="ti">在地端工作區</div><div class="de">session、model、context、claude.md</div></div></a></li><li class="linkable"><a href="#9" data-slide="9"><div><div class="ti">為什麼用 Markdown</div><div class="de">寫給 AI 讀，也保留輸出彈性</div></div></a></li><li class="linkable"><a href="#13" data-slide="13"><div><div class="ti">資料庫與知識庫</div><div class="de">事實放系統，經驗放知識庫</div></div></a></li><li class="linkable"><a href="#15" data-slide="15"><div><div class="ti">Skill 工作流</div><div class="de">用人話驅動固定 SOP</div></div></a></li><li class="linkable"><a href="#24" data-slide="24"><div><div class="ti">MCP 與自動化</div><div class="de">把工具接上，讓 AI 真的能做事</div></div></a></li>
+  </ol>
+  <div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div>
+  <div class="pagenum">02 / 28</div>
+</section>
+
+
+<section class="slide flex-slide" data-screen-label="03 Flex" style="padding:88px;background:var(--bg)">
+<div class="flex-box flex-layout-horizontal flex-body " style="gap:52px;display:flex;flex-direction:row;align-items:center"><div class="flex-box flex-layout-vertical" style="gap:18px;flex:0 0 43%;display:flex;flex-direction:column"><span class="flex-text" style="color:var(--yc-terracotta);font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase">CORE FRAMEWORK</span><h1 class="flex-text" style="max-width:1200px;color:var(--fg-1);font-size:56px;font-weight:700;font-family:var(--font-serif);line-height:1.12">大家一開始，<br>都是把 AI 當線上問答。</h1><span class="flex-text" style="max-width:1220px;color:var(--fg-2);font-size:22px;line-height:1.55">ChatGPT / Claude 能讀懂不精準指令、多格式資料，也能用固定規矩輸出結果。</span></div><div class="flex-image" style="aspect-ratio:16/9;border-radius:10px;overflow:hidden;background-color:var(--bg-elevated)"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/kb-media/IT/簡報/ai-workshop-531/ai-use-map-icons-v7.svg" alt="" loading="lazy" style="object-fit:contain;width:100%;height:100%;display:block;"></div></div><div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div><div class="pagenum">03 / 28</div>
+</section>
+
+
+<section class="slide flex-slide" data-screen-label="04 Flex" style="padding:88px;background:var(--bg)">
+<div class="flex-box flex-layout-horizontal flex-body " style="gap:52px;display:flex;flex-direction:row;align-items:center"><div class="flex-image" style="aspect-ratio:16/9;border-radius:10px;overflow:hidden;background-color:var(--bg-elevated)"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/kb-media/IT/簡報/ai-workshop-531/private-db-map-icons-v7.svg" alt="" loading="lazy" style="object-fit:contain;width:100%;height:100%;display:block;"></div><div class="flex-box flex-layout-vertical" style="gap:18px;flex:0 0 40%;display:flex;flex-direction:column"><span class="flex-text" style="color:var(--yc-terracotta);font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase">PRIVATE CONTEXT</span><h1 class="flex-text" style="max-width:1200px;color:var(--fg-1);font-size:56px;font-weight:700;font-family:var(--font-serif);line-height:1.12">公司資料庫，<br>可以成為 AI 的回答邊界。</h1><span class="flex-text" style="max-width:1220px;color:var(--fg-2);font-size:22px;line-height:1.55">關鍵句不是「幫我查」，而是「請就這個資料庫回答，不要用它以外的內容」。</span></div></div><div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div><div class="pagenum">04 / 28</div>
+</section>
+
+
+<section class="slide flex-slide" data-screen-label="05 Flex" style="padding:62px;background:var(--bg)">
+<div class="flex-box flex-layout-vertical flex-body " style="gap:22px;display:flex;flex-direction:column"><div class="flex-image" style="aspect-ratio:16/9;border-radius:10px;overflow:hidden;background-color:var(--bg-elevated)"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/kb-media/IT/簡報/ai-workshop-531/cloud-use-map-icons-v7.svg" alt="" loading="lazy" style="object-fit:contain;width:100%;height:100%;display:block;"></div></div><div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div><div class="pagenum">05 / 28</div>
+</section>
+
+
+<section class="slide flex-slide" data-screen-label="06 Flex" style="padding:88px;background:var(--bg)">
+<div class="flex-box flex-layout-horizontal flex-body " style="gap:52px;display:flex;flex-direction:row;align-items:center"><div class="flex-box flex-layout-vertical" style="gap:18px;flex:0 0 39%;display:flex;flex-direction:column"><span class="flex-text" style="color:var(--yc-terracotta);font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase">LOCAL WORKSPACE</span><h1 class="flex-text" style="max-width:1200px;color:var(--fg-1);font-size:56px;font-weight:700;font-family:var(--font-serif);line-height:1.12">把工作檔案留在地端，<br>AI 才有長期記憶的載體。</h1><span class="flex-text" style="max-width:1220px;color:var(--fg-2);font-size:22px;line-height:1.55">AI 可以在線上，但公司的檔案、規則、輸出物要留在同一個工作區。</span></div><div class="flex-image" style="aspect-ratio:16/9;border-radius:10px;overflow:hidden;background-color:var(--bg-elevated)"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/kb-media/IT/簡報/ai-workshop-531/local-workspace-map-v6.svg" alt="" loading="lazy" style="object-fit:contain;width:100%;height:100%;display:block;"></div></div><div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div><div class="pagenum">06 / 28</div>
+</section>
+
+
+<section class="slide flex-slide" data-screen-label="07 Flex" style="padding:74px;background:var(--bg)">
+<div class="flex-box flex-layout-horizontal flex-body " style="gap:42px;display:flex;flex-direction:row;align-items:center"><div class="flex-box flex-layout-vertical" style="gap:24px;flex:0 0 30%;display:flex;flex-direction:column"><span class="flex-text" style="color:var(--yc-terracotta);font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase">CORE FRAMEWORK</span><h1 class="flex-text" style="color:var(--fg-1);font-size:54px;font-weight:700;font-family:var(--font-serif);line-height:1.12">在地端，<br>東西存在地端。</h1><span class="flex-text" style="color:var(--yc-terracotta);font-size:31px;font-weight:700;line-height:1.15">1 session</span><span class="flex-text" style="color:var(--yc-terracotta);font-size:31px;font-weight:700;line-height:1.15">2 model</span><span class="flex-text" style="color:var(--yc-terracotta);font-size:31px;font-weight:700;line-height:1.15">3 context</span><span class="flex-text" style="color:var(--yc-terracotta);font-size:31px;font-weight:700;line-height:1.15">4 claude.md</span><span class="flex-text" style="color:var(--yc-terracotta);font-size:31px;font-weight:700;line-height:1.15">5 工作區</span></div><div class="flex-image" style="aspect-ratio:16/9;border-radius:10px;overflow:hidden;background-color:var(--bg-elevated)"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/kb-media/IT/簡報/ai-workshop-531/claude-desktop-ui.png" alt="" loading="lazy" style="object-fit:contain;width:100%;height:100%;display:block;"></div></div><div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div><div class="pagenum">07 / 28</div>
+</section>
+
+
+<section class="slide flex-slide" data-screen-label="08 Flex" style="padding:74px;background:var(--bg)">
+<div class="flex-box flex-layout-horizontal flex-body " style="gap:42px;display:flex;flex-direction:row;align-items:center"><div class="flex-box flex-layout-vertical" style="gap:24px;flex:0 0 32%;display:flex;flex-direction:column"><span class="flex-text" style="color:var(--yc-terracotta);font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase">CORE FRAMEWORK</span><h1 class="flex-text" style="color:var(--fg-1);font-size:54px;font-weight:700;font-family:var(--font-serif);line-height:1.12">地端使用 AI<br>長得像一張工作台。</h1><span class="flex-text" style="color:var(--yc-terracotta);font-size:31px;font-weight:700;line-height:1.15">1 session</span><span class="flex-text" style="color:var(--yc-terracotta);font-size:31px;font-weight:700;line-height:1.15">2 model</span><span class="flex-text" style="color:var(--yc-terracotta);font-size:31px;font-weight:700;line-height:1.15">3 context</span><span class="flex-text" style="color:var(--yc-terracotta);font-size:31px;font-weight:700;line-height:1.15">4 claude.md</span><span class="flex-text" style="color:var(--yc-terracotta);font-size:31px;font-weight:700;line-height:1.15">5 工作區</span></div><div class="flex-image" style="aspect-ratio:1/1;border-radius:10px;overflow:hidden;background-color:var(--bg)"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/kb-media/IT/簡報/ai-workshop-531/local-ai-workbench.png" alt="" loading="lazy" style="object-fit:contain;width:100%;height:100%;display:block;"></div></div><div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div><div class="pagenum">08 / 28</div>
+</section>
+
+
+<section class="slide flex-slide" data-screen-label="09 Flex" style="padding:62px;background:var(--bg)">
+<div class="flex-box flex-layout-vertical flex-body " style="gap:28px;display:flex;flex-direction:column"><div class="flex-box flex-layout-vertical" style="gap:14px;display:flex;flex-direction:column"><span class="flex-text" style="color:var(--accent);font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase">WHY MARKDOWN</span><h1 class="flex-text" style="color:var(--fg-1);font-size:52px;font-weight:700;font-family:var(--font-serif);line-height:1.05">什麼是 MD？<br>為什麼要用 MD？</h1></div><div class="flex-box flex-layout-vertical" style="gap:8px;display:flex;flex-direction:column"><div class="flex-box flex-layout-horizontal" style="gap:8px;background-color:rgba(95,137,133,.10);border-radius:12px;display:flex;flex-direction:row"><div class="flex-box" style="padding:13px 18px;flex:1.18"><span class="flex-text" style="color:var(--accent);font-size:17px;font-weight:800;line-height:1.25">內容情境</span></div><div class="flex-box" style="padding:13px 18px;flex:1"><span class="flex-text" style="color:var(--accent);font-size:17px;font-weight:800;line-height:1.25">.md Markdown</span></div><div class="flex-box" style="padding:13px 18px;flex:1"><span class="flex-text" style="color:var(--accent);font-size:17px;font-weight:800;line-height:1.25">.csv</span></div><div class="flex-box" style="padding:13px 18px;flex:1"><span class="flex-text" style="color:var(--accent);font-size:17px;font-weight:800;line-height:1.25">.docx Word</span></div><div class="flex-box" style="padding:13px 18px;flex:1"><span class="flex-text" style="color:var(--accent);font-size:17px;font-weight:800;line-height:1.25">.xlsx Excel</span></div></div><div class="flex-box flex-layout-horizontal" style="gap:8px;background-color:rgba(255,255,255,.72);border-radius:12px;display:flex;flex-direction:row"><div class="flex-box" style="padding:15px 18px;flex:1.18"><span class="flex-text" style="color:var(--fg-1);font-size:22px;font-weight:800;line-height:1.25">1,000 字純文字</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">5-15 KB</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">不適合</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">20-80 KB</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">不適合</span></div></div><div class="flex-box flex-layout-horizontal" style="gap:8px;background-color:rgba(255,255,255,.46);border-radius:12px;display:flex;flex-direction:row"><div class="flex-box" style="padding:15px 18px;flex:1.18"><span class="flex-text" style="color:var(--fg-1);font-size:22px;font-weight:800;line-height:1.25">10 頁 SOP 文件</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">30-100 KB</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">不適合</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">80-300 KB</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">不適合</span></div></div><div class="flex-box flex-layout-horizontal" style="gap:8px;background-color:rgba(255,255,255,.72);border-radius:12px;display:flex;flex-direction:row"><div class="flex-box" style="padding:15px 18px;flex:1.18"><span class="flex-text" style="color:var(--fg-1);font-size:22px;font-weight:800;line-height:1.25">100 列簡單表格</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">5-20 KB</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">3-15 KB</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">30-150 KB</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">10-80 KB</span></div></div><div class="flex-box flex-layout-horizontal" style="gap:8px;background-color:rgba(255,255,255,.46);border-radius:12px;display:flex;flex-direction:row"><div class="flex-box" style="padding:15px 18px;flex:1.18"><span class="flex-text" style="color:var(--fg-1);font-size:22px;font-weight:800;line-height:1.25">10,000 列表格</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">不建議，可能 1-5 MB</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">0.5-3 MB</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">不建議</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">1-10 MB</span></div></div><div class="flex-box flex-layout-horizontal" style="gap:8px;background-color:rgba(255,255,255,.72);border-radius:12px;display:flex;flex-direction:row"><div class="flex-box" style="padding:15px 18px;flex:1.18"><span class="flex-text" style="color:var(--fg-1);font-size:22px;font-weight:800;line-height:1.25">有格式的正式文件</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">20-100 KB</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">不適合</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">100 KB-1 MB</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">不適合</span></div></div><div class="flex-box flex-layout-horizontal" style="gap:8px;background-color:rgba(255,255,255,.46);border-radius:12px;display:flex;flex-direction:row"><div class="flex-box" style="padding:15px 18px;flex:1.18"><span class="flex-text" style="color:var(--fg-1);font-size:22px;font-weight:800;line-height:1.25">含 1 張圖片</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">圖片另存，MD 本身小</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">不適合</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">通常 1-5 MB</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">通常 1-5 MB</span></div></div><div class="flex-box flex-layout-horizontal" style="gap:8px;background-color:rgba(255,255,255,.72);border-radius:12px;display:flex;flex-direction:row"><div class="flex-box" style="padding:15px 18px;flex:1.18"><span class="flex-text" style="color:var(--fg-1);font-size:22px;font-weight:800;line-height:1.25">含多張圖片</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">圖片另存，MD 本身小</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">不適合</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">5-50 MB+</span></div><div class="flex-box" style="padding:15px 18px;flex:1"><span class="flex-text" style="color:var(--fg-1);font-size:20px;font-weight:500;line-height:1.25">5-50 MB+</span></div></div></div></div><div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div><div class="pagenum">09 / 28</div>
+</section>
+
+
+<section class="slide process" data-screen-label="10 Process">
+  <div style="display:flex;flex-direction:column;gap:16px;">
+    <span class="eyebrow">PRACTICE</span>
+    <h1 class="h">前三個練習，都是在學資料怎麼進出 AI。</h1>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="badge">01</div><div class="step-h">把資料轉成 MD</div><div class="step-d">把原本給人看的資料，轉成 AI 容易讀的格式。</div></div><div class="step"><div class="badge">02</div><div class="step-h">新增與編輯資料</div><div class="step-d">讓工作區不是一次性聊天，而是可維護的資料夾。</div></div><div class="step"><div class="badge">03</div><div class="step-h">提取資料並輸出 HTML</div><div class="step-d">資料給 AI 用，結果再轉成給人看的格式。</div></div>
+  </div>
+  <div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div>
+  <div class="pagenum">10 / 28</div>
+</section>
+
+
+<section class="slide flex-slide" data-screen-label="11 Flex" style="padding:88px;background:var(--bg)">
+<div class="flex-box flex-layout-vertical flex-body " style="gap:36px;display:flex;flex-direction:column"><span class="flex-text" style="color:var(--yc-terracotta);font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase">CORE FRAMEWORK</span><h1 class="flex-text" style="color:var(--fg-1);font-size:56px;font-weight:700;font-family:var(--font-serif);line-height:1.1">知識庫跟資料庫，<br>最困難的是兩件事。</h1><div class="flex-box flex-layout-grid" style="gap:26px;display:grid;grid-template-columns:repeat(2, 1fr)"><div class="flex-box" style="padding:32px;gap:18px;background-color:var(--bg-elevated);border:1px solid var(--border);border-left:5px solid var(--accent);box-shadow:0 10px 28px rgba(39,36,33,.07)"><span class="flex-text" style="color:var(--accent);font-size:18px;font-weight:800;letter-spacing:.12em">01</span><span class="flex-text" style="color:var(--fg-1);font-size:32px;font-weight:800;font-family:var(--font-serif)">資料的整理</span><span class="flex-text" style="color:var(--fg-1);font-size:25px;line-height:1.45">你要讀懂原來的架構，才能把資料放到對的地方。</span></div><div class="flex-box" style="padding:32px;gap:18px;background-color:var(--bg-elevated);border:1px solid var(--border);border-left:5px solid var(--yc-terracotta);box-shadow:0 10px 28px rgba(39,36,33,.07)"><span class="flex-text" style="color:var(--yc-terracotta);font-size:18px;font-weight:800;letter-spacing:.12em">02</span><span class="flex-text" style="color:var(--fg-1);font-size:32px;font-weight:800;font-family:var(--font-serif)">資料的取得</span><span class="flex-text" style="color:var(--fg-1);font-size:25px;line-height:1.45">你要理解原來的架構，才知道資料要去哪裡找。</span></div></div><div class="flex-box" style="padding:30px;background-color:rgba(182,106,60,.08);border:1px solid rgba(182,106,60,.22)"><span class="flex-text" style="color:var(--fg-1);font-size:28px;font-weight:700;line-height:1.42">而且資料很難關聯。人在分類時通常只選一個維度；如果照片照時間排序，就很難再抓到「同樣去賞花」的照片。</span></div></div><div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div><div class="pagenum">11 / 28</div>
+</section>
+
+
+<section class="slide flex-slide" data-screen-label="12 Flex" style="padding:80px;background:var(--bg)">
+<div class="flex-box flex-layout-horizontal flex-body " style="gap:46px;display:flex;flex-direction:row;align-items:center"><div class="flex-image" style="aspect-ratio:16/9;border-radius:10px;overflow:hidden;background-color:var(--bg-elevated)"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/kb-media/IT/簡報/ai-workshop-531/mindset-format-map-v1.svg" alt="" loading="lazy" style="object-fit:contain;width:100%;height:100%;display:block;"></div><div class="flex-box flex-layout-vertical" style="gap:24px;flex:0 0 36%;display:flex;flex-direction:column"><span class="flex-text" style="color:var(--yc-terracotta);font-size:14px;font-weight:700;letter-spacing:.14em">先想清楚一件事</span><h1 class="flex-text" style="color:var(--fg-1);font-size:52px;font-weight:700;font-family:var(--font-serif);line-height:1.08">這裡帶到一個<br>mindset</h1><span class="flex-text" style="color:var(--fg-1);font-size:24px;font-weight:700;line-height:1.5">MD 是資料層：乾淨、可讀、可被 AI 穩定引用。</span><span class="flex-text" style="color:var(--fg-2);font-size:24px;line-height:1.5">Word、Excel、PDF、HTML 是表現層：給人看、給人操作、給人理解。</span><span class="flex-text" style="color:var(--yc-terracotta);font-size:24px;font-weight:800;line-height:1.5">所以不是哪個格式比較高級，而是什麼階段用什麼格式。</span></div></div><div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div><div class="pagenum">12 / 28</div>
+</section>
+
+
+<section class="slide two-col" data-screen-label="13 Two Column">
+  <div style="display:flex;flex-direction:column;gap:20px;">
+    <span class="eyebrow">TWO LIBRARIES</span>
+    <h1 class="h">公司要分清楚：<br>資料庫放事實，知識庫放經驗。</h1>
+  </div>
+  <div class="cols">
+    <div class="col"><div class="col-eye" style="color:var(--fg-2);">DATABASE</div><h3>資料庫</h3><p>客戶、訂單、合約、產品、員工等事實。</p><ul><li>放系統 / CRM / ERP</li><li>可共用、可權限、可串工作流</li></ul></div>
+    <div class="col alt"><div class="col-eye">KNOWLEDGE BASE</div><h3>知識庫</h3><p>設計原理、SOP、獎金辦法、銷售話術等經驗。</p><ul><li>放 Markdown / KB</li><li>可搜尋、可引用、可成為 Skill 背景</li></ul></div>
+  </div>
+  <div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div>
+  <div class="pagenum">13 / 28</div>
+</section>
+
+
+<section class="slide flex-slide" data-screen-label="14 Flex" style="padding:78px;background:var(--bg)">
+<div class="flex-box flex-layout-vertical flex-body " style="gap:34px;display:flex;flex-direction:column"><div class="flex-box flex-layout-vertical" style="gap:18px;display:flex;flex-direction:column"><span class="flex-text" style="color:var(--yc-terracotta);font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase">CORE FRAMEWORK</span><h1 class="flex-text" style="max-width:1200px;color:var(--fg-1);font-size:56px;font-weight:700;font-family:var(--font-serif);line-height:1.12">公司，資料跟知識兩種庫<span class="accent">。</span></h1><span class="flex-text" style="max-width:1220px;color:var(--fg-2);font-size:22px;line-height:1.55">資料庫放「事實」；知識庫放「經驗」。先分清楚，AI 才知道要去哪裡找答案。</span></div><div class="flex-box flex-layout-horizontal" style="gap:30px;display:flex;flex-direction:row;align-items:stretch"><div class="flex-box flex-layout-vertical" style="padding:34px;gap:22px;flex:1;background-color:var(--bg-elevated);border-radius:10px;border:1px solid var(--border);border-left:5px solid var(--yc-terracotta);box-shadow:0 16px 36px rgba(39,36,33,.08);display:flex;flex-direction:column"><span class="flex-text" style="color:var(--yc-terracotta);font-size:13px;font-weight:800;letter-spacing:.16em;text-transform:uppercase">DATABASE</span><span class="flex-text" style="color:var(--fg-1);font-size:38px;font-weight:800;font-family:var(--font-serif);line-height:1.15">資料庫</span><span class="flex-text" style="color:var(--fg-2);font-size:20px;line-height:1.5">公司正在發生的事實，通常來自系統、表單或交易流程。</span><div class="flex-box flex-layout-vertical" style="gap:0px;display:flex;flex-direction:column"><div class="flex-box flex-layout-horizontal" style="padding:16px 0;gap:18px;border-bottom:1px solid rgba(216,204,192,.55);display:flex;flex-direction:row;align-items:baseline"><span class="flex-text" style="width:42px;color:var(--accent);font-size:13px;font-weight:800;letter-spacing:.10em;text-transform:uppercase">DB</span><div class="flex-box flex-layout-vertical" style="gap:4px;flex:1;display:flex;flex-direction:column"><span class="flex-text" style="color:var(--fg-1);font-size:28px;font-weight:800;font-family:var(--font-serif);line-height:1.18">客戶.md</span><span class="flex-text" style="color:var(--fg-2);font-size:18px;line-height:1.45">公司真的有哪一個客戶。</span></div></div><div class="flex-box flex-layout-horizontal" style="padding:16px 0;gap:18px;border-bottom:1px solid rgba(216,204,192,.55);display:flex;flex-direction:row;align-items:baseline"><span class="flex-text" style="width:42px;color:var(--accent);font-size:13px;font-weight:800;letter-spacing:.10em;text-transform:uppercase">DB</span><div class="flex-box flex-layout-vertical" style="gap:4px;flex:1;display:flex;flex-direction:column"><span class="flex-text" style="color:var(--fg-1);font-size:28px;font-weight:800;font-family:var(--font-serif);line-height:1.18">連絡人.md</span><span class="flex-text" style="color:var(--fg-2);font-size:18px;line-height:1.45">誰負責、電話、角色與關係。</span></div></div><div class="flex-box flex-layout-horizontal" style="padding:16px 0;gap:18px;border-bottom:1px solid rgba(216,204,192,.55);display:flex;flex-direction:row;align-items:baseline"><span class="flex-text" style="width:42px;color:var(--accent);font-size:13px;font-weight:800;letter-spacing:.10em;text-transform:uppercase">DB</span><div class="flex-box flex-layout-vertical" style="gap:4px;flex:1;display:flex;flex-direction:column"><span class="flex-text" style="color:var(--fg-1);font-size:28px;font-weight:800;font-family:var(--font-serif);line-height:1.18">產品.md / 報價單.md</span><span class="flex-text" style="color:var(--fg-2);font-size:18px;line-height:1.45">品項、規格、價格與交易事實。</span></div></div></div></div><div class="flex-box flex-layout-vertical" style="padding:34px;gap:22px;flex:1;background-color:var(--bg-elevated);border-radius:10px;border:1px solid var(--border);border-left:5px solid var(--accent);box-shadow:0 16px 36px rgba(39,36,33,.08);display:flex;flex-direction:column"><span class="flex-text" style="color:var(--accent);font-size:13px;font-weight:800;letter-spacing:.16em;text-transform:uppercase">KNOWLEDGE BASE</span><span class="flex-text" style="color:var(--fg-1);font-size:38px;font-weight:800;font-family:var(--font-serif);line-height:1.15">知識庫</span><span class="flex-text" style="color:var(--fg-2);font-size:20px;line-height:1.5">公司怎麼判斷與怎麼做，通常來自 SOP、制度與經驗整理。</span><div class="flex-box flex-layout-vertical" style="gap:0px;display:flex;flex-direction:column"><div class="flex-box flex-layout-horizontal" style="padding:16px 0;gap:18px;border-bottom:1px solid rgba(216,204,192,.55);display:flex;flex-direction:row;align-items:baseline"><span class="flex-text" style="width:42px;color:var(--yc-terracotta);font-size:13px;font-weight:800;letter-spacing:.10em;text-transform:uppercase">KB</span><div class="flex-box flex-layout-vertical" style="gap:4px;flex:1;display:flex;flex-direction:column"><span class="flex-text" style="color:var(--fg-1);font-size:28px;font-weight:800;font-family:var(--font-serif);line-height:1.18">磁磚銷售概要.md</span><span class="flex-text" style="color:var(--fg-2);font-size:18px;line-height:1.45">怎麼解釋產品，怎麼處理異議。</span></div></div><div class="flex-box flex-layout-horizontal" style="padding:16px 0;gap:18px;border-bottom:1px solid rgba(216,204,192,.55);display:flex;flex-direction:row;align-items:baseline"><span class="flex-text" style="width:42px;color:var(--yc-terracotta);font-size:13px;font-weight:800;letter-spacing:.10em;text-transform:uppercase">KB</span><div class="flex-box flex-layout-vertical" style="gap:4px;flex:1;display:flex;flex-direction:column"><span class="flex-text" style="color:var(--fg-1);font-size:28px;font-weight:800;font-family:var(--font-serif);line-height:1.18">SPC 鋪設辦法.md</span><span class="flex-text" style="color:var(--fg-2);font-size:18px;line-height:1.45">施工方法、注意事項與標準。</span></div></div><div class="flex-box flex-layout-horizontal" style="padding:16px 0;gap:18px;border-bottom:1px solid rgba(216,204,192,.55);display:flex;flex-direction:row;align-items:baseline"><span class="flex-text" style="width:42px;color:var(--yc-terracotta);font-size:13px;font-weight:800;letter-spacing:.10em;text-transform:uppercase">KB</span><div class="flex-box flex-layout-vertical" style="gap:4px;flex:1;display:flex;flex-direction:column"><span class="flex-text" style="color:var(--fg-1);font-size:28px;font-weight:800;font-family:var(--font-serif);line-height:1.18">新人手冊 / 獎金辦法.md</span><span class="flex-text" style="color:var(--fg-2);font-size:18px;line-height:1.45">公司制度、角色期待與工作規則。</span></div></div></div></div></div><div class="flex-box" style="padding:18px 28px;background-color:var(--yc-charcoal);border-radius:10px"><span class="flex-text" style="color:var(--yc-cream);font-size:22px;font-weight:800;line-height:1.4;text-align:center">判斷原則：會改變的事實放資料庫；要重複引用的經驗放知識庫。</span></div></div><div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div><div class="pagenum">14 / 28</div>
+</section>
+
+
+<section class="slide flex-slide" data-screen-label="15 Flex" style="padding:80px;background:var(--bg)">
+<div class="flex-box flex-layout-vertical flex-body " style="gap:42px;display:flex;flex-direction:column"><div class="flex-box flex-layout-vertical" style="gap:18px;display:flex;flex-direction:column"><span class="flex-text" style="color:var(--yc-terracotta);font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase">SKILL PRACTICE</span><h1 class="flex-text" style="max-width:1200px;color:var(--fg-1);font-size:56px;font-weight:700;font-family:var(--font-serif);line-height:1.12">Skill，就是一個固定 SOP 動作<span class="accent">。</span></h1><span class="flex-text" style="max-width:1220px;color:var(--fg-2);font-size:22px;line-height:1.55">練習不是寫程式，而是把「人怎麼做」整理成 AI 可以重跑的流程。</span></div><div class="flex-box flex-layout-horizontal" style="gap:26px;display:flex;flex-direction:row;align-items:stretch"><div class="flex-box flex-layout-vertical" style="padding:34px;gap:20px;flex:1;background-color:var(--bg-elevated);border-radius:10px;border:1px solid var(--border);border-left:5px solid var(--yc-terracotta);box-shadow:0 16px 36px rgba(39,36,33,.08);display:flex;flex-direction:column"><span class="flex-text" style="color:var(--yc-terracotta);font-size:13px;font-weight:800;letter-spacing:.16em;text-transform:uppercase">STEP 01</span><span class="flex-text" style="color:var(--fg-1);font-size:34px;font-weight:800;font-family:var(--font-serif);line-height:1.2">先做出報價單 Skill</span><div class="flex-box flex-layout-vertical" style="padding:22px;gap:8px;background-color:var(--bg);border-radius:8px;border:1px solid var(--border);display:flex;flex-direction:column"><span class="flex-text" style="color:var(--fg-3);font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase">指令</span><span class="flex-text" style="color:var(--fg-1);font-size:23px;font-weight:800;line-height:1.45">幫我生成一個報價單的 skill，使用這個模板（path）。</span></div><span class="flex-text" style="color:var(--fg-2);font-size:20px;line-height:1.55">先固定格式、欄位與輸出規則，讓每次產出的報價單一致。</span></div><div class="flex-box flex-layout-vertical" style="width:64px;display:flex;flex-direction:column;justify-content:center;align-items:center"><span class="flex-text" style="color:var(--accent);font-size:54px;font-weight:300;text-align:center">+</span></div><div class="flex-box flex-layout-vertical" style="padding:34px;gap:20px;flex:1;background-color:var(--bg-elevated);border-radius:10px;border:1px solid var(--border);border-left:5px solid var(--accent);box-shadow:0 16px 36px rgba(39,36,33,.08);display:flex;flex-direction:column"><span class="flex-text" style="color:var(--accent);font-size:13px;font-weight:800;letter-spacing:.16em;text-transform:uppercase">STEP 02</span><span class="flex-text" style="color:var(--fg-1);font-size:34px;font-weight:800;font-family:var(--font-serif);line-height:1.2">再補上參照資料</span><div class="flex-box flex-layout-vertical" style="padding:22px;gap:8px;background-color:var(--bg);border-radius:8px;border:1px solid var(--border);display:flex;flex-direction:column"><span class="flex-text" style="color:var(--fg-3);font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase">指令</span><span class="flex-text" style="color:var(--fg-1);font-size:23px;font-weight:800;line-height:1.45">報價單備註另外參照（path）。</span></div><span class="flex-text" style="color:var(--fg-2);font-size:20px;line-height:1.55">Skill 不只要知道格式，也要知道內容來源；模板管輸出，參照管判斷。</span></div></div><div class="flex-box" style="padding:22px 30px;background-color:var(--yc-charcoal);border-radius:10px"><span class="flex-text" style="color:var(--yc-cream);font-size:23px;font-weight:800;line-height:1.45;text-align:center">練習目標：把一次人話指令，整理成可以重複使用、可追蹤、可修改的公司 SOP。</span></div></div><div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div><div class="pagenum">15 / 28</div>
+</section>
+
+
+<section class="slide flex-slide" data-screen-label="16 Flex" style="padding:92px;background:var(--bg)">
+<div class="flex-box flex-layout-vertical flex-body " style="gap:44px;display:flex;flex-direction:column"><div class="flex-box flex-layout-vertical" style="gap:18px;display:flex;flex-direction:column"><span class="flex-text" style="color:var(--yc-terracotta);font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase">HUMAN LANGUAGE WORKFLOW</span><h1 class="flex-text" style="max-width:1200px;color:var(--fg-1);font-size:56px;font-weight:700;font-family:var(--font-serif);line-height:1.12">Skill 用人話，<br>推動一整段工作流。</h1><span class="flex-text" style="max-width:1220px;color:var(--fg-2);font-size:22px;line-height:1.55">不是十幾個零散任務，而是一條可以被 AI 執行的流程。</span></div><div class="flex-image" style="aspect-ratio:16/9;border-radius:10px;overflow:hidden;background-color:var(--bg-elevated)"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/kb-media/IT/簡報/ai-workshop-531/skill-workflow-line-v3.svg" alt="" loading="lazy" style="object-fit:contain;width:100%;height:100%;display:block;"></div></div><div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div><div class="pagenum">16 / 28</div>
+</section>
+
+
+<section class="slide flex-slide" data-screen-label="17 Flex" style="padding:72px;background:var(--bg)">
+<div class="flex-box flex-layout-vertical flex-body " style="gap:24px;display:flex;flex-direction:column"><h1 class="flex-text" style="color:var(--fg-1);font-size:58px;font-weight:700;font-family:var(--font-serif)">Skill = 用人話驅動的工作流</h1><div class="flex-image" style="aspect-ratio:16/9;border-radius:10px;overflow:hidden;background-color:var(--bg)"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/kb-media/IT/簡報/ai-workshop-531/skill-role-workflow-v6.svg" alt="" loading="lazy" style="object-fit:contain;width:100%;height:100%;display:block;"></div></div><div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div><div class="pagenum">17 / 28</div>
+</section>
+
+
+<section class="slide list" data-screen-label="18 List">
+  <div class="head">
+    <span class="eyebrow">WHEN TO BUILD A SKILL</span>
+    <h1 class="h">Skill 的重點，<br>不是炫技，是降低重複成本。</h1>
+    
+  </div>
+  <ul class="items">
+    <li><div class="label">01</div><div class="body"><div class="ti">重複兩次的工作就可以開 skill</div><div class="de">不要等到流程完美才整理，先把可重複部分固定下來。</div></div></li><li><div class="label">02</div><div class="body"><div class="ti">前情提要與背景設定也可以進 skill</div><div class="de">讓 AI 每次都用同一個角色、規則與資料來源工作。</div></div></li><li><div class="label">03</div><div class="body"><div class="ti">Skill 可以有連續性</div><div class="de">上一個步驟的輸出，能成為下一個步驟的輸入。</div></div></li><li><div class="label">04</div><div class="body"><div class="ti">Skill 可以套 skill</div><div class="de">大流程由小技能組成，像公司裡的部門協作。</div></div></li>
+  </ul>
+  <div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div>
+  <div class="pagenum">18 / 28</div>
+</section>
+
+
+<section class="slide flex-slide" data-screen-label="19 Flex" style="padding:78px;background:var(--bg)">
+<div class="flex-box flex-layout-horizontal flex-body " style="gap:48px;display:flex;flex-direction:row;align-items:center"><div class="flex-box flex-layout-vertical" style="gap:18px;flex:0 0 38%;display:flex;flex-direction:column"><span class="flex-text" style="color:var(--yc-terracotta);font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase">ORGANIZATION THEORY</span><h1 class="flex-text" style="color:var(--fg-1);font-size:50px;font-weight:700;font-family:var(--font-serif);line-height:1.1">公司存在，是為了分工，<br>也為了降低協調成本。</h1><span class="flex-text" style="color:var(--fg-2);font-size:22px;line-height:1.5">亞當・斯密講分工；Coase 講交易成本。Skill 把跨職能協作變成可重跑、可追蹤的流程。</span></div><div class="flex-image" style="aspect-ratio:16/9;border-radius:10px;overflow:hidden;background-color:var(--bg-elevated)"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/kb-media/IT/簡報/ai-workshop-531/organization-theory-map-v6.svg" alt="" loading="lazy" style="object-fit:contain;width:100%;height:100%;display:block;"></div></div><div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div><div class="pagenum">19 / 28</div>
+</section>
+
+
+<section class="slide flex-slide" data-screen-label="20 Flex" style="padding:84px;background:var(--bg)">
+<div class="flex-box flex-layout-horizontal flex-body " style="gap:52px;display:flex;flex-direction:row;align-items:center"><div class="flex-image" style="aspect-ratio:16/9;border-radius:10px;overflow:hidden;background-color:var(--bg-elevated)"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/kb-media/IT/簡報/ai-workshop-531/core-network.svg" alt="" loading="lazy" style="object-fit:contain;width:100%;height:100%;display:block;"></div><div class="flex-box flex-layout-vertical" style="gap:18px;flex:0 0 38%;display:flex;flex-direction:column"><span class="flex-text" style="color:var(--yc-terracotta);font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase">OPERATING CORE</span><h1 class="flex-text" style="max-width:1200px;color:var(--fg-1);font-size:56px;font-weight:700;font-family:var(--font-serif);line-height:1.12">公司核心技能，<br>會連回五種資源。</h1><span class="flex-text" style="max-width:1220px;color:var(--fg-2);font-size:22px;line-height:1.55">知識、資料、產品/服務、原料、客戶彼此連動；AI 要能做事，不能只接一個聊天框。</span></div></div><div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div><div class="pagenum">20 / 28</div>
+</section>
+
+
+<section class="slide two-col" data-screen-label="21 Two Column">
+  <div style="display:flex;flex-direction:column;gap:20px;">
+    <span class="eyebrow">SYSTEM FOUNDATION</span>
+    <h1 class="h">CRM / ERP 是資料庫，<br>不是單純表格。</h1>
+  </div>
+  <div class="cols">
+    <div class="col"><div class="col-eye" style="color:var(--fg-2);">CONTENT</div><h3>它存的不是檔案</h3><p>客戶、聯絡人、產品、報價單、合約、採購與發票都會有關聯。</p><ul><li>資料一致</li><li>可追蹤歷史</li><li>可成為 AI 查詢來源</li></ul></div>
+    <div class="col alt"><div class="col-eye">CAPABILITY</div><h3>它必須具備三件事</h3><p>能共用、有工作流、有權限，才適合接到 AI。</p><ul><li>共用：多人看到同一份真相</li><li>流程：狀態能往下一步走</li><li>權限：誰能看、誰能改要清楚</li></ul></div>
+  </div>
+  <div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div>
+  <div class="pagenum">21 / 28</div>
+</section>
+
+
+<section class="slide process" data-screen-label="22 Process">
+  <div style="display:flex;flex-direction:column;gap:16px;">
+    <span class="eyebrow">PRACTICE 4</span>
+    <h1 class="h">練習四：做一個最小 CRM 網站。</h1>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="badge">01</div><div class="step-h">只做必要功能</div><div class="step-d">客戶、產品、報價單，不先做完整 ERP。</div></div><div class="step"><div class="badge">02</div><div class="step-h">先定資料結構</div><div class="step-d">哪些欄位是必填？哪些資料會互相關聯？</div></div><div class="step"><div class="badge">03</div><div class="step-h">再讓 AI 幫你做畫面</div><div class="step-d">功能邊界清楚，AI 才能寫出能用的東西。</div></div><div class="step"><div class="badge">04</div><div class="step-h">最後串成流程</div><div class="step-d">從建客戶到產報價，形成可重複工作流。</div></div>
+  </div>
+  <div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div>
+  <div class="pagenum">22 / 28</div>
+</section>
+
+
+<section class="slide flex-slide" data-screen-label="23 Flex" style="padding:78px;background:var(--bg)">
+<div class="flex-box flex-layout-horizontal flex-body " style="gap:40px;display:flex;flex-direction:row;align-items:center"><div class="flex-box flex-layout-vertical" style="gap:18px;flex:0 0 38%;display:flex;flex-direction:column"><span class="flex-text" style="color:var(--yc-terracotta);font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase">ARCHITECTURE</span><h1 class="flex-text" style="max-width:1200px;color:var(--fg-1);font-size:56px;font-weight:700;font-family:var(--font-serif);line-height:1.12">資料怎麼從資料庫，<br>走到 AI 面前？</h1><span class="flex-text" style="max-width:1220px;color:var(--fg-2);font-size:22px;line-height:1.55">同一個「查客戶資料」，可以直接讀 DB、開 API，或做成 MCP 工具。越往右，越適合 AI 穩定使用與治理。</span></div><div class="flex-image" style="aspect-ratio:16/9;border-radius:10px;overflow:hidden;background-color:var(--bg-elevated)"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/kb-media/IT/簡報/ai-workshop-531/architecture-map-v5.svg" alt="" loading="lazy" style="object-fit:contain;width:100%;height:100%;display:block;"></div></div><div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div><div class="pagenum">23 / 28</div>
+</section>
+
+
+<section class="slide process" data-screen-label="24 Process">
+  <div style="display:flex;flex-direction:column;gap:16px;">
+    <span class="eyebrow">PRACTICE 5</span>
+    <h1 class="h">練習五：新增 MCP 功能，並設定 MCP。</h1>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="badge">01</div><div class="step-h">決定工具要做什麼</div><div class="step-d">例如查客戶資料、查庫存、建立報價單。</div></div><div class="step"><div class="badge">02</div><div class="step-h">把資料出口包起來</div><div class="step-d">用 API / MCP 讓 AI 不直接亂碰資料庫。</div></div><div class="step"><div class="badge">03</div><div class="step-h">設定工具說明與參數</div><div class="step-d">AI 要知道何時使用、要填哪些欄位。</div></div><div class="step"><div class="badge">04</div><div class="step-h">測試與加權限</div><div class="step-d">能查不代表能改；能改也要記錄是誰改的。</div></div>
+  </div>
+  <div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div>
+  <div class="pagenum">24 / 28</div>
+</section>
+
+
+<section class="slide flex-slide" data-screen-label="25 Flex" style="padding:84px;background:var(--bg)">
+<div class="flex-box flex-layout-horizontal flex-body " style="gap:52px;display:flex;flex-direction:row;align-items:center"><div class="flex-image" style="aspect-ratio:16/9;border-radius:10px;overflow:hidden;background-color:var(--bg-elevated)"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/kb-media/IT/簡報/ai-workshop-531/ai-hands-network-v4.svg" alt="" loading="lazy" style="object-fit:contain;width:100%;height:100%;display:block;"></div><div class="flex-box flex-layout-vertical" style="gap:18px;flex:0 0 36%;display:flex;flex-direction:column"><span class="flex-text" style="color:var(--yc-terracotta);font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase">AI WITH HANDS</span><h1 class="flex-text" style="max-width:1200px;color:var(--fg-1);font-size:56px;font-weight:700;font-family:var(--font-serif);line-height:1.12">AI 要能做事，<br>就要接上公司的系統。</h1><span class="flex-text" style="max-width:1220px;color:var(--fg-2);font-size:22px;line-height:1.55">知識庫、CRM/ERP、Shopify、GA4、GSC、供應商 agent 都可以變成 AI 可調用的工具。</span></div></div><div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div><div class="pagenum">25 / 28</div>
+</section>
+
+
+<section class="slide timeline" data-screen-label="26 Timeline">
+  <div class="head">
+    <span class="eyebrow">NEXT AUTOMATION LOOP</span>
+    <h1 class="h">下一步不是更多提示詞，<br>而是讓它自動跑。</h1>
+    <p class="sub">把 skill 接到排程、檢討與改善，AI 才會從助手變成營運循環的一部分。</p>
+  </div>
+  <div class="track count-4">
+    <article class="tl-item"><div class="pin"><span>01</span></div><div class="body"><h3>Skill 自動化</h3><p>把固定任務封裝成可重複工具。</p></div></article><article class="tl-item"><div class="pin"><span>02</span></div><div class="body"><h3>Cron Job</h3><p>定時跑報表、巡檢、同步與提醒。</p></div></article><article class="tl-item"><div class="pin"><span>03</span></div><div class="body"><h3>自我檢討</h3><p>定期看結果，找出錯誤與改善點。</p></div></article><article class="tl-item"><div class="pin"><span>04</span></div><div class="body"><h3>提出方案</h3><p>把資料變成下一輪行動建議。</p></div></article>
+  </div>
+  <div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div>
+  <div class="pagenum">26 / 28</div>
+</section>
+
+
+<section class="slide list" data-screen-label="27 List">
+  <div class="head">
+    <span class="eyebrow">RECAP</span>
+    <h1 class="h">今天做完，<br>你應該帶走七件事。</h1>
+    
+  </div>
+  <ul class="items cols-2">
+    <li><div class="label">01</div><div class="body"><div class="ti">理解在地端 AI 作業方式</div><div class="de">工作區、檔案、上下文與設定會延續。</div></div></li><li><div class="label">02</div><div class="body"><div class="ti">理解知識庫與 Markdown</div><div class="de">資料要先變成 AI 能穩定讀的格式。</div></div></li><li><div class="label">03</div><div class="body"><div class="ti">理解 Skill</div><div class="de">用人話驅動固定 SOP。</div></div></li><li><div class="label">04</div><div class="body"><div class="ti">理解 MCP</div><div class="de">把系統功能包成 AI 可發現、可治理的工具。</div></div></li><li><div class="label">05</div><div class="body"><div class="ti">接入更多系統</div><div class="de">CRM、ERP、電商、分析工具都能成為 AI 的手。</div></div></li><li><div class="label">06</div><div class="body"><div class="ti">做出更多自動化</div><div class="de">庫存、價格、人力調度、報表都可進排程。</div></div></li><li><div class="label">07</div><div class="body"><div class="ti">走向 AI × BI</div><div class="de">用串聯資料得到 business insight，回頭優化系統。</div></div></li>
+  </ul>
+  <div class="footer-mark"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-mono-dark.png" alt="詹姆士 AI 工作坊"></div>
+  <div class="pagenum">27 / 28</div>
+</section>
+
+
+<section class="slide thanks thanks-next-steps" data-screen-label="28 Thanks">
+  <div class="top"><img src="https://s3.yes-ceramics.com/aibus-files/yes-ceramics/slides/_assets/logo-light.png" alt="詹姆士 AI 工作坊"></div>
+  <div class="body">
+    <span class="eyebrow">NEXT STEPS</span>
+    <h1 class="h">把今天的練習，<br>變成公司的第一條 AI 工作流<span class="accent">。</span></h1>
+    <p class="lede">先選一個重複任務，整理資料、寫成 Markdown、做成 Skill，再接到 MCP 或排程。</p>
+  </div>
+  <div class="next-steps"><div class="item"><div class="label">第一步</div><div class="value">挑一個每週都會重複的工作。</div></div><div class="item"><div class="label">第二步</div><div class="value">把必要資料整理到同一個工作區。</div></div><div class="item"><div class="label">第三步</div><div class="value">讓 AI 先跑一版，再修成 SOP。</div></div></div>
+  <div class="pagenum">28 / 28</div>
+</section>
+
+</deck-stage>
+
+<!-- Lightbox: 點 .gallery.layout-fit .img-link 開啟全螢幕圖；可滾輪/雙擊縮放、拖曳平移 -->
+<div id="deck-lightbox" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.92);align-items:center;justify-content:center;">
+  <button id="lb-close" style="position:absolute;top:16px;right:20px;background:transparent;color:#fff;border:0;font-size:36px;cursor:pointer;line-height:1;z-index:2;">×</button>
+  <div id="lb-tools" style="position:absolute;top:16px;left:50%;transform:translateX(-50%);z-index:2;display:flex;gap:8px;background:rgba(0,0,0,0.5);border-radius:6px;padding:6px 10px;color:#fff;font-size:14px;align-items:center;">
+    <button id="lb-out" style="background:transparent;border:1px solid #888;color:#fff;width:32px;height:32px;cursor:pointer;border-radius:4px;font-size:18px;">−</button>
+    <span id="lb-pct" style="min-width:50px;text-align:center;">100%</span>
+    <button id="lb-in" style="background:transparent;border:1px solid #888;color:#fff;width:32px;height:32px;cursor:pointer;border-radius:4px;font-size:18px;">+</button>
+    <button id="lb-reset" style="background:transparent;border:1px solid #888;color:#fff;height:32px;padding:0 12px;cursor:pointer;border-radius:4px;font-size:13px;">重設</button>
+    <a id="lb-open" href="#" target="_blank" rel="noopener" style="background:transparent;border:1px solid #888;color:#fff;height:32px;padding:0 12px;cursor:pointer;border-radius:4px;font-size:13px;line-height:32px;text-decoration:none;">新分頁開啟 ↗</a>
+  </div>
+  <img id="lb-img" alt="" style="max-width:90vw;max-height:90vh;object-fit:contain;cursor:grab;user-select:none;transition:transform 0.1s ease;transform-origin:center center;">
+  <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:#aaa;font-size:12px;">滾輪縮放 · 拖曳平移 · 雙擊重設 · ESC 關閉</div>
+</div>
+<script>
+(function() {
+  var lb = document.getElementById('deck-lightbox');
+  var img = document.getElementById('lb-img');
+  var pct = document.getElementById('lb-pct');
+  var openLink = document.getElementById('lb-open');
+  var scale = 1, tx = 0, ty = 0;
+  function apply() {
+    img.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')';
+    pct.textContent = Math.round(scale * 100) + '%';
+  }
+  function reset() { scale = 1; tx = 0; ty = 0; apply(); }
+  function open(url) {
+    img.src = url;
+    openLink.href = url;
+    reset();
+    lb.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    lb.style.display = 'none';
+    document.body.style.overflow = '';
+    img.src = '';
+  }
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('.gallery.layout-fit .img-link');
+    if (link) {
+      e.preventDefault();
+      open(link.getAttribute('href'));
+    }
+  }, true);
+  document.getElementById('lb-close').addEventListener('click', close);
+  document.getElementById('lb-in').addEventListener('click', function() { scale = Math.min(scale * 1.25, 8); apply(); });
+  document.getElementById('lb-out').addEventListener('click', function() { scale = Math.max(scale / 1.25, 0.2); apply(); });
+  document.getElementById('lb-reset').addEventListener('click', reset);
+  lb.addEventListener('click', function(e) { if (e.target === lb) close(); });
+  document.addEventListener('keydown', function(e) {
+    if (lb.style.display === 'flex' && e.key === 'Escape') close();
+  });
+  img.addEventListener('wheel', function(e) {
+    e.preventDefault();
+    var delta = e.deltaY < 0 ? 1.1 : 1 / 1.1;
+    scale = Math.max(0.2, Math.min(8, scale * delta));
+    apply();
+  }, { passive: false });
+  img.addEventListener('dblclick', reset);
+  var dragging = false, sx = 0, sy = 0, ox = 0, oy = 0;
+  img.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+    dragging = true; sx = e.clientX; sy = e.clientY; ox = tx; oy = ty;
+    img.style.cursor = 'grabbing';
+  });
+  document.addEventListener('mousemove', function(e) {
+    if (!dragging) return;
+    tx = ox + (e.clientX - sx); ty = oy + (e.clientY - sy);
+    apply();
+  });
+  document.addEventListener('mouseup', function() {
+    dragging = false; img.style.cursor = 'grab';
+  });
+  var pinchD0 = 0, pinchS0 = 1;
+  img.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 2) {
+      var dx = e.touches[0].clientX - e.touches[1].clientX;
+      var dy = e.touches[0].clientY - e.touches[1].clientY;
+      pinchD0 = Math.sqrt(dx*dx + dy*dy); pinchS0 = scale;
+    }
+  });
+  img.addEventListener('touchmove', function(e) {
+    if (e.touches.length === 2 && pinchD0 > 0) {
+      e.preventDefault();
+      var dx = e.touches[0].clientX - e.touches[1].clientX;
+      var dy = e.touches[0].clientY - e.touches[1].clientY;
+      var d = Math.sqrt(dx*dx + dy*dy);
+      scale = Math.max(0.2, Math.min(8, pinchS0 * (d / pinchD0)));
+      apply();
+    }
+  }, { passive: false });
+})();
+
+// Mobile vertical sub-slider dots — slide 內容 > 100vh 時顯示底部點點指示，跟著 scroll 切換 active
+(function() {
+  var mq = window.matchMedia('(max-width: 768px)');
+  if (!mq.matches) return;
+  function setupSlide(slide) {
+    if (slide._vsliderInited) return;
+    slide._vsliderInited = true;
+    var dots = document.createElement('div');
+    dots.className = 'vslider-dots';
+    dots.innerHTML = '<div class="dots-row"></div><div class="arrow">↓</div>';
+    slide.appendChild(dots);
+    var row = dots.querySelector('.dots-row');
+    var arrow = dots.querySelector('.arrow');
+    function refresh() {
+      var overflow = slide.scrollHeight > slide.clientHeight + 4;
+      if (!overflow) { dots.classList.remove('show'); return; }
+      var ch = slide.clientHeight || 1;
+      var N = Math.max(2, Math.min(8, Math.ceil(slide.scrollHeight / ch)));
+      var active = Math.min(N - 1, Math.round(slide.scrollTop / Math.max(1, ch * 0.85)));
+      if (row.children.length !== N) {
+        row.innerHTML = '';
+        for (var i = 0; i < N; i++) {
+          var d = document.createElement('div');
+          d.className = 'dot';
+          row.appendChild(d);
+        }
+      }
+      for (var j = 0; j < row.children.length; j++) {
+        row.children[j].classList.toggle('active', j === active);
+      }
+      var atBottom = slide.scrollTop + slide.clientHeight >= slide.scrollHeight - 6;
+      arrow.style.opacity = atBottom ? '0' : '0.7';
+      dots.classList.add('show');
+    }
+    slide.addEventListener('scroll', refresh, { passive: true });
+    if (window.ResizeObserver) {
+      try { new ResizeObserver(refresh).observe(slide); } catch (e) {}
+    }
+    setTimeout(refresh, 100);
+    setTimeout(refresh, 500);
+  }
+  function init() {
+    document.querySelectorAll('section.slide').forEach(setupSlide);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { setTimeout(init, 200); });
+  } else {
+    setTimeout(init, 200);
+  }
+})();
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"87df2f93536a4f94b9c6a1e637360a42","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
+

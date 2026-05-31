@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>馬桶採購報價單</title>
+  <style>
+    body {
+      font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 24px;
+      color: #222;
+      background: #f9f9f9;
+    }
+    h1 {
+      font-size: 1.8rem;
+      border-bottom: 3px solid #2c6fad;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+    }
+    h2 {
+      font-size: 1.2rem;
+      color: #2c6fad;
+      margin-top: 32px;
+      border-left: 4px solid #2c6fad;
+      padding-left: 10px;
+    }
+    .meta {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 24px;
+      background: #fff;
+      border: 1px solid #dce3ec;
+      border-radius: 6px;
+      padding: 12px 20px;
+    }
+    .meta li { margin: 4px 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      margin-bottom: 16px;
+    }
+    thead tr { background: #2c6fad; color: #fff; }
+    th, td {
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid #e0e7f0;
+      font-size: 0.95rem;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: #f0f6ff; }
+    .total-row td { font-weight: bold; background: #eaf2ff; }
+    .tax-row td { color: #555; }
+    .grand-total td { font-weight: bold; background: #2c6fad; color: #fff; }
+    .notice {
+      background: #fff8e1;
+      border-left: 4px solid #f0a500;
+      border-radius: 4px;
+      padding: 12px 16px;
+      margin-top: 8px;
+    }
+    .notice ul { margin: 0; padding-left: 20px; }
+    .notice li { margin: 6px 0; }
+    hr { border: none; border-top: 1px solid #dce3ec; margin: 32px 0; }
+    footer { font-size: 0.82rem; color: #888; text-align: center; margin-top: 32px; }
+  </style>
+</head>
+<body>
+
+<h1>馬桶採購報價單</h1>
+
+<ul class="meta">
+  <li><strong>整理日期</strong>：2026-05-31</li>
+  <li><strong>來源</strong>：衛浴報價單.csv</li>
+  <li><strong>採購數量</strong>：每款 30 顆</li>
+</ul>
+
+<h2>報價明細</h2>
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>品項</th>
+      <th>型號</th>
+      <th>規格</th>
+      <th>單價（未稅）</th>
+      <th>數量</th>
+      <th>小計（未稅）</th>
+      <th>備註</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>單體馬桶</td>
+      <td>HCG-C4280</td>
+      <td>省水單體式 30cm</td>
+      <td>$4,500</td>
+      <td>30</td>
+      <td>$135,000</td>
+      <td>和成；現貨 12 顆，餘需調貨</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>單體馬桶</td>
+      <td>TOTO-CW823</td>
+      <td>二段式省水</td>
+      <td>$5,800</td>
+      <td>30</td>
+      <td>$174,000</td>
+      <td>日本進口；現貨 6 顆，餘需調貨</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>分體馬桶</td>
+      <td>HCG-C109</td>
+      <td>二件式 30cm</td>
+      <td>$3,200</td>
+      <td>30</td>
+      <td>$96,000</td>
+      <td>現貨充足（20 顆），餘需調貨</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>費用彙總</h2>
+<table>
+  <thead>
+    <tr>
+      <th>項目</th>
+      <th>金額（未稅）</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>HCG-C4280 × 30</td>
+      <td>$135,000</td>
+    </tr>
+    <tr>
+      <td>TOTO-CW823 × 30</td>
+      <td>$174,000</td>
+    </tr>
+    <tr>
+      <td>HCG-C109 × 30</td>
+      <td>$96,000</td>
+    </tr>
+    <tr class="total-row">
+      <td>合計</td>
+      <td>$405,000</td>
+    </tr>
+    <tr class="tax-row">
+      <td>稅額（5%）</td>
+      <td>$20,250</td>
+    </tr>
+    <tr class="grand-total">
+      <td>含稅總計</td>
+      <td>$425,250</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>庫存注意事項</h2>
+<div class="notice">
+  <ul>
+    <li><strong>HCG-C4280</strong>：現貨 12 顆，不足 18 顆需另行調貨，請提前確認交期。</li>
+    <li><strong>TOTO-CW823</strong>：現貨僅 6 顆，不足 24 顆需另行調貨（日本進口，建議提早下單）。</li>
+    <li><strong>HCG-C109</strong>：現貨 20 顆，不足 10 顆需調貨。</li>
+  </ul>
+</div>
+
+<hr>
+<footer>整理工具：Claude Code｜整理日期：2026-05-31</footer>
+
+</body>
+</html>

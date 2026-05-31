@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem \"C:\\\\Users\\\\user\\\\Desktop\\\\練習1-檔案整理\" -Recurse)",
+      "Bash(Select-Object FullName, Length, LastWriteTime)",
+      "Bash(Format-Table -AutoSize)",
+      "Bash(extract-text \"政府的法規 節錄.docx\")",
+      "Bash(pandoc \"政府的法規 節錄.docx\" -t plain)",
+      "PowerShell(python --version)",
+      "PowerShell(python3 --version 2>$null)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\user\\\\Desktop\\\\練習1-檔案整理\" -Recurse)",
+      "Bash(find \"/mnt/c/Users/user/Desktop/練習1-檔案整理\" -maxdepth 3 | sort)",
+      "Read(//mnt/c/Users/user/Desktop/**)",
+      "PowerShell(Expand-Archive -Path \"C:\\\\Users\\\\user\\\\Downloads\\\\練習1-檔案整理\\(自已練習\\)\\\\採購資料_待整理\\\\報價 複本.docx\" -DestinationPath \"$env:TEMP\\\\docx_temp\" -Force; Get-Content \"$env:TEMP\\\\docx_temp\\\\word\\\\document.xml\" | Select-String -Pattern '[一-鿿\\\\w]' | ForEach-Object { $_.Line })",
+      "mcp__Claude_in_Chrome__list_connected_browsers",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "PowerShell(Start-Process \"chrome.exe\" \"https://web.line.me\" -ErrorAction SilentlyContinue)",
+      "Bash(python3 -m json.tool)",
+      "WebFetch(domain:kb.yes-ceramics.com)",
+      "mcp__gis-crm__add_customer",
+      "mcp__0e4d000f-ab7d-4dee-8750-39f10c422fe4__search_threads",
+      "Bash(gh auth *)"
+    ]
+  }
+}

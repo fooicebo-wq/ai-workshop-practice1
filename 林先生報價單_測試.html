@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>建材採購報價單</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      font-size: 13px;
+      color: #222;
+      background: #fff;
+      padding: 40px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    /* 公司 Logo 區 */
+    .logo-area {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .logo-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+      width: 60px;
+    }
+    .logo-box span {
+      display: flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px;
+      border: 2px solid #8B6914;
+      color: #8B6914;
+      font-size: 15px; font-weight: bold;
+    }
+    .logo-text { line-height: 1.4; }
+    .logo-text .cn { font-size: 11px; letter-spacing: 4px; color: #555; }
+    .logo-text .en { font-size: 10px; letter-spacing: 2px; color: #888; }
+
+    /* 標題 */
+    .doc-title {
+      text-align: center;
+      background: #c8d8e8;
+      font-size: 18px;
+      font-weight: bold;
+      padding: 8px 0;
+      margin-bottom: 16px;
+      letter-spacing: 4px;
+    }
+
+    /* 客戶資訊 */
+    .info-table { width: 100%; margin-bottom: 16px; }
+    .info-table td { padding: 3px 6px; font-size: 13px; font-weight: bold; }
+    .info-table td:first-child { width: 60px; }
+
+    /* 明細表 */
+    .detail-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 0;
+    }
+    .detail-table th, .detail-table td {
+      border: 1px solid #aaa;
+      padding: 6px 10px;
+      text-align: center;
+    }
+    .detail-table th { background: #ddd; font-weight: bold; }
+    .detail-table td.left { text-align: left; }
+    .detail-table td.amount { text-align: right; }
+
+    /* 備註行（橫跨） */
+    .note-row td {
+      text-align: center;
+      font-size: 12px;
+      color: #333;
+      border: 1px solid #aaa;
+    }
+
+    /* 下方備註＋合計區塊 */
+    .bottom-section {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      border: 1px solid #aaa;
+      border-top: none;
+    }
+    .remarks { padding: 10px 12px; border-right: 1px solid #aaa; }
+    .remarks p { font-weight: bold; margin-bottom: 4px; }
+    .remarks ol { padding-left: 18px; line-height: 1.8; font-size: 12px; }
+    .totals { }
+    .totals table { width: 100%; border-collapse: collapse; height: 100%; }
+    .totals td { padding: 7px 12px; border-bottom: 1px solid #aaa; }
+    .totals td:last-child { text-align: right; font-weight: bold; }
+    .totals tr:last-child td { border-bottom: none; }
+    .totals .label { font-weight: bold; }
+    .totals .grand { background: #f0f0f0; font-weight: bold; }
+
+    /* 確認欄 */
+    .confirm-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid #aaa;
+      border-top: none;
+    }
+    .confirm-cell {
+      text-align: center;
+      padding: 20px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+    .confirm-cell:first-child { border-right: 1px solid #aaa; }
+
+    @media print {
+      body { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Logo -->
+  <div class="logo-area">
+    <div class="logo-box">
+      <span>集</span><span>思</span>
+      <span style="visibility:hidden"></span><span style="visibility:hidden"></span>
+    </div>
+    <div class="logo-text">
+      <div class="cn">室　內　設　計</div>
+      <div class="en">G I S &nbsp; D E S I G N</div>
+    </div>
+  </div>
+
+  <!-- 標題 -->
+  <div class="doc-title">建　材　採　購　報　價　單</div>
+
+  <!-- 客戶資訊 -->
+  <table class="info-table">
+    <tr>
+      <td>客　戶：</td>
+      <td>林先生</td>
+    </tr>
+    <tr>
+      <td>地　址：</td>
+      <td>台中市西區</td>
+    </tr>
+    <tr>
+      <td>日　期：</td>
+      <td>2026/05/31</td>
+    </tr>
+  </table>
+
+  <!-- 明細表 -->
+  <table class="detail-table">
+    <thead>
+      <tr>
+        <th style="width:60px">項目</th>
+        <th>品　名　規　格</th>
+        <th style="width:60px">單位</th>
+        <th style="width:60px">數量</th>
+        <th style="width:110px">單　價</th>
+        <th style="width:110px">小　計</th>
+        <th style="width:90px">備　註</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>一</td>
+        <td class="left">木紋磚 20x120cm</td>
+        <td>箱</td>
+        <td>50</td>
+        <td class="amount">1,380</td>
+        <td class="amount">69,000</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>二</td>
+        <td class="left">復古磚 30x30cm</td>
+        <td>箱</td>
+        <td>30</td>
+        <td class="amount">590</td>
+        <td class="amount">17,700</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>三</td>
+        <td class="left">地漏 不鏽鋼防臭</td>
+        <td>個</td>
+        <td>10</td>
+        <td class="amount">180</td>
+        <td class="amount">1,800</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 備註 + 合計 -->
+  <div class="bottom-section">
+    <div class="remarks">
+      <p>備　　　註</p>
+      <ol>
+        <li>報價均為未稅價，稅額另計（5%）。</li>
+        <li>不含安裝工程，安裝費用另行報價。</li>
+        <li>若材料價格上漲幅度超過一成，則另行報價。</li>
+        <li>若有估價單內未含之項目，需另行計價方得施作。</li>
+      </ol>
+    </div>
+    <div class="totals">
+      <table>
+        <tr>
+          <td class="label">合　計</td>
+          <td>88,500</td>
+        </tr>
+        <tr>
+          <td class="label">稅　額（5%）</td>
+          <td>4,425</td>
+        </tr>
+        <tr class="grand">
+          <td class="label">含稅總計</td>
+          <td>92,925</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 確認欄 -->
+  <div class="confirm-row">
+    <div class="confirm-cell">公司確認</div>
+    <div class="confirm-cell">客戶確認</div>
+  </div>
+
+</body>
+</html>

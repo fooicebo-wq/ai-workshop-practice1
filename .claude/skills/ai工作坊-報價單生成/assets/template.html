@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>款項總表</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      font-size: 13px;
+      color: #222;
+      background: #fff;
+      padding: 40px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    /* 公司 Logo 區 */
+    .logo-area {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .logo-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+      width: 60px;
+    }
+    .logo-box span {
+      display: flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px;
+      border: 2px solid #8B6914;
+      color: #8B6914;
+      font-size: 15px; font-weight: bold;
+    }
+    .logo-text { line-height: 1.4; }
+    .logo-text .cn { font-size: 11px; letter-spacing: 4px; color: #555; }
+    .logo-text .en { font-size: 10px; letter-spacing: 2px; color: #888; }
+
+    /* 標題 */
+    .doc-title {
+      text-align: center;
+      background: #c8d8e8;
+      font-size: 18px;
+      font-weight: bold;
+      padding: 8px 0;
+      margin-bottom: 16px;
+      letter-spacing: 4px;
+    }
+
+    /* 客戶資訊 */
+    .info-table { width: 100%; margin-bottom: 16px; }
+    .info-table td { padding: 3px 6px; font-size: 13px; font-weight: bold; }
+    .info-table td:first-child { width: 60px; }
+
+    /* 明細表 */
+    .detail-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 0;
+    }
+    .detail-table th, .detail-table td {
+      border: 1px solid #aaa;
+      padding: 6px 10px;
+      text-align: center;
+    }
+    .detail-table th { background: #ddd; font-weight: bold; }
+    .detail-table td.left { text-align: left; }
+    .detail-table td.amount { text-align: right; }
+
+    /* 備註行（橫跨） */
+    .note-row td {
+      text-align: center;
+      font-size: 12px;
+      color: #333;
+      border: 1px solid #aaa;
+    }
+
+    /* 下方備註＋合計區塊 */
+    .bottom-section {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      border: 1px solid #aaa;
+      border-top: none;
+    }
+    .remarks { padding: 10px 12px; border-right: 1px solid #aaa; }
+    .remarks p { font-weight: bold; margin-bottom: 4px; }
+    .remarks ol { padding-left: 18px; line-height: 1.8; font-size: 12px; }
+    .totals { }
+    .totals table { width: 100%; border-collapse: collapse; height: 100%; }
+    .totals td { padding: 7px 12px; border-bottom: 1px solid #aaa; }
+    .totals td:last-child { text-align: right; font-weight: bold; }
+    .totals tr:last-child td { border-bottom: none; }
+    .totals .label { font-weight: bold; }
+    .totals .grand { background: #f0f0f0; font-weight: bold; }
+
+    /* 付款期程 */
+    .payment-section {
+      border: 1px solid #aaa;
+      border-top: none;
+      padding: 12px;
+    }
+    .payment-section table { width: 100%; border-collapse: collapse; }
+    .payment-section td { padding: 5px 8px; font-size: 12.5px; }
+    .payment-section td:last-child { text-align: right; width: 120px; font-weight: bold; }
+
+    /* 匯款資訊 */
+    .bank-section {
+      border: 1px solid #aaa;
+      border-top: none;
+      padding: 8px 12px;
+      font-size: 12.5px;
+      line-height: 1.8;
+    }
+
+    /* 確認欄 */
+    .confirm-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid #aaa;
+      border-top: none;
+    }
+    .confirm-cell {
+      text-align: center;
+      padding: 20px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+    .confirm-cell:first-child { border-right: 1px solid #aaa; }
+
+    @media print {
+      body { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Logo -->
+  <div class="logo-area">
+    <div class="logo-box">
+      <span>集</span><span>思</span>
+      <span style="visibility:hidden"></span><span style="visibility:hidden"></span>
+    </div>
+    <div class="logo-text">
+      <div class="cn">室　內　設　計</div>
+      <div class="en">G I S &nbsp; D E S I G N</div>
+    </div>
+  </div>
+
+  <!-- 標題 -->
+  <div class="doc-title">款　項　總　表</div>
+
+  <!-- 客戶資訊 -->
+  <table class="info-table">
+    <tr>
+      <td>客　戶：</td>
+      <td><!-- 客戶名稱 -->聯悦馥C棟10F-3　張公館</td>
+    </tr>
+    <tr>
+      <td>地　址：</td>
+      <td><!-- 地址 -->台中市清水區港都路7號</td>
+    </tr>
+    <tr>
+      <td>日　期：</td>
+      <td><!-- 日期 -->2025/10/1</td>
+    </tr>
+  </table>
+
+  <!-- 明細表 -->
+  <table class="detail-table">
+    <thead>
+      <tr>
+        <th style="width:60px">項目</th>
+        <th>工　作　內　容</th>
+        <th style="width:60px">單位</th>
+        <th style="width:60px">數量</th>
+        <th style="width:110px">單　價</th>
+        <th style="width:90px">備　註</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- 逐行填寫工程項目 -->
+      <tr>
+        <td>一</td>
+        <td class="left">裝修工程</td>
+        <td>式</td>
+        <td>1</td>
+        <td class="amount">495,441</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>二</td>
+        <td class="left">監工費5%</td>
+        <td>式</td>
+        <td>1</td>
+        <td class="amount">24,772</td>
+        <td></td>
+      </tr>
+      <!-- 可新增項目列 -->
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr class="note-row">
+        <td colspan="6">以上報價不含窗簾、傢俱及飾品、冷氣、防水工程、第四台</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 備註 + 合計 -->
+  <div class="bottom-section">
+    <div class="remarks">
+      <p>備　　　註</p>
+      <ol>
+        <li>不含冷氣工程(另計)</li>
+        <li>不含窗簾工程</li>
+        <li>公設區保護工程實作實算</li>
+        <li>不含細清工程</li>
+        <li>若有估價單內未含之收費施工項目，皆視為追加工程，需另行計價，方得施作。</li>
+        <li>若材料價格上漲幅度超過一成則另行報價。</li>
+      </ol>
+    </div>
+    <div class="totals">
+      <table>
+        <tr>
+          <td class="label">合　計</td>
+          <td>518,213</td>
+        </tr>
+        <tr class="grand">
+          <td class="label">總計（稅另計）</td>
+          <td>518,213</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 付款期程 -->
+  <div class="payment-section">
+    <table>
+      <tr>
+        <td>第一期款於簽約完成後請款總工程款之 30％</td>
+        <td>$ 155,464</td>
+      </tr>
+      <tr>
+        <td>第二期款於木作天花板完成後請款總工程款之 30％</td>
+        <td>$ 155,464</td>
+      </tr>
+      <tr>
+        <td>第三期款於油漆進場後請款總工程款之 30％</td>
+        <td>$ 155,464</td>
+      </tr>
+      <tr>
+        <td>第四期款於驗收後請款總工程款之 10％</td>
+        <td>$ 51,821</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 匯款資訊 -->
+  <div class="bank-section">
+    匯款帳戶資訊<br>
+    銀行：中國信託（代號822）南屯分行<br>
+    帳號：0455-4040-4419<br>
+    戶名：集思室內裝修企業社
+  </div>
+
+  <!-- 確認欄 -->
+  <div class="confirm-row">
+    <div class="confirm-cell">公司確認</div>
+    <div class="confirm-cell">客戶確認</div>
+  </div>
+
+</body>
+</html>
