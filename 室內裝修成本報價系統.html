@@ -458,7 +458,7 @@ function blankProject(name) {
 $("#btnNewProject").onclick = () => { const p = blankProject("新案件"); DB.projects.unshift(p); DB.currentId = p.id; save(); go("edit"); };
 $("#btnSample").onclick = () => {
   const p = blankProject("範例：115.07.24 報價單"); p.info.client = "（範例）"; p.info.date = "2026-07-24";
-  p.settings.mgmtPct = 8; p.settings.mgmtMode = "waive"; p.settings.taxMode = "excl";
+  p.settings.mgmtMode = "waive"; p.settings.taxMode = "excl";
   SAMPLE.forEach(({ cat, note, items }) => {
     let c = DB.cats.find(x => x.name === cat); if (!c) { c = { id: uid(), name: cat, note: "" }; DB.cats.push(c); }
     p.catIds.push(c.id); p.catNotes[c.id] = note || "";
