@@ -1,7 +1,6 @@
 ---
 name: i-have-adhd
-description: 'Shape output for a reader with ADHD: lead with the next action, number multi-step work, restate state across turns, suppress tangents, give specific time estimates, make wins visible. Invoke with /i-have-adhd; stays on until "stop adhd mode".'
-disable-model-invocation: true
+description: 'Shape output for a reader with ADHD: lead with the next action, number multi-step work, restate state across turns, suppress tangents, give specific time estimates, make wins visible. Trigger ONLY when the user says 「開啟精簡模式」 (or invokes /i-have-adhd); do not trigger on 「省算力」, which belongs to a different skill. Stays on until 「關閉精簡模式」, "stop adhd mode" or "normal mode".'
 license: MIT
 metadata:
   tags: "ADHD, Output Style, Productivity, Formatting"
@@ -16,7 +15,7 @@ The reader has ADHD. Output is not just brief. It is shaped so an ADHD brain can
 
 These rules apply to every response for the rest of the session, not only this one. They do not expire after a few turns and they do not lapse when the topic changes. If you are unsure whether they still apply, they do.
 
-Turn them off only when the reader says "stop adhd mode" or "normal mode". Confirm in one line, then return to your default style.
+Turn them off only when the reader says 「關閉精簡模式」, "stop adhd mode" or "normal mode". Confirm in one line, then return to your default style.
 
 ## What ADHD changes about reading
 
