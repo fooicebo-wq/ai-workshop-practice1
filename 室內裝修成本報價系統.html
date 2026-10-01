@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>成本報價系統</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  :root {
+    --bg: #f6f5f2; --panel: #fff; --ink: #222; --muted: #777; --line: #ddd;
+    --brand: #8B6914; --brand-soft: #f3ecdc; --head: #c8d8e8;
+    --good: #2e7d32; --bad: #c62828; --bad-soft: #fdecea; --auto: #eef4fb;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif; font-size: 14px; color: var(--ink); background: var(--bg); }
+  header { background: var(--panel); border-bottom: 2px solid var(--brand); padding: 10px 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 10; }
+  header h1 { font-size: 17px; margin: 0; color: var(--brand); letter-spacing: 2px; }
+  nav { display: flex; gap: 4px; flex-wrap: wrap; }
+  nav button { border: 1px solid var(--line); background: #fff; padding: 6px 12px; border-radius: 4px; cursor: pointer; font: inherit; }
+  nav button.on { background: var(--brand); color: #fff; border-color: var(--brand); }
+  #curProject { margin-left: auto; color: var(--muted); font-size: 13px; }
+  main { padding: 16px; max-width: 1500px; margin: 0 auto; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 14px; margin-bottom: 14px; }
+  .panel h2 { font-size: 15px; margin: 0 0 10px; color: var(--brand); }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
+  label.f { display: flex; flex-direction: column; font-size: 12px; color: var(--muted); gap: 3px; }
+  label.f input, label.f select, label.f textarea { font: inherit; color: var(--ink); padding: 5px 7px; border: 1px solid #ccc; border-radius: 4px; min-width: 90px; }
+  button.b { font: inherit; padding: 6px 12px; border: 1px solid var(--brand); background: #fff; color: var(--brand); border-radius: 4px; cursor: pointer; }
+  button.b.pri { background: var(--brand); color: #fff; }
+  button.b.del { border-color: var(--bad); color: var(--bad); }
+  button.ic { border: none; background: none; cursor: pointer; padding: 2px 4px; color: var(--muted); font-size: 13px; }
+  button.ic:hover { color: var(--ink); }
+  .scroll { overflow-x: auto; }
+  table.t { border-collapse: collapse; width: 100%; font-size: 13px; }
+  table.t th, table.t td { border: 1px solid var(--line); padding: 4px 6px; }
+  table.t th { background: #f0f0f0; white-space: nowrap; font-weight: bold; }
+  table.t td.n { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  table.t input, table.t select { font: inherit; width: 100%; border: 1px solid transparent; padding: 3px 4px; background: transparent; }
+  table.t input:focus, table.t select:focus { border-color: var(--brand); background: #fff; outline: none; }
+  table.t input[type=number] { text-align: right; }
+  table.t tr.cat td { background: var(--brand-soft); font-weight: bold; }
+  table.t tr.sub td { background: #fafafa; font-weight: bold; }
+  td.cost, th.cost { background: #fff8ee; }
+  td.autoP input { background: var(--auto); }
+  .lowm { color: var(--bad); font-weight: bold; }
+  .okm { color: var(--good); }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+  .kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; }
+  .kpi .k { font-size: 12px; color: var(--muted); }
+  .kpi .v { font-size: 20px; font-weight: bold; font-variant-numeric: tabular-nums; }
+  .bar { height: 10px; background: #eee; border-radius: 5px; position: relative; min-width: 120px; }
+  .bar i { display: block; height: 100%; border-radius: 5px; background: var(--good); }
+  .bar i.low { background: var(--bad); }
+  .bar b { position: absolute; top: -3px; width: 2px; height: 16px; background: #333; }
+  .hint { font-size: 12px; color: var(--muted); }
+  .addbar { display: flex; gap: 6px; flex-wrap: wrap; padding: 4px 0; }
+  .addbar select { font: inherit; padding: 3px; max-width: 260px; }
+  .pill { display: inline-block; padding: 1px 6px; border-radius: 8px; font-size: 11px; background: var(--auto); color: #1d4f8a; }
+  .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 8px 16px; border-radius: 4px; display: none; z-index: 99; }
+  .hide { display: none !important; }
+
+  /* ===== 對客報價單（集思版型） ===== */
+  #quoteDoc { background: #fff; color: #222; font-size: 13px; padding: 40px; max-width: 900px; margin: 0 auto; border: 1px solid var(--line); }
+  #quoteDoc .logo-area { display: flex; align-items: flex-end; gap: 10px; margin-bottom: 24px; }
+  #quoteDoc .logo-box { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; width: 60px; }
+  #quoteDoc .logo-box span { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border: 2px solid #8B6914; color: #8B6914; font-size: 15px; font-weight: bold; }
+  #quoteDoc .logo-text .cn { font-size: 11px; letter-spacing: 4px; color: #555; }
+  #quoteDoc .logo-text .en { font-size: 10px; letter-spacing: 2px; color: #888; }
+  #quoteDoc .doc-title { text-align: center; background: var(--head); font-size: 18px; font-weight: bold; padding: 8px 0; margin-bottom: 16px; letter-spacing: 4px; }
+  #quoteDoc .info td { padding: 3px 6px; font-weight: bold; }
+  #quoteDoc table.d { width: 100%; border-collapse: collapse; }
+  #quoteDoc table.d th, #quoteDoc table.d td { border: 1px solid #aaa; padding: 5px 8px; text-align: center; }
+  #quoteDoc table.d th { background: #ddd; }
+  #quoteDoc table.d td.l { text-align: left; }
+  #quoteDoc table.d td.r { text-align: right; }
+  #quoteDoc table.d tr.c td { background: #f3f3f3; font-weight: bold; }
+  #quoteDoc .bottom { display: grid; grid-template-columns: 1fr 280px; border: 1px solid #aaa; border-top: none; }
+  #quoteDoc .remarks { padding: 10px 12px; border-right: 1px solid #aaa; }
+  #quoteDoc .remarks ol { padding-left: 18px; line-height: 1.8; font-size: 12px; margin: 4px 0 0; }
+  #quoteDoc .totals table { width: 100%; border-collapse: collapse; }
+  #quoteDoc .totals td { padding: 7px 12px; border-bottom: 1px solid #aaa; font-weight: bold; }
+  #quoteDoc .totals td:last-child { text-align: right; }
+  #quoteDoc .totals tr.g td { background: #f0f0f0; border-bottom: none; }
+  #quoteDoc .pay, #quoteDoc .bank { border: 1px solid #aaa; border-top: none; padding: 10px 12px; font-size: 12.5px; line-height: 1.8; }
+  #quoteDoc .pay table { width: 100%; }
+  #quoteDoc .pay td:last-child { text-align: right; font-weight: bold; width: 120px; }
+  #quoteDoc .confirm { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #aaa; border-top: none; }
+  #quoteDoc .confirm div { text-align: center; padding: 22px; font-weight: bold; }
+  #quoteDoc .confirm div:first-child { border-right: 1px solid #aaa; }
+
+  @media (max-width: 640px) {
+    main { padding: 10px; }
+    #quoteDoc { padding: 16px; }
+    #quoteDoc .bottom { grid-template-columns: 1fr; }
+    #quoteDoc .remarks { border-right: none; border-bottom: 1px solid #aaa; }
+  }
+  @media print {
+    body { background: #fff; }
+    header, .noprint, .view:not(#v-quote) { display: none !important; }
+    main { padding: 0; max-width: none; }
+    #quoteDoc { border: none; padding: 0; max-width: none; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>室內裝修成本報價系統</h1>
+  <nav id="nav">
+    <button data-v="projects">案件列表</button>
+    <button data-v="edit">成本報價填寫</button>
+    <button data-v="dash">毛利分析</button>
+    <button data-v="quote">對客報價單</button>
+    <button data-v="lib">工項資料庫</button>
+    <button data-v="data">匯入／匯出</button>
+  </nav>
+  <span id="curProject"></span>
+</header>
+
+<main>
+  <!-- 案件列表 -->
+  <section class="view" id="v-projects">
+    <div class="panel">
+      <h2>案件列表</h2>
+      <div class="row" style="margin-bottom:10px">
+        <button class="b pri" id="btnNewProject">＋ 新增案件</button>
+        <span class="hint">資料自動存在這台電腦的瀏覽器裡；換電腦請到「匯入／匯出」備份。</span>
+      </div>
+      <div class="scroll"><table class="t" id="projTable"></table></div>
+    </div>
+  </section>
+
+  <!-- 成本報價填寫 -->
+  <section class="view" id="v-edit">
+    <div class="panel">
+      <h2>案件資料</h2>
+      <div class="row" id="infoForm"></div>
+    </div>
+    <div class="panel">
+      <h2>計價設定</h2>
+      <div class="row" id="setForm"></div>
+      <p class="hint" style="margin:8px 0 0">
+        每一列可選「手填」或「自動」報價。自動＝依上面的自動報價方式由成本算出報價單價（藍底）。
+        毛利率低於警示門檻會標紅。
+      </p>
+    </div>
+    <div class="kpis" id="kpis" style="margin-bottom:14px"></div>
+    <div class="panel">
+      <h2>工程明細</h2>
+      <div class="row noprint" style="margin-bottom:8px">
+        <label class="f">新增工種區塊
+          <select id="addCatSel"></select>
+        </label>
+        <button class="b" id="btnAddCat">加入工種</button>
+        <button class="b" id="btnAllAuto">全部改為自動報價</button>
+        <button class="b" id="btnAllManual">全部改為手填報價</button>
+      </div>
+      <div class="scroll"><table class="t" id="itemTable"></table></div>
+    </div>
+  </section>
+
+  <!-- 毛利分析 -->
+  <section class="view" id="v-dash">
+    <div class="kpis" id="kpis2" style="margin-bottom:14px"></div>
+    <div class="panel">
+      <h2>各工種成本 vs 報價</h2>
+      <div class="scroll"><table class="t" id="dashTable"></table></div>
+      <p class="hint">黑線＝毛利率警示門檻；紅色長條＝低於門檻的工種。</p>
+    </div>
+  </section>
+
+  <!-- 對客報價單 -->
+  <section class="view" id="v-quote">
+    <div class="panel noprint">
+      <h2>報價單設定</h2>
+      <div class="row">
+        <label class="f">標題<input id="qTitle"></label>
+        <label class="f">明細呈現
+          <select id="qMode">
+            <option value="detail">逐項明細</option>
+            <option value="cat">只列工種小計</option>
+          </select>
+        </label>
+        <button class="b pri" onclick="window.print()">列印／存成 PDF</button>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <label class="f" style="flex:1 1 320px">備註（一行一條）<textarea id="qRemarks" rows="6"></textarea></label>
+        <label class="f" style="flex:1 1 320px">付款期程（一行一期：說明|百分比）<textarea id="qPay" rows="6"></textarea></label>
+      </div>
+      <p class="hint">報價單不會出現成本、毛利、廠商欄位；數量為 0 的項目不列出。</p>
+    </div>
+    <div id="quoteDoc"></div>
+  </section>
+
+  <!-- 工項資料庫 -->
+  <section class="view" id="v-lib">
+    <div class="panel">
+      <h2>工種</h2>
+      <div class="row" style="margin-bottom:8px">
+        <label class="f">新工種名稱<input id="newCatName" placeholder="例如：防水工程"></label>
+        <button class="b pri" id="btnNewCat">＋ 新增工種</button>
+      </div>
+      <div class="scroll"><table class="t" id="catTable"></table></div>
+    </div>
+    <div class="panel">
+      <h2>工項</h2>
+      <div class="row" style="margin-bottom:8px">
+        <label class="f">篩選工種<select id="libFilter"></select></label>
+        <label class="f">搜尋<input id="libSearch" placeholder="輸入關鍵字"></label>
+        <button class="b pri" id="btnNewItem">＋ 新增工項</button>
+      </div>
+      <p class="hint">「常用成本／常用報價／廠商」會在加入案件時自動帶入，之後可在案件裡再改。</p>
+      <div class="scroll"><table class="t" id="libTable"></table></div>
+    </div>
+  </section>
+
+  <!-- 匯入／匯出 -->
+  <section class="view" id="v-data">
+    <div class="panel">
+      <h2>匯入單價到工項資料庫</h2>
+      <p class="hint">
+        支援 Excel（.xlsx / .xls）或 CSV。第一列為欄位名稱，需要的欄位：
+        <b>工種、工項、單位、成本單價、報價單價</b>（選填：廠商、規格）。<br>
+        相同「工種＋工項」會更新價格；新的工種或工項會自動新增。
+      </p>
+      <div class="row">
+        <button class="b" id="btnTpl">下載匯入範本（.xlsx）</button>
+        <label class="b pri" style="display:inline-block">選擇檔案匯入<input type="file" id="fileLib" accept=".xlsx,.xls,.csv" hidden></label>
+      </div>
+      <pre id="importLog" class="hint" style="white-space:pre-wrap"></pre>
+    </div>
+    <div class="panel">
+      <h2>匯出</h2>
+      <div class="row">
+        <button class="b" id="btnXlsx">目前案件 → 內部成本表（.xlsx）</button>
+        <button class="b" id="btnLibXlsx">工項資料庫 → Excel</button>
+        <button class="b" id="btnBackup">全部資料備份（.json）</button>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>還原備份</h2>
+      <p class="hint">讀入之前匯出的 .json，會<b>取代</b>目前所有資料。</p>
+      <label class="b del" style="display:inline-block">選擇備份檔還原<input type="file" id="fileRestore" accept=".json" hidden></label>
+    </div>
+  </section>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================= 預設工項資料庫 ================= */
+const SEED = [
+  ["保護／假設工程", [["公共區域保護（電梯、走道）","式"],["室內地坪保護（瓦楞板＋防護板）","坪"],["管委會裝修保證金／申請","式"],["臨時水電","式"]]],
+  ["拆除工程", [["地坪磁磚／木地板拆除","坪"],["牆面磁磚打除","坪"],["非結構牆（磚牆）拆除","坪"],["輕隔間牆拆除","坪"],["天花板拆除","坪"],["舊木作櫃／廚具拆除","尺"],["衛浴設備拆除","間"],["門窗拆除","樘"],["廢棄物清運","車"]]],
+  ["水電工程", [["總電源箱／無熔絲開關更新","式"],["全室電線更新","坪"],["插座／開關新增或移位","口"],["專用迴路（冷氣、廚房、烘衣）","迴"],["燈具出線口","口"],["網路／電視／弱電配管","口"],["冷熱給水管更新","式"],["排水管更新","式"],["燈具安裝","盞"],["衛浴／廚房設備安裝","式"]]],
+  ["泥作工程", [["砌磚牆（含粉光）","坪"],["牆面粉光／打底","坪"],["地坪整平","坪"],["浴室防水（彈性水泥／防水層）","間"],["地壁磁磚鋪貼（工資）","坪"],["磁磚材料","坪"],["門框／窗框立框填縫","樘"],["抿石子／洗石子","坪"]]],
+  ["鋁門窗／金屬工程", [["氣密窗","才"],["隔音窗","才"],["鐵窗／防盜格柵","才"],["陽台落地門","樘"],["不鏽鋼／鐵件","尺"]]],
+  ["空調工程", [["冷氣主機＋室內機","台"],["冷媒管／排水管預埋","米"],["冷氣安裝工資","台"],["全熱交換器","台"]]],
+  ["木作工程", [["平釘天花板","坪"],["造型天花板／間接照明","坪"],["窗簾盒","尺"],["木作隔間牆（含隔音棉）","坪"],["木作櫃（高櫃／矮櫃／吊櫃）","尺"],["電視主牆／造型牆","尺"],["木作門片／門框","樘"],["木地板","坪"]]],
+  ["系統櫃工程", [["系統衣櫃","尺"],["系統鞋櫃／收納櫃","尺"],["系統書櫃","尺"],["系統床架","組"],["五金（緩衝鉸鏈、滑軌、拉籃）","式"]]],
+  ["廚具工程", [["一字／L 型／ㄇ型廚具","尺"],["檯面（人造石／石英石／不鏽鋼）","尺"],["三機（爐具／排油煙機／烘碗機）","組"],["中島","式"]]],
+  ["衛浴設備工程", [["馬桶","組"],["面盆＋浴櫃","組"],["淋浴龍頭／花灑","組"],["淋浴拉門／浴缸","組"],["暖風機／排風扇","台"],["浴室配件（毛巾架、鏡子）","式"]]],
+  ["油漆工程", [["牆面批土＋乳膠漆","坪"],["天花板批土＋乳膠漆","坪"],["特殊漆（礦物塗料、仿清水模）","坪"],["木作櫃噴漆","尺"],["鐵件／門片油漆","樘"]]],
+  ["地坪工程", [["超耐磨木地板","坪"],["SPC 石塑地板","坪"],["拋光石英磚","坪"],["踢腳板","尺"]]],
+  ["玻璃／鏡面工程", [["強化玻璃隔間","才"],["茶玻／灰玻","才"],["明鏡","才"]]],
+  ["燈具／窗簾／壁紙", [["嵌燈","盞"],["燈帶（LED 間接照明）","米"],["主燈","盞"],["窗簾／捲簾","才"],["壁紙","支"]]],
+  ["雜項／其他", [["細部清潔","坪"],["室內裝修審查申請（如需）","式"],["搬運／上下樓費","式"],["預備金","式"]]],
+  ["設計費", [["設計費（平面＋3D）","坪"],["3D 渲染圖（追加）","張"]]],
+];
+const DEFAULT_SETTINGS = { autoBasis: "margin", autoMargin: 30, autoMarkup: 43, warnMargin: 30, mgmtPct: 5, taxPct: 5, round: 10 };
+const DEFAULT_REMARKS = "本報價依現場丈量及圖面估算，實際數量依現場實作實算。\n若有估價單內未含之施工項目，皆視為追加工程，需另行計價，方得施作。\n若材料價格上漲幅度超過一成則另行報價。\n不含窗簾、傢俱及飾品（如有列入則依明細）。\n報價有效期限 30 天。";
+const DEFAULT_PAY = "第一期款於簽約完成後請款總工程款之|30\n第二期款於木作天花板完成後請款總工程款之|30\n第三期款於油漆進場後請款總工程款之|30\n第四期款於驗收後請款總工程款之|10";
+const DEFAULT_COMPANY = { bank: "匯款帳戶資訊\n銀行：中國信託（代號822）南屯分行\n帳號：0455-4040-4419\n戶名：集思室內裝修企業社" };
+
+/* ================= 資料存取 ================= */
+const KEY = "gis-cost-quote-v1";
+const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
+let DB;
+
+function seedDB() {
+  const cats = [], lib = [];
+  SEED.forEach(([cat, items]) => {
+    const cid = uid(); cats.push({ id: cid, name: cat });
+    items.forEach(([name, unit]) => lib.push({ id: uid(), catId: cid, name, unit, cost: 0, price: 0, vendor: "", spec: "" }));
+  });
+  return { cats, lib, projects: [], currentId: null, company: { ...DEFAULT_COMPANY } };
+}
+function load() {
+  try { const s = localStorage.getItem(KEY); if (s) { DB = JSON.parse(s); } } catch (e) {}
+  if (!DB || !DB.cats) DB = seedDB();
+  DB.company = DB.company || { ...DEFAULT_COMPANY };
+}
+let saveTimer;
+function save() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(DB)); } catch (e) { toast("無法存檔：" + e.message); } }, 200);
+}
+
+/* ================= 工具 ================= */
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const num = (v) => { const n = parseFloat(String(v ?? "").replace(/[,$\s元]/g, "")); return isFinite(n) ? n : 0; };
+const fmt = (n) => Math.round(n).toLocaleString("zh-TW");
+const pct = (n) => isFinite(n) ? (n * 100).toFixed(1) + "%" : "—";
+const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
+const CN = ["一","二","三","四","五","六","七","八","九","十","十一","十二","十三","十四","十五","十六","十七","十八","十九","二十"];
+const cnNum = (i) => CN[i] || String(i + 1);
+function toast(msg) { const t = $("#toast"); t.textContent = msg; t.style.display = "block"; clearTimeout(t._h); t._h = setTimeout(() => t.style.display = "none", 2200); }
+const catName = (id) => (DB.cats.find(c => c.id === id) || {}).name || "（未分類）";
+const cur = () => DB.projects.find(p => p.id === DB.currentId);
+
+/* ================= 計算 ================= */
+function autoPrice(cost, s) {
+  if (!cost) return 0;
+  let p = s.autoBasis === "markup" ? cost * (1 + num(s.autoMarkup) / 100) : cost / Math.max(0.01, 1 - num(s.autoMargin) / 100);
+  const r = num(s.round) || 1;
+  return Math.ceil(p / r) * r;
+}
+function itemPrice(it, s) { return it.auto ? autoPrice(num(it.cost), s) : num(it.price); }
+function calc(p) {
+  const s = p.settings, byCat = new Map();
+  let cost = 0, sub = 0;
+  p.items.forEach(it => {
+    const q = num(it.qty), c = q * num(it.cost), r = q * itemPrice(it, s);
+    cost += c; sub += r;
+    const k = byCat.get(it.catId) || { cost: 0, rev: 0, n: 0 };
+    k.cost += c; k.rev += r; k.n++; byCat.set(it.catId, k);
+  });
+  const mgmt = Math.round(sub * num(s.mgmtPct) / 100);
+  const pre = sub + mgmt, tax = Math.round(pre * num(s.taxPct) / 100);
+  const profit = pre - cost;
+  return { cost, sub, mgmt, pre, tax, total: pre + tax, profit, margin: pre ? profit / pre : NaN, itemMargin: sub ? (sub - cost) / sub : NaN, byCat };
+}
+function catOrder(p) {
+  const used = [...new Set(p.items.map(i => i.catId))].concat(p.catIds || []);
+  const set = new Set(used);
+  return DB.cats.filter(c => set.has(c.id)).map(c => c.id).concat([...set].filter(id => !DB.cats.some(c => c.id === id)));
+}
+
+/* ================= 導覽 ================= */
+let view = "projects";
+function go(v) {
+  if (["edit", "dash", "quote"].includes(v) && !cur()) { toast("請先建立或選擇一個案件"); v = "projects"; }
+  view = v;
+  document.querySelectorAll(".view").forEach(s => s.classList.toggle("hide", s.id !== "v-" + v));
+  document.querySelectorAll("#nav button").forEach(b => b.classList.toggle("on", b.dataset.v === v));
+  const p = cur(); $("#curProject").textContent = p ? `目前案件：${p.info.name || "(未命名)"}　v${p.info.version}` : "";
+  ({ projects: renderProjects, edit: renderEdit, dash: renderDash, quote: renderQuote, lib: renderLib, data: () => {} })[v]();
+  try { localStorage.setItem(KEY + "-view", v); } catch (e) {}
+}
+document.querySelectorAll("#nav button").forEach(b => b.onclick = () => go(b.dataset.v));
+
+/* ================= 案件列表 ================= */
+function newProject() {
+  const p = {
+    id: uid(), created: today(),
+    info: { no: "", name: "新案件", client: "", address: "", ping: "", condition: "中古屋", designer: "", date: today(), version: 1 },
+    settings: { ...DEFAULT_SETTINGS },
+    quote: { title: "工 程 估 價 單", mode: "detail", remarks: DEFAULT_REMARKS, pay: DEFAULT_PAY },
+    items: [], catIds: [],
+  };
+  DB.projects.unshift(p); DB.currentId = p.id; save(); go("edit");
+}
+$("#btnNewProject").onclick = newProject;
+function renderProjects() {
+  const rows = DB.projects.map(p => {
+    const c = calc(p), low = c.margin < num(p.settings.warnMargin) / 100;
+    return `<tr>
+      <td>${esc(p.info.no)}</td><td><b>${esc(p.info.name)}</b>${p.id === DB.currentId ? ' <span class="pill">目前</span>' : ""}</td>
+      <td>${esc(p.info.client)}</td><td>v${p.info.version}</td><td>${esc(p.info.date)}</td>
+      <td class="n">${fmt(c.cost)}</td><td class="n">${fmt(c.total)}</td>
+      <td class="n ${low ? "lowm" : "okm"}">${pct(c.margin)}</td>
+      <td style="white-space:nowrap">
+        <button class="b" data-a="open" data-id="${p.id}">開啟</button>
+        <button class="b" data-a="ver" data-id="${p.id}" title="複製成新版本，用於追加減">另存新版</button>
+        <button class="b del" data-a="del" data-id="${p.id}">刪除</button>
+      </td></tr>`;
+  }).join("");
+  $("#projTable").innerHTML = `<tr><th>編號</th><th>案件名稱</th><th>客戶</th><th>版本</th><th>報價日期</th><th class="cost">總成本</th><th>含稅總計</th><th>毛利率</th><th></th></tr>` +
+    (rows || `<tr><td colspan="9" class="hint" style="text-align:center;padding:20px">尚無案件，按「新增案件」開始。</td></tr>`);
+}
+$("#projTable").onclick = (e) => {
+  const b = e.target.closest("button[data-a]"); if (!b) return;
+  const p = DB.projects.find(x => x.id === b.dataset.id);
+  if (b.dataset.a === "open") { DB.currentId = p.id; save(); go("edit"); }
+  if (b.dataset.a === "ver") {
+    const np = JSON.parse(JSON.stringify(p)); np.id = uid(); np.info.version = (p.info.version || 1) + 1; np.info.date = today();
+    np.items.forEach(i => i.id = uid());
+    DB.projects.unshift(np); DB.currentId = np.id; save(); toast(`已建立 v${np.info.version}`); go("edit");
+  }
+  if (b.dataset.a === "del") {
+    if (!confirm(`確定刪除「${p.info.name}」v${p.info.version}？此動作無法復原。`)) return;
+    DB.projects = DB.projects.filter(x => x !== p); if (DB.currentId === p.id) DB.currentId = null; save(); renderProjects(); go("projects");
+  }
+};
+
+/* ================= 成本報價填寫 ================= */
+const INFO_FIELDS = [["no","案件編號"],["name","案件名稱"],["client","客戶"],["address","地址"],["ping","坪數"],["condition","屋況"],["designer","設計師"],["date","報價日期"]];
+function renderEdit() {
+  const p = cur(), s = p.settings;
+  $("#infoForm").innerHTML = INFO_FIELDS.map(([k, l]) => {
+    if (k === "condition") return `<label class="f">${l}<select data-info="${k}">${["新成屋","中古屋","老屋","商空"].map(o => `<option ${p.info[k] === o ? "selected" : ""}>${o}</option>`).join("")}</select></label>`;
+    return `<label class="f">${l}<input data-info="${k}" type="${k === "date" ? "date" : "text"}" value="${esc(p.info[k])}" ${k === "address" ? 'style="min-width:240px"' : ""}></label>`;
+  }).join("") + `<label class="f">版本<input value="v${p.info.version}" disabled style="width:60px;min-width:0"></label>`;
+  $("#setForm").innerHTML = `
+    <label class="f">自動報價方式<select data-set="autoBasis">
+      <option value="margin" ${s.autoBasis === "margin" ? "selected" : ""}>依目標毛利率</option>
+      <option value="markup" ${s.autoBasis === "markup" ? "selected" : ""}>成本 × 加成 %</option></select></label>
+    <label class="f">目標毛利率 %<input type="number" data-set="autoMargin" value="${s.autoMargin}" step="1"></label>
+    <label class="f">加成 %<input type="number" data-set="autoMarkup" value="${s.autoMarkup}" step="1"></label>
+    <label class="f">自動報價進位到<select data-set="round">${[1, 10, 100, 1000].map(r => `<option value="${r}" ${num(s.round) === r ? "selected" : ""}>${r} 元</option>`).join("")}</select></label>
+    <label class="f">毛利率警示門檻 %<input type="number" data-set="warnMargin" value="${s.warnMargin}" step="1"></label>
+    <label class="f">工程管理費 %<input type="number" data-set="mgmtPct" value="${s.mgmtPct}" step="0.5"></label>
+    <label class="f">營業稅 %<input type="number" data-set="taxPct" value="${s.taxPct}" step="1"></label>`;
+  $("#addCatSel").innerHTML = DB.cats.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join("");
+  renderItems(); renderKpis();
+}
+$("#infoForm").oninput = (e) => {
+  const k = e.target.dataset.info; if (!k) return;
+  cur().info[k] = e.target.value; save();
+  $("#curProject").textContent = `目前案件：${cur().info.name || "(未命名)"}　v${cur().info.version}`;
+};
+$("#setForm").oninput = (e) => {
+  const k = e.target.dataset.set; if (!k) return;
+  cur().settings[k] = k === "autoBasis" ? e.target.value : num(e.target.value);
+  save(); refreshComputed();
+};
+
+function libOptions(catId) {
+  return DB.lib.filter(l => l.catId === catId).map(l => `<option value="${l.id}">${esc(l.name)}（${esc(l.unit)}）</option>`).join("");
+}
+function renderItems() {
+  const p = cur(), s = p.settings, c = calc(p);
+  let h = `<thead><tr><th>#</th><th style="min-width:180px">工程項目</th><th style="min-width:140px">規格／品牌／說明</th><th>單位</th><th>數量</th>
+    <th class="cost">成本單價</th><th class="cost">成本複價</th><th>報價</th><th>報價單價</th><th>報價複價</th><th>毛利率</th>
+    <th class="cost" style="min-width:90px">發包廠商</th><th style="min-width:100px">備註</th><th></th></tr></thead><tbody>`;
+  const cats = catOrder(p);
+  if (!cats.length) h += `<tr><td colspan="14" class="hint" style="text-align:center;padding:20px">先在上方選一個工種按「加入工種」，再從工項庫加入項目。</td></tr>`;
+  cats.forEach((cid, ci) => {
+    const items = p.items.filter(i => i.catId === cid);
+    h += `<tr class="cat"><td colspan="14">${cnNum(ci)}、${esc(catName(cid))}
+      <button class="ic noprint" data-a="rmcat" data-cat="${cid}" title="移除此工種（含底下項目）">✕ 移除工種</button></td></tr>`;
+    items.forEach((it, idx) => {
+      const pr = itemPrice(it, s);
+      h += `<tr data-id="${it.id}">
+        <td>${idx + 1}</td>
+        <td><input data-k="name" value="${esc(it.name)}"></td>
+        <td><input data-k="spec" value="${esc(it.spec)}"></td>
+        <td><input data-k="unit" value="${esc(it.unit)}" style="width:44px"></td>
+        <td><input data-k="qty" type="number" step="any" value="${it.qty}" style="width:70px"></td>
+        <td class="cost"><input data-k="cost" type="number" step="any" value="${it.cost}" style="width:90px"></td>
+        <td class="n cost" data-o="cost"></td>
+        <td><select data-k="auto" style="width:62px"><option value="0" ${!it.auto ? "selected" : ""}>手填</option><option value="1" ${it.auto ? "selected" : ""}>自動</option></select></td>
+        <td class="${it.auto ? "autoP" : ""}"><input data-k="price" type="number" step="any" value="${it.auto ? pr : it.price}" style="width:90px" ${it.auto ? "readonly" : ""}></td>
+        <td class="n" data-o="rev"></td>
+        <td class="n" data-o="m"></td>
+        <td class="cost"><input data-k="vendor" value="${esc(it.vendor)}"></td>
+        <td><input data-k="note" value="${esc(it.note)}"></td>
+        <td style="white-space:nowrap"><button class="ic" data-a="up" title="上移">▲</button><button class="ic" data-a="down" title="下移">▼</button><button class="ic" data-a="del" title="刪除">✕</button></td>
+      </tr>`;
+    });
+    h += `<tr class="noprint"><td></td><td colspan="13"><div class="addbar">
+        <select data-libsel="${cid}"><option value="">從工項庫選擇…</option>${libOptions(cid)}</select>
+        <button class="b" data-a="addlib" data-cat="${cid}">加入</button>
+        <button class="b" data-a="addall" data-cat="${cid}">加入此工種全部工項</button>
+        <button class="b" data-a="addblank" data-cat="${cid}">＋ 空白列</button></div></td></tr>
+      <tr class="sub" data-subcat="${cid}"><td></td><td colspan="5" style="text-align:right">${esc(catName(cid))} 小計</td>
+        <td class="n cost" data-o="ccost"></td><td></td><td></td><td class="n" data-o="crev"></td><td class="n" data-o="cm"></td><td colspan="3"></td></tr>`;
+  });
+  h += `</tbody><tfoot>
+    <tr class="sub"><td></td><td colspan="5" style="text-align:right">工程小計</td><td class="n cost" id="tCost"></td><td></td><td></td><td class="n" id="tSub"></td><td class="n" id="tM"></td><td colspan="3"></td></tr>
+    <tr class="sub"><td></td><td colspan="5" style="text-align:right">工程管理費 <span id="tMgmtPct"></span></td><td></td><td></td><td></td><td class="n" id="tMgmt"></td><td colspan="4"></td></tr>
+    <tr class="sub"><td></td><td colspan="5" style="text-align:right">未稅合計</td><td></td><td></td><td></td><td class="n" id="tPre"></td><td class="n" id="tM2"></td><td colspan="3"></td></tr>
+    <tr class="sub"><td></td><td colspan="5" style="text-align:right">營業稅 <span id="tTaxPct"></span></td><td></td><td></td><td></td><td class="n" id="tTax"></td><td colspan="4"></td></tr>
+    <tr class="sub"><td></td><td colspan="5" style="text-align:right">含稅總計</td><td></td><td></td><td></td><td class="n" id="tTotal"></td><td colspan="4"></td></tr>
+  </tfoot>`;
+  $("#itemTable").innerHTML = h;
+  refreshComputed();
+}
+function mCell(td, rev, cost, warn) {
+  const m = rev ? (rev - cost) / rev : NaN;
+  td.textContent = rev || cost ? pct(m) : "";
+  td.className = "n " + (isFinite(m) ? (m < warn ? "lowm" : "okm") : "");
+}
+function refreshComputed() {
+  const p = cur(), s = p.settings, c = calc(p), warn = num(s.warnMargin) / 100;
+  document.querySelectorAll("#itemTable tr[data-id]").forEach(tr => {
+    const it = p.items.find(i => i.id === tr.dataset.id); if (!it) return;
+    const pr = itemPrice(it, s), q = num(it.qty);
+    if (it.auto) tr.querySelector('[data-k="price"]').value = pr;
+    tr.querySelector('[data-o="cost"]').textContent = fmt(q * num(it.cost));
+    tr.querySelector('[data-o="rev"]').textContent = fmt(q * pr);
+    mCell(tr.querySelector('[data-o="m"]'), q * pr, q * num(it.cost), warn);
+  });
+  document.querySelectorAll("#itemTable tr[data-subcat]").forEach(tr => {
+    const k = c.byCat.get(tr.dataset.subcat) || { cost: 0, rev: 0 };
+    tr.querySelector('[data-o="ccost"]').textContent = fmt(k.cost);
+    tr.querySelector('[data-o="crev"]').textContent = fmt(k.rev);
+    mCell(tr.querySelector('[data-o="cm"]'), k.rev, k.cost, warn);
+  });
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  set("tCost", fmt(c.cost)); set("tSub", fmt(c.sub)); set("tMgmt", fmt(c.mgmt)); set("tPre", fmt(c.pre));
+  set("tTax", fmt(c.tax)); set("tTotal", fmt(c.total)); set("tMgmtPct", s.mgmtPct + "%"); set("tTaxPct", s.taxPct + "%");
+  const tm = document.getElementById("tM"); if (tm) mCell(tm, c.sub, c.cost, warn);
+  const tm2 = document.getElementById("tM2"); if (tm2) mCell(tm2, c.pre, c.cost, warn);
+  renderKpis();
+}
+function kpiHtml(c, s) {
+  const low = c.margin < num(s.warnMargin) / 100;
+  return [["總成本", fmt(c.cost)], ["工程小計（報價）", fmt(c.sub)], ["管理費", fmt(c.mgmt)], ["未稅合計", fmt(c.pre)], ["含稅總計", fmt(c.total)],
+    ["毛利（未稅）", `<span class="${c.profit < 0 ? "lowm" : ""}">${fmt(c.profit)}</span>`],
+    ["整案毛利率", `<span class="${low ? "lowm" : "okm"}">${pct(c.margin)}</span>`]]
+    .map(([k, v]) => `<div class="kpi"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("");
+}
+function renderKpis() { const p = cur(); if (p) $("#kpis").innerHTML = kpiHtml(calc(p), p.settings); }
+
+function addItem(catId, libId, qty = 1) {
+  const p = cur(), l = DB.lib.find(x => x.id === libId);
+  const it = { id: uid(), catId, name: l ? l.name : "", spec: l ? l.spec || "" : "", unit: l ? l.unit : "式", qty,
+    cost: l ? num(l.cost) : 0, price: l ? num(l.price) : 0, auto: l ? !num(l.price) : true, vendor: l ? l.vendor || "" : "", note: "" };
+  const lastIdx = p.items.map(i => i.catId).lastIndexOf(catId);
+  if (lastIdx < 0) p.items.push(it); else p.items.splice(lastIdx + 1, 0, it);
+  return it;
+}
+$("#btnAddCat").onclick = () => {
+  const p = cur(), cid = $("#addCatSel").value;
+  if (catOrder(p).includes(cid)) { toast("此工種已在明細中"); return; }
+  p.catIds = (p.catIds || []).concat(cid); save(); renderItems();
+};
+$("#btnAllAuto").onclick = () => { cur().items.forEach(i => i.auto = true); save(); renderItems(); };
+$("#btnAllManual").onclick = () => { const p = cur(); p.items.forEach(i => { if (i.auto) { i.price = itemPrice(i, p.settings); i.auto = false; } }); save(); renderItems(); };
+
+$("#itemTable").addEventListener("input", (e) => {
+  const k = e.target.dataset.k, tr = e.target.closest("tr[data-id]"); if (!k || !tr) return;
+  const p = cur(), it = p.items.find(i => i.id === tr.dataset.id);
+  if (k === "auto") {
+    const wasAuto = it.auto; it.auto = e.target.value === "1";
+    if (wasAuto && !it.auto) it.price = autoPrice(num(it.cost), p.settings);
+    save(); renderItems(); return;
+  }
+  it[k] = ["qty", "cost", "price"].includes(k) ? num(e.target.value) : e.target.value;
+  save(); refreshComputed();
+});
+$("#itemTable").addEventListener("click", (e) => {
+  const b = e.target.closest("button[data-a]"); if (!b) return;
+  const p = cur(), a = b.dataset.a, cid = b.dataset.cat;
+  if (a === "addlib") {
+    const sel = document.querySelector(`select[data-libsel="${cid}"]`);
+    if (!sel.value) { toast("請先選擇工項"); return; }
+    addItem(cid, sel.value);
+  } else if (a === "addall") {
+    DB.lib.filter(l => l.catId === cid).forEach(l => addItem(cid, l.id, 0));
+    toast("已加入全部工項，數量為 0 的項目不會出現在對客報價單");
+  } else if (a === "addblank") {
+    addItem(cid, null);
+  } else if (a === "rmcat") {
+    const n = p.items.filter(i => i.catId === cid).length;
+    if (n && !confirm(`移除「${catName(cid)}」會一併刪除底下 ${n} 個項目，確定？`)) return;
+    p.items = p.items.filter(i => i.catId !== cid); p.catIds = (p.catIds || []).filter(x => x !== cid);
+  } else {
+    const tr = b.closest("tr[data-id]"), i = p.items.findIndex(x => x.id === tr.dataset.id);
+    if (a === "del") p.items.splice(i, 1);
+    if (a === "up" || a === "down") {
+      const same = p.items.map((x, j) => x.catId === p.items[i].catId ? j : -1).filter(j => j >= 0);
+      const pos = same.indexOf(i), tgt = same[pos + (a === "up" ? -1 : 1)];
+      if (tgt === undefined) return;
+      [p.items[i], p.items[tgt]] = [p.items[tgt], p.items[i]];
+    }
+  }
+  save(); renderItems();
+});
+
+/* ================= 毛利分析 ================= */
+function renderDash() {
+  const p = cur(), c = calc(p), warn = num(p.settings.warnMargin) / 100;
+  $("#kpis2").innerHTML = kpiHtml(c, p.settings);
+  const rows = catOrder(p).map(cid => {
+    const k = c.byCat.get(cid) || { cost: 0, rev: 0, n: 0 }, m = k.rev ? (k.rev - k.cost) / k.rev : NaN;
+    const w = isFinite(m) ? Math.max(0, Math.min(100, m * 100)) : 0;
+    return `<tr><td>${esc(catName(cid))}</td><td class="n">${k.n}</td><td class="n cost">${fmt(k.cost)}</td><td class="n">${fmt(k.rev)}</td>
+      <td class="n">${fmt(k.rev - k.cost)}</td><td class="n ${isFinite(m) ? (m < warn ? "lowm" : "okm") : ""}">${pct(m)}</td>
+      <td class="n">${c.sub ? pct(k.rev / c.sub) : "—"}</td>
+      <td><div class="bar"><i class="${m < warn ? "low" : ""}" style="width:${w}%"></i><b style="left:${warn * 100}%"></b></div></td></tr>`;
+  }).join("");
+  $("#dashTable").innerHTML = `<tr><th>工種</th><th>項數</th><th class="cost">成本</th><th>報價</th><th>毛利</th><th>毛利率</th><th>佔報價比</th><th style="min-width:160px">毛利率（0–100%）</th></tr>` +
+    (rows || `<tr><td colspan="8" class="hint">尚無資料</td></tr>`) +
+    `<tr class="sub"><td>工程合計</td><td class="n">${p.items.length}</td><td class="n cost">${fmt(c.cost)}</td><td class="n">${fmt(c.sub)}</td><td class="n">${fmt(c.sub - c.cost)}</td><td class="n">${pct(c.itemMargin)}</td><td class="n">100%</td><td></td></tr>
+     <tr class="sub"><td>含管理費 ${p.settings.mgmtPct}%</td><td></td><td class="n cost">${fmt(c.cost)}</td><td class="n">${fmt(c.pre)}</td><td class="n">${fmt(c.profit)}</td><td class="n">${pct(c.margin)}</td><td></td><td></td></tr>`;
+}
+
+/* ================= 對客報價單 ================= */
+function renderQuote() {
+  const p = cur(); p.quote = p.quote || { title: "工 程 估 價 單", mode: "detail", remarks: DEFAULT_REMARKS, pay: DEFAULT_PAY };
+  $("#qTitle").value = p.quote.title; $("#qMode").value = p.quote.mode; $("#qRemarks").value = p.quote.remarks; $("#qPay").value = p.quote.pay;
+  drawQuote();
+}
+["qTitle", "qMode", "qRemarks", "qPay"].forEach(id => $("#" + id).addEventListener("input", () => {
+  const q = cur().quote; q.title = $("#qTitle").value; q.mode = $("#qMode").value; q.remarks = $("#qRemarks").value; q.pay = $("#qPay").value;
+  save(); drawQuote();
+}));
+function drawQuote() {
+  const p = cur(), s = p.settings, c = calc(p), q = p.quote;
+  let body = "";
+  catOrder(p).filter(cid => p.items.some(i => i.catId === cid && num(i.qty))).forEach((cid, ci) => {
+    const items = p.items.filter(i => i.catId === cid && num(i.qty)), k = c.byCat.get(cid) || { rev: 0 };
+    if (q.mode === "cat") {
+      body += `<tr><td>${cnNum(ci)}</td><td class="l">${esc(catName(cid))}</td><td>式</td><td>1</td><td class="r">${fmt(k.rev)}</td><td class="r">${fmt(k.rev)}</td><td></td></tr>`;
+      return;
+    }
+    body += `<tr class="c"><td>${cnNum(ci)}</td><td class="l" colspan="5">${esc(catName(cid))}</td><td></td></tr>`;
+    items.forEach((it, j) => {
+      const pr = itemPrice(it, s);
+      body += `<tr><td>${j + 1}</td><td class="l">${esc(it.name)}${it.spec ? `<br><span style="color:#666;font-size:12px">${esc(it.spec)}</span>` : ""}</td>
+        <td>${esc(it.unit)}</td><td>${num(it.qty).toLocaleString("zh-TW")}</td><td class="r">${fmt(pr)}</td><td class="r">${fmt(num(it.qty) * pr)}</td><td class="l">${esc(it.note)}</td></tr>`;
+    });
+    body += `<tr><td></td><td class="r" colspan="4"><b>${esc(catName(cid))} 小計</b></td><td class="r"><b>${fmt(k.rev)}</b></td><td></td></tr>`;
+  });
+  const pays = (q.pay || "").split("\n").map(l => l.split("|")).filter(a => a[0].trim());
+  const remarks = (q.remarks || "").split("\n").filter(l => l.trim());
+  $("#quoteDoc").innerHTML = `
+    <div class="logo-area"><div class="logo-box"><span>集</span><span>思</span></div>
+      <div class="logo-text"><div class="cn">室　內　設　計</div><div class="en">G I S &nbsp; D E S I G N</div></div></div>
+    <div class="doc-title">${esc(q.title)}</div>
+    <table class="info"><tr><td>客　戶：</td><td>${esc(p.info.client)}${p.info.name ? "　" + esc(p.info.name) : ""}</td></tr>
+      <tr><td>地　址：</td><td>${esc(p.info.address)}</td></tr>
+      <tr><td>日　期：</td><td>${esc((p.info.date || "").replace(/-/g, "/"))}${p.info.no ? `　編號：${esc(p.info.no)}` : ""}${p.info.version > 1 ? `　（第 ${p.info.version} 版）` : ""}</td></tr></table>
+    <table class="d"><thead><tr><th style="width:50px">項次</th><th>工　作　內　容</th><th style="width:50px">單位</th><th style="width:60px">數量</th><th style="width:90px">單價</th><th style="width:100px">複價</th><th style="width:90px">備註</th></tr></thead>
+      <tbody>${body || `<tr><td colspan="7" style="padding:20px;color:#999">尚無項目</td></tr>`}</tbody></table>
+    <div class="bottom">
+      <div class="remarks"><b>備　　　註</b><ol>${remarks.map(r => `<li>${esc(r)}</li>`).join("")}</ol></div>
+      <div class="totals"><table>
+        <tr><td>工程小計</td><td>${fmt(c.sub)}</td></tr>
+        <tr><td>工程管理費 ${s.mgmtPct}%</td><td>${fmt(c.mgmt)}</td></tr>
+        <tr><td>未稅合計</td><td>${fmt(c.pre)}</td></tr>
+        <tr><td>營業稅 ${s.taxPct}%</td><td>${fmt(c.tax)}</td></tr>
+        <tr class="g"><td>含稅總計</td><td>${fmt(c.total)}</td></tr></table></div>
+    </div>
+    ${pays.length ? `<div class="pay"><table>${pays.map(([l, v]) => `<tr><td>${esc(l)} ${num(v)}％</td><td>$ ${fmt(c.total * num(v) / 100)}</td></tr>`).join("")}</table></div>` : ""}
+    <div class="bank">${esc(DB.company.bank).replace(/\n/g, "<br>")}</div>
+    <div class="confirm"><div>公司確認</div><div>客戶確認</div></div>`;
+}
+
+/* ================= 工項資料庫 ================= */
+function renderLib() {
+  $("#catTable").innerHTML = `<tr><th>#</th><th>工種名稱</th><th>工項數</th><th></th></tr>` + DB.cats.map((c, i) => `
+    <tr data-cid="${c.id}"><td>${i + 1}</td><td><input data-ck="name" value="${esc(c.name)}"></td>
+    <td class="n">${DB.lib.filter(l => l.catId === c.id).length}</td>
+    <td style="white-space:nowrap"><button class="ic" data-a="up">▲</button><button class="ic" data-a="down">▼</button><button class="ic" data-a="del">✕</button></td></tr>`).join("");
+  const f = $("#libFilter"), fv = f.value;
+  f.innerHTML = `<option value="">全部工種</option>` + DB.cats.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join("");
+  f.value = DB.cats.some(c => c.id === fv) ? fv : "";
+  renderLibItems();
+}
+function renderLibItems() {
+  const fv = $("#libFilter").value, kw = $("#libSearch").value.trim();
+  const list = DB.cats.flatMap(c => DB.lib.filter(l => l.catId === c.id))
+    .filter(l => (!fv || l.catId === fv) && (!kw || (l.name + l.spec + l.vendor).includes(kw)));
+  const catSel = (v) => DB.cats.map(c => `<option value="${c.id}" ${c.id === v ? "selected" : ""}>${esc(c.name)}</option>`).join("");
+  $("#libTable").innerHTML = `<tr><th>工種</th><th style="min-width:200px">工項</th><th>規格／說明</th><th>單位</th><th class="cost">常用成本</th><th>常用報價</th><th>參考毛利率</th><th class="cost">預設廠商</th><th></th></tr>` +
+    list.map(l => {
+      const m = num(l.price) ? (num(l.price) - num(l.cost)) / num(l.price) : NaN;
+      return `<tr data-lid="${l.id}"><td><select data-lk="catId">${catSel(l.catId)}</select></td>
+      <td><input data-lk="name" value="${esc(l.name)}"></td><td><input data-lk="spec" value="${esc(l.spec)}"></td>
+      <td><input data-lk="unit" value="${esc(l.unit)}" style="width:44px"></td>
+      <td class="cost"><input data-lk="cost" type="number" step="any" value="${l.cost}" style="width:90px"></td>
+      <td><input data-lk="price" type="number" step="any" value="${l.price}" style="width:90px"></td>
+      <td class="n">${pct(m)}</td>
+      <td class="cost"><input data-lk="vendor" value="${esc(l.vendor)}"></td>
+      <td><button class="ic" data-a="del">✕</button></td></tr>`;
+    }).join("") + (list.length ? "" : `<tr><td colspan="9" class="hint">沒有符合的工項</td></tr>`);
+}
+$("#libFilter").onchange = renderLibItems;
+$("#libSearch").oninput = renderLibItems;
+$("#btnNewCat").onclick = () => {
+  const n = $("#newCatName").value.trim(); if (!n) { toast("請輸入工種名稱"); return; }
+  if (DB.cats.some(c => c.name === n)) { toast("已有同名工種"); return; }
+  DB.cats.push({ id: uid(), name: n }); $("#newCatName").value = ""; save(); renderLib(); toast("已新增工種：" + n);
+};
+$("#btnNewItem").onclick = () => {
+  const catId = $("#libFilter").value || DB.cats[0].id;
+  DB.lib.push({ id: uid(), catId, name: "新工項", unit: "式", cost: 0, price: 0, vendor: "", spec: "" });
+  $("#libFilter").value = catId; $("#libSearch").value = ""; save(); renderLibItems();
+  const ins = document.querySelectorAll('#libTable input[data-lk="name"]'); const last = ins[ins.length - 1]; if (last) { last.focus(); last.select(); }
+};
+$("#catTable").addEventListener("input", (e) => {
+  const tr = e.target.closest("tr[data-cid]"); if (!tr) return;
+  DB.cats.find(c => c.id === tr.dataset.cid).name = e.target.value; save();
+});
+$("#catTable").addEventListener("click", (e) => {
+  const b = e.target.closest("button[data-a]"); if (!b) return;
+  const i = DB.cats.findIndex(c => c.id === b.closest("tr").dataset.cid), c = DB.cats[i];
+  if (b.dataset.a === "del") {
+    const used = DB.projects.some(p => p.items.some(it => it.catId === c.id));
+    if (used) { toast("有案件正在使用此工種，無法刪除"); return; }
+    const n = DB.lib.filter(l => l.catId === c.id).length;
+    if (!confirm(`刪除工種「${c.name}」及底下 ${n} 個工項？`)) return;
+    DB.cats.splice(i, 1); DB.lib = DB.lib.filter(l => l.catId !== c.id);
+  } else {
+    const j = i + (b.dataset.a === "up" ? -1 : 1); if (j < 0 || j >= DB.cats.length) return;
+    [DB.cats[i], DB.cats[j]] = [DB.cats[j], DB.cats[i]];
+  }
+  save(); renderLib();
+});
+$("#libTable").addEventListener("input", (e) => {
+  const tr = e.target.closest("tr[data-lid]"), k = e.target.dataset.lk; if (!tr || !k) return;
+  const l = DB.lib.find(x => x.id === tr.dataset.lid);
+  l[k] = ["cost", "price"].includes(k) ? num(e.target.value) : e.target.value; save();
+  if (k === "cost" || k === "price") { const m = num(l.price) ? (num(l.price) - num(l.cost)) / num(l.price) : NaN; tr.children[6].textContent = pct(m); }
+  if (k === "catId") renderLibItems();
+});
+$("#libTable").addEventListener("click", (e) => {
+  const b = e.target.closest("button[data-a=del]"); if (!b) return;
+  const id = b.closest("tr").dataset.lid; DB.lib = DB.lib.filter(l => l.id !== id); save(); renderLibItems();
+});
+
+/* ================= 匯入／匯出 ================= */
+function download(name, blob) {
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+function needXLSX() { if (typeof XLSX === "undefined") { toast("Excel 元件未載入（需連網），請改用 CSV 或稍後再試"); return false; } return true; }
+/* 寫出活頁簿；Excel 元件沒載入（離線）時改存成 CSV（第一個工作表） */
+function writeBook(sheets, filename, cols) {
+  if (typeof XLSX !== "undefined") {
+    const wb = XLSX.utils.book_new();
+    sheets.forEach(([name, rows], i) => { const ws = XLSX.utils.aoa_to_sheet(rows); if (i === 0 && cols) ws["!cols"] = cols.map(w => ({ wch: w })); XLSX.utils.book_append_sheet(wb, ws, name); });
+    XLSX.writeFile(wb, filename + ".xlsx");
+  } else {
+    const csv = sheets[0][1].map(r => r.map(v => { const t = String(v ?? ""); return /[",\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t; }).join(",")).join("\r\n");
+    download(filename + ".csv", new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8" }));
+    toast("離線模式：已改存成 CSV（可用 Excel 開啟）");
+  }
+}
+function parseCSV(text) {
+  const rows = []; let row = [], f = "", q = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (q) { if (ch === '"') { if (text[i + 1] === '"') { f += '"'; i++; } else q = false; } else f += ch; }
+    else if (ch === '"') q = true;
+    else if (ch === ",") { row.push(f); f = ""; }
+    else if (ch === "\n" || ch === "\r") { if (ch === "\r" && text[i + 1] === "\n") i++; row.push(f); rows.push(row); row = []; f = ""; }
+    else f += ch;
+  }
+  if (f || row.length) { row.push(f); rows.push(row); }
+  return rows.filter(r => r.some(c => String(c).trim()));
+}
+const COLS = { cat: ["工種", "類別", "工程類別"], name: ["工項", "品項", "工程項目", "項目"], unit: ["單位"], cost: ["成本單價", "成本", "進價"],
+  price: ["報價單價", "報價", "售價", "單價"], vendor: ["廠商", "發包廠商"], spec: ["規格", "說明", "規格／說明"] };
+function importRows(rows) {
+  if (!rows.length) return "檔案沒有資料";
+  const head = rows[0].map(h => String(h).trim()), idx = {};
+  Object.entries(COLS).forEach(([k, names]) => { idx[k] = head.findIndex(h => names.includes(h)); });
+  if (idx.name < 0) return "找不到「工項」欄位。第一列需有欄位名稱：工種、工項、單位、成本單價、報價單價";
+  let added = 0, updated = 0, newCats = 0, skipped = 0, lastCat = DB.cats[0].name;
+  rows.slice(1).forEach(r => {
+    const g = (k) => idx[k] >= 0 ? String(r[idx[k]] ?? "").trim() : "";
+    const name = g("name"); if (!name) { skipped++; return; }
+    const cn = g("cat") || lastCat; lastCat = cn;
+    let cat = DB.cats.find(c => c.name === cn);
+    if (!cat) { cat = { id: uid(), name: cn }; DB.cats.push(cat); newCats++; }
+    let l = DB.lib.find(x => x.catId === cat.id && x.name === name);
+    if (!l) { l = { id: uid(), catId: cat.id, name, unit: "式", cost: 0, price: 0, vendor: "", spec: "" }; DB.lib.push(l); added++; } else updated++;
+    if (g("unit")) l.unit = g("unit");
+    if (g("cost")) l.cost = num(g("cost"));
+    if (g("price")) l.price = num(g("price"));
+    if (g("vendor")) l.vendor = g("vendor");
+    if (g("spec")) l.spec = g("spec");
+  });
+  save();
+  return `匯入完成：新增工項 ${added} 筆、更新 ${updated} 筆、新增工種 ${newCats} 個${skipped ? `、略過空白列 ${skipped} 列` : ""}。`;
+}
+$("#fileLib").onchange = async (e) => {
+  const file = e.target.files[0]; if (!file) return; e.target.value = "";
+  let rows;
+  try {
+    if (/\.csv$/i.test(file.name)) {
+      const buf = await file.arrayBuffer();
+      let text = new TextDecoder("utf-8").decode(buf);
+      if (text.includes("�")) text = new TextDecoder("big5").decode(buf);
+      rows = parseCSV(text.replace(/^﻿/, ""));
+    } else {
+      if (!needXLSX()) return;
+      const wb = XLSX.read(await file.arrayBuffer(), { type: "array" });
+      rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { header: 1, raw: false, defval: "" });
+    }
+  } catch (err) { $("#importLog").textContent = "讀取失敗：" + err.message; return; }
+  const msg = importRows(rows); $("#importLog").textContent = `${file.name}\n${msg}`; toast(msg);
+};
+$("#btnTpl").onclick = () => writeBook([["工項單價", [["工種", "工項", "單位", "成本單價", "報價單價", "廠商", "規格"],
+  ["泥作工程", "地壁磁磚鋪貼（工資）", "坪", 3500, 5000, "", ""], ["木作工程", "平釘天花板", "坪", 4200, 6000, "", "矽酸鈣板 6mm"]]]],
+  "工項單價匯入範本", [16, 28, 6, 10, 10, 14, 20]);
+$("#btnLibXlsx").onclick = () => writeBook([["工項單價", [["工種", "工項", "單位", "成本單價", "報價單價", "廠商", "規格"]].concat(
+  DB.cats.flatMap(c => DB.lib.filter(l => l.catId === c.id).map(l => [c.name, l.name, l.unit, num(l.cost), num(l.price), l.vendor, l.spec])))]],
+  `工項資料庫_${today()}`, [16, 28, 6, 10, 10, 14, 20]);
+$("#btnXlsx").onclick = () => {
+  const p = cur(); if (!p) { toast("請先選擇案件"); return; }
+  const s = p.settings, c = calc(p);
+  const rows = [[`${p.info.name}　內部成本表（v${p.info.version}）`], [`客戶：${p.info.client}`, "", `日期：${p.info.date}`], [],
+    ["工種", "工程項目", "規格", "單位", "數量", "成本單價", "成本複價", "報價方式", "報價單價", "報價複價", "毛利", "毛利率", "廠商", "備註"]];
+  catOrder(p).forEach(cid => p.items.filter(i => i.catId === cid).forEach(it => {
+    const q = num(it.qty), pr = itemPrice(it, s), cc = q * num(it.cost), rr = q * pr;
+    rows.push([catName(cid), it.name, it.spec, it.unit, q, num(it.cost), cc, it.auto ? "自動" : "手填", pr, rr, rr - cc, rr ? +((rr - cc) / rr).toFixed(4) : "", it.vendor, it.note]);
+  }));
+  rows.push([], ["", "工程小計", "", "", "", "", c.cost, "", "", c.sub, c.sub - c.cost, c.sub ? +c.itemMargin.toFixed(4) : ""],
+    ["", `工程管理費 ${s.mgmtPct}%`, "", "", "", "", "", "", "", c.mgmt], ["", "未稅合計", "", "", "", "", c.cost, "", "", c.pre, c.profit, c.pre ? +c.margin.toFixed(4) : ""],
+    ["", `營業稅 ${s.taxPct}%`, "", "", "", "", "", "", "", c.tax], ["", "含稅總計", "", "", "", "", "", "", "", c.total]);
+  const sum = [["工種", "成本", "報價", "毛利", "毛利率"]].concat(catOrder(p).map(cid => {
+    const k = c.byCat.get(cid) || { cost: 0, rev: 0 }; return [catName(cid), k.cost, k.rev, k.rev - k.cost, k.rev ? +((k.rev - k.cost) / k.rev).toFixed(4) : ""];
+  }));
+  writeBook([["成本明細", rows], ["工種毛利", sum]], `${p.info.name || "案件"}_內部成本表_v${p.info.version}`, [14, 26, 16, 6, 8, 10, 12, 8, 10, 12, 12, 8, 12, 16]);
+};
+$("#btnBackup").onclick = () => download(`成本報價系統備份_${today()}.json`, new Blob([JSON.stringify(DB, null, 1)], { type: "application/json" }));
+$("#fileRestore").onchange = async (e) => {
+  const file = e.target.files[0]; if (!file) return; e.target.value = "";
+  try {
+    const d = JSON.parse(await file.text());
+    if (!d.cats || !d.lib || !d.projects) throw new Error("不是本系統的備份檔");
+    if (!confirm(`還原會取代目前所有資料（${DB.projects.length} 個案件），確定？`)) return;
+    DB = d; DB.company = DB.company || { ...DEFAULT_COMPANY }; save(); toast("已還原"); go("projects");
+  } catch (err) { toast("還原失敗：" + err.message); }
+};
+
+/* ================= 啟動 ================= */
+load();
+let startView = "projects";
+try { startView = localStorage.getItem(KEY + "-view") || "projects"; } catch (e) {}
+go(startView);
+</script>
+</body>
+</html>
