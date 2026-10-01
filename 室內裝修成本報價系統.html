@@ -951,8 +951,11 @@ $("#fileLib").onchange = async (e) => {
     } else {
       if (typeof XLSX === "undefined") { toast("Excel 元件未載入（需連網），請改用 CSV"); return; }
       const wb = XLSX.read(await file.arrayBuffer(), { type: "array" });
-      const sn = wb.SheetNames.includes("給業主明細") ? "給業主明細" : wb.SheetNames[0];
-      rows = XLSX.utils.sheet_to_json(wb.Sheets[sn], { header: 1, raw: false, defval: "" });
+      // 優先讀「給業主明細」，否則找第一個有「工項」欄位的工作表（跳過填寫說明之類的頁面）
+      const read = (sn) => XLSX.utils.sheet_to_json(wb.Sheets[sn], { header: 1, raw: false, defval: "" });
+      const hasHead = (rs) => rs.some(r => r.some(h => COLS.name.includes(String(h).trim())));
+      const sn = wb.SheetNames.includes("給業主明細") ? "給業主明細" : (wb.SheetNames.find(n => hasHead(read(n))) || wb.SheetNames[0]);
+      rows = read(sn);
     }
   } catch (err) { $("#importLog").textContent = "讀取失敗：" + err.message; return; }
   const msg = importRows(rows); $("#importLog").textContent = `${file.name}\n${msg}`; toast(msg);
