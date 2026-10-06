@@ -27,9 +27,9 @@ html, body {{ width: 1920px; height: 1080px; overflow: hidden; background: #F3F0
 .label {{ position: absolute; top: 700px; width: 100%; text-align: center; opacity: 0; }}
 .label b {{ display: block; font-size: 54px; font-weight: 700; letter-spacing: 0.3em; padding-left: 0.3em; }}
 .label span {{ display: block; margin-top: 10px; font-size: 30px; font-weight: 400; letter-spacing: 0.25em; padding-left: 0.25em; opacity: 0.75; }}
-#dots {{ position: absolute; left: 0; top: 900px; width: 100%; height: 40px; }}
+#dots {{ position: absolute; left: 0; top: 760px; width: 100%; height: 40px; }}
 #dots i {{ position: absolute; top: 6px; width: 28px; height: 28px; border-radius: 50%; box-shadow: 0 0 0 1px rgba(201,196,182,0.6); }}
-#ring {{ position: absolute; top: 894px; left: {X0-20}px; width: 40px; height: 40px; border-radius: 50%; border: 2px solid #8A8A8A; }}
+#ring {{ position: absolute; top: 754px; left: {X0-20}px; width: 40px; height: 40px; border-radius: 50%; border: 2px solid #8A8A8A; }}
 #tagline {{ position: absolute; top: 720px; width: 100%; text-align: center; font-size: 40px; font-weight: 400; letter-spacing: 0.7em; padding-left: 0.7em; color: #E8D9A8; opacity: 0; }}
 </style>
 </head>
@@ -39,8 +39,9 @@ html, body {{ width: 1920px; height: 1080px; overflow: hidden; background: #F3F0
 <div id="logo-wrap" class="clip" data-start="0" data-duration="12" data-track-index="1">
 {logos}<div id="brush"></div>
 </div>
-{labels}<div id="dots" class="clip" data-start="0" data-duration="12" data-track-index="2">{dots}</div>
+<div id="dots" class="clip" data-start="0" data-duration="12" data-track-index="2">{dots}</div>
 <div id="ring" class="clip" data-start="0" data-duration="12" data-track-index="3"></div>
+<audio id="bgm" class="clip" src="bgm.wav" data-start="0" data-duration="12" data-track-index="50" data-volume="1"></audio>
 <div id="tagline" class="clip" data-start="0" data-duration="12" data-track-index="4">空間 · 設計 · 生活</div>
 </div>
 <script>
@@ -52,7 +53,6 @@ tl.fromTo("#brush", {{ x: 0 }}, {{ x: 1250, duration: 1.6, ease: "power2.inOut" 
 tl.set("#brush", {{ opacity: 0 }}, 2.0);
 tl.fromTo("#logo-wrap", {{ scale: 0.96 }}, {{ scale: 1, duration: 2.0, ease: "power2.out" }}, 0.3);
 tl.fromTo("#dots, #ring", {{ opacity: 0, y: 20 }}, {{ opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }}, 1.6);
-tl.fromTo("#lb0", {{ opacity: 0, y: 20 }}, {{ opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }}, 1.7);
 
 // 2. Cycle through every color version
 const START = 2.6, STEP = 0.72;
@@ -60,15 +60,13 @@ for (let i = 1; i < N; i++) {{
   const t = START + (i - 1) * STEP;
   tl.to("#lg" + (i - 1), {{ opacity: 0, duration: 0.35, ease: "power1.inOut" }}, t);
   tl.to("#lg" + i, {{ opacity: 1, duration: 0.35, ease: "power1.inOut" }}, t);
-  tl.to("#lb" + (i - 1), {{ opacity: 0, y: -16, duration: 0.25, ease: "power1.in" }}, t);
-  tl.fromTo("#lb" + i, {{ opacity: 0, y: 16 }}, {{ opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }}, t + 0.12);
   tl.to("#ring", {{ x: i * DOT, duration: 0.4, ease: "power3.inOut" }}, t);
   if (DARK[i] && !DARK[i - 1]) tl.to("#darkbg", {{ opacity: 1, duration: 0.5, ease: "power1.inOut" }}, t);
 }}
 
 // 3. Finale: 金色 on 墨綠, swap the label for the tagline, breathe, fade out
 const END = START + (N - 1) * STEP;
-tl.to("#lb" + (N - 1) + ", #dots, #ring", {{ opacity: 0, duration: 0.5, ease: "power1.in" }}, END + 0.6);
+tl.to("#dots, #ring", {{ opacity: 0, duration: 0.5, ease: "power1.in" }}, END + 0.6);
 tl.fromTo("#tagline", {{ opacity: 0, y: 16 }}, {{ opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }}, END + 1.0);
 tl.to("#logo-wrap", {{ scale: 1.04, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 1 }}, END + 0.6);
 tl.to("#root", {{ opacity: 0, duration: 0.5, ease: "power1.in" }}, 11.5);
