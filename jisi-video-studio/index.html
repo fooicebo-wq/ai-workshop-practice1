@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>集思影片工作室</title>
+<script src="studio/gsap.min.js"></script>
+<script src="studio/assets.js"></script>
+<script src="studio/jisi-video.js"></script>
+<style>
+  :root {
+    --bg: #F3F0E7; --panel: #FBFAF6; --ink: #2B302D; --muted: #6E716B; --line: #DDD8CB;
+    --brand: #3F4A45; --accent: #AA8620; --accent-soft: #F1E8CF; --ok: #4E7A58; --warn: #A87B1E; --no: #9A4F4F;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1E2321; --panel: #262C29; --ink: #ECE8DD; --muted: #A5A79F; --line: #3A423E;
+      --brand: #CFD8D2; --accent: #D4B04A; --accent-soft: #3A3524; --ok: #8DBA96; --warn: #D9AE55; --no: #D58C8C;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif; line-height: 1.6; }
+  header { padding: 28px 16px 8px; max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .brand-logo { width: 150px; height: 52px; background: var(--brand); -webkit-mask: var(--logo) left center / contain no-repeat; mask: var(--logo) left center / contain no-repeat; }
+  header h1 { margin: 0; font-size: 24px; letter-spacing: 0.08em; }
+  header p { margin: 0; color: var(--muted); font-size: 14px; }
+  nav { max-width: 1200px; margin: 12px auto 0; padding: 0 16px; display: flex; gap: 6px; border-bottom: 1px solid var(--line); overflow-x: auto; }
+  nav button { appearance: none; border: 0; background: none; color: var(--muted); font: inherit; font-size: 15px; padding: 10px 14px; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
+  nav button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+  main { max-width: 1200px; margin: 0 auto; padding: 20px 16px 48px; }
+  section[hidden] { display: none; }
+  .studio { display: grid; grid-template-columns: 320px 1fr; gap: 20px; align-items: start; }
+  .studio > * { min-width: 0; }
+  .studio .ctrl { grid-row: span 2; }
+  .studio .export { grid-column: 2; margin-top: 0; }
+  @media (max-width: 860px) { .studio { grid-template-columns: minmax(0, 1fr); } .studio .preview { order: -1; } .studio .ctrl { grid-row: auto; } .studio .export { grid-column: auto; } }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+  .field { margin-bottom: 18px; }
+  .field > label, .field > .label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.05em; }
+  .seg { display: flex; flex-wrap: wrap; gap: 6px; }
+  .seg button { appearance: none; border: 1px solid var(--line); background: transparent; color: var(--ink); font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 999px; cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); color: var(--bg); }
+  .chips { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .chip { appearance: none; border: 2px solid transparent; background: none; padding: 0; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; font: inherit; font-size: 11px; color: var(--muted); border-radius: 8px; padding: 4px 0; }
+  .chip span.sw { width: 30px; height: 30px; border-radius: 50%; box-shadow: 0 0 0 1px rgba(0,0,0,0.12); }
+  .chip[aria-pressed="true"] { border-color: var(--accent); color: var(--ink); }
+  .chip[aria-pressed="false"] span.sw { opacity: 0.35; }
+  input[type="text"], select { width: 100%; font: inherit; font-size: 15px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); }
+  .hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .preview .stage-box { background: repeating-conic-gradient(var(--line) 0 25%, transparent 0 50%) 0 0 / 20px 20px; border-radius: 10px; display: flex; justify-content: center; align-items: center; overflow: hidden; padding: 12px; }
+  .stage-scale { position: relative; box-shadow: 0 6px 24px rgba(0,0,0,0.18); }
+  .stage-scale > #stage { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+  .controls { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+  .controls button.play { appearance: none; border: 0; width: 44px; height: 44px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 18px; cursor: pointer; flex: none; }
+  .controls input[type="range"] { flex: 1; accent-color: var(--accent); }
+  .controls .time { font-variant-numeric: tabular-nums; font-size: 13px; color: var(--muted); min-width: 84px; text-align: right; }
+  .export { margin-top: 16px; }
+  .export h3 { margin: 0 0 8px; font-size: 16px; }
+  .export pre { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 12px; font-size: 13px; white-space: pre-wrap; word-break: break-all; margin: 0 0 10px; }
+  .btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn { appearance: none; border: 1px solid var(--brand); background: var(--brand); color: var(--bg); font: inherit; font-size: 14px; padding: 8px 14px; border-radius: 8px; cursor: pointer; }
+  .btn.ghost { background: transparent; color: var(--brand); }
+  .toast { font-size: 13px; color: var(--ok); margin-left: 6px; align-self: center; }
+  .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+  .gallery figure { margin: 0; }
+  .gallery video { width: 100%; border-radius: 8px; background: #000; display: block; }
+  .gallery figcaption { margin-top: 8px; font-size: 14px; }
+  .gallery figcaption small { display: block; color: var(--muted); font-size: 12px; }
+  .feat h2 { font-size: 18px; margin: 24px 0 10px; display: flex; align-items: center; gap: 8px; }
+  .feat h2:first-child { margin-top: 0; }
+  .badge { font-size: 12px; padding: 2px 8px; border-radius: 999px; font-weight: 600; }
+  .b-ok { background: color-mix(in srgb, var(--ok) 18%, transparent); color: var(--ok); }
+  .b-warn { background: color-mix(in srgb, var(--warn) 18%, transparent); color: var(--warn); }
+  .b-no { background: color-mix(in srgb, var(--no) 18%, transparent); color: var(--no); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
+  .grid .card h4 { margin: 0 0 4px; font-size: 15px; }
+  .grid .card p { margin: 0; font-size: 13px; color: var(--muted); }
+  .steps { counter-reset: s; list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  .steps li { counter-increment: s; display: flex; gap: 12px; align-items: flex-start; }
+  .steps li::before { content: counter(s); flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-weight: 700; display: grid; place-items: center; font-size: 13px; }
+  code { background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; font-size: 13px; }
+  footer { max-width: 1200px; margin: 0 auto; padding: 0 16px 32px; color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand-logo" id="brandLogo" aria-hidden="true"></div>
+  <div>
+    <h1>集思影片工作室</h1>
+    <p>選模板、調顏色、挑配樂，即時預覽後交給 Claude 輸出影片</p>
+  </div>
+</header>
+<nav role="tablist">
+  <button role="tab" data-tab="make" aria-selected="true">🎬 製作影片</button>
+  <button role="tab" data-tab="gallery" aria-selected="false">🎞️ 作品庫</button>
+  <button role="tab" data-tab="features" aria-selected="false">🧰 功能總覽</button>
+  <button role="tab" data-tab="howto" aria-selected="false">📘 使用說明</button>
+</nav>
+<main>
+  <!-- 製作影片 -->
+  <section id="tab-make">
+    <div class="studio">
+      <div class="card ctrl">
+        <div class="field">
+          <span class="label">模板</span>
+          <div class="seg" id="tplSeg"></div>
+        </div>
+        <div class="field">
+          <span class="label">比例</span>
+          <div class="seg" id="ratioSeg"></div>
+        </div>
+        <div class="field">
+          <span class="label" id="colorLabel">色版</span>
+          <div class="chips" id="chips"></div>
+          <div class="hint" id="colorHint"></div>
+        </div>
+        <div class="field">
+          <label for="tagline">結尾文字</label>
+          <input type="text" id="tagline" maxlength="24" />
+          <div class="hint">輸出時會自動下載這段文字需要的字型</div>
+        </div>
+        <div class="field">
+          <label for="music">配樂</label>
+          <select id="music"></select>
+          <div class="hint">配樂和換色節拍對齊（每拍 0.72 秒）</div>
+        </div>
+      </div>
+      <div class="preview">
+        <div class="card">
+          <div class="stage-box" id="stageBox"><div class="stage-scale" id="stageScale"><div id="stage"></div></div></div>
+          <div class="controls">
+            <button class="play" id="playBtn" aria-label="播放">▶</button>
+            <input type="range" id="scrub" min="0" max="1000" value="0" aria-label="時間軸" />
+            <span class="time" id="time">0.0 / 12.0 秒</span>
+          </div>
+        </div>
+      </div>
+      <div class="card export">
+          <h3>輸出影片</h3>
+          <pre id="cmd"></pre>
+          <div class="btns">
+            <button class="btn" id="copyBtn">複製製作指令</button>
+            <button class="btn ghost" id="dlBtn">下載設定檔</button>
+            <span class="toast" id="toast"></span>
+          </div>
+          <div class="hint">把指令貼給 Claude 即可輸出 MP4；設定檔也可以在專案的 <code>AI動畫測試/studio/render_video.py</code> 自行輸出</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 作品庫 -->
+  <section id="tab-gallery" hidden>
+    <div class="gallery">
+      <figure><video src="videos/palette-light.mp4" controls preload="metadata"></video><figcaption>色版輪播・輕爽版<small>16:9｜12 秒｜木吉他＋鋼琴</small></figcaption></figure>
+      <figure><video src="videos/palette-calm.mp4" controls preload="metadata"></video><figcaption>色版輪播・沉穩鋼琴版<small>16:9｜12 秒｜柔和鋼琴</small></figcaption></figure>
+      <figure><video src="videos/palette-cello.mp4" controls preload="metadata"></video><figcaption>色版輪播・大提琴版<small>16:9｜12 秒｜大提琴</small></figcaption></figure>
+      <figure><video src="videos/intro-gold.mp4" controls preload="metadata"></video><figcaption>Logo 開場・金色<small>16:9｜6 秒｜沉穩鋼琴</small></figcaption></figure>
+      <figure><video src="videos/palette-portrait.mp4" controls preload="metadata"></video><figcaption>色版輪播・直式 5 色<small>9:16｜12 秒｜輕爽（Reels／Shorts 用）</small></figcaption></figure>
+      <figure><video src="videos/palette-square.mp4" controls preload="metadata"></video><figcaption>色版輪播・方形 5 色<small>1:1｜12 秒｜結尾「一個集思 · 多種色彩」</small></figcaption></figure>
+      <figure><video src="videos/intro-v1.mp4" controls preload="metadata"></video><figcaption>第一版開場動畫（文字版）<small>16:9｜6 秒｜無配樂</small></figcaption></figure>
+    </div>
+  </section>
+
+  <!-- 功能總覽 -->
+  <section id="tab-features" hidden class="feat">
+    <h2><span class="badge b-ok">已實測</span>現在就能做</h2>
+    <div class="grid">
+      <div class="card"><h4>Logo 色版輪播</h4><p>書法字 Logo 依序換色，可挑色版、改比例</p></div>
+      <div class="card"><h4>Logo 開場</h4><p>金線畫出房屋，再刷出 Logo，適合放在影片片頭</p></div>
+      <div class="card"><h4>原創配樂</h4><p>輕爽、沉穩鋼琴、大提琴，節拍對準畫面，沒有版權問題</p></div>
+      <div class="card"><h4>三種比例</h4><p>橫式 16:9、直式 9:16（Reels / Shorts）、方形 1:1</p></div>
+      <div class="card"><h4>Logo 任意換色</h4><p>10 個品牌色版共用同一個 Logo 形狀</p></div>
+      <div class="card"><h4>自動品質檢查</h4><p>檢查卡頓寫法、缺字型、靜音音軌；抽格人工確認</p></div>
+    </div>
+    <h2><span class="badge b-warn">可製作・待測試</span>提供素材就能做</h2>
+    <div class="grid">
+      <div class="card"><h4>完工照片輪播</h4><p>3～10 張照片＋淡入、緩慢推近、字卡、配樂</p></div>
+      <div class="card"><h4>施工前後對比</h4><p>Before / After 滑動對比，翻新案例最吸睛</p></div>
+      <div class="card"><h4>數據動態圖表</h4><p>年度接案數、坪數統計等數字跳動與長條圖</p></div>
+      <div class="card"><h4>文字動態海報</h4><p>優惠活動、節慶問候、徵才公告</p></div>
+      <div class="card"><h4>角落浮水印</h4><p>半透明 Logo 疊在作品影片角落</p></div>
+      <div class="card"><h4>案件資訊字卡</h4><p>案名、地點、坪數、風格的下方資訊條</p></div>
+      <div class="card"><h4>GIF／透明背景</h4><p>LINE 動圖、可疊加在其他影片上的透明影片</p></div>
+      <div class="card"><h4>網頁展示影片</h4><p>把報價系統等 HTML 頁面做成介紹影片</p></div>
+    </div>
+    <h2><span class="badge b-no">目前做不到</span>需要另外提供</h2>
+    <div class="grid">
+      <div class="card"><h4>AI 配音旁白</h4><p>語音套件未安裝；可自行錄音後提供</p></div>
+      <div class="card"><h4>真實樂器錄音</h4><p>配樂為程式合成；有授權音樂可直接替換</p></div>
+      <div class="card"><h4>AI 生成畫面</h4><p>無 Sora / Veo 類工具；改用照片＋動畫</p></div>
+      <div class="card"><h4>讀取 YouTube</h4><p>網路政策封鎖；請貼文字或截圖</p></div>
+      <div class="card"><h4>Logo 高畫質</h4><p>目前由截圖切出；提供 logo.png 原始檔會更清楚</p></div>
+    </div>
+  </section>
+
+  <!-- 使用說明 -->
+  <section id="tab-howto" hidden>
+    <div class="card">
+      <ol class="steps">
+        <li><div>在「製作影片」選<b>模板</b>、<b>比例</b>、<b>色版</b>、<b>結尾文字</b>和<b>配樂</b>，右邊會即時預覽，按 ▶ 可以連聲音一起播放。</div></li>
+        <li><div>確認後按「<b>複製製作指令</b>」，貼給 Claude，Claude 會輸出 MP4 並放進這個資料夾。</div></li>
+        <li><div>也可以按「<b>下載設定檔</b>」，在裝有 Node.js 和 FFmpeg 的電腦上執行：<br /><code>python3 studio/render_video.py 設定.json 輸出.mp4</code></div></li>
+        <li><div>預覽和輸出使用同一份動畫程式（<code>studio/jisi-video.js</code>），預覽看到的就是輸出結果。</div></li>
+      </ol>
+    </div>
+  </section>
+</main>
+<footer>集思室內設計｜影片工作室 v1｜動畫：HyperFrames＋GSAP｜配樂：程式合成原創音樂</footer>
+
+<script>
+(function () {
+  "use strict";
+  const V = window.JisiVideo;
+  const MUSIC_DIR = "studio/music/", MUSIC_EXT = ".mp3";
+  const $ = (id) => document.getElementById(id);
+  document.documentElement.style.setProperty("--logo", "url(" + window.JISI_ASSETS.mask + ")");
+
+  const state = { template: "palette", ratio: "landscape", colors: V.DEFAULTS.colors.slice(), tagline: V.DEFAULTS.tagline, music: "light" };
+  let introColor = 9, tl = null, cfg = null;
+  const audio = new Audio();
+  audio.preload = "auto";
+
+  // ---- tabs
+  document.querySelectorAll("nav button").forEach((b) => b.addEventListener("click", () => {
+    document.querySelectorAll("nav button").forEach((x) => x.setAttribute("aria-selected", String(x === b)));
+    document.querySelectorAll("main > section").forEach((s) => (s.hidden = s.id !== "tab-" + b.dataset.tab));
+    if (b.dataset.tab !== "make") pause();
+    else fit();
+  }));
+
+  // ---- controls
+  function seg(container, items, key) {
+    container.innerHTML = "";
+    for (const [value, label] of items) {
+      const b = document.createElement("button");
+      b.textContent = label;
+      b.setAttribute("aria-pressed", String(state[key] === value));
+      b.addEventListener("click", () => { state[key] = value; seg(container, items, key); rebuild(); });
+      container.appendChild(b);
+    }
+  }
+  seg($("tplSeg"), Object.entries(V.TEMPLATES).map(([k, t]) => [k, t.name]), "template");
+  seg($("ratioSeg"), [["landscape", "橫式 16:9"], ["portrait", "直式 9:16"], ["square", "方形 1:1"]], "ratio");
+
+  function renderChips() {
+    const box = $("chips"); box.innerHTML = "";
+    const multi = state.template === "palette";
+    $("colorLabel").textContent = multi ? "色版（依序出現，至少 2 個）" : "色版（選 1 個）";
+    $("colorHint").textContent = multi ? "已選 " + state.colors.length + " 個，白色、金色會自動換成墨綠底" : "白色、金色使用墨綠底，其他使用米白底";
+    V.PALETTE.forEach((p, i) => {
+      const b = document.createElement("button");
+      b.className = "chip";
+      const on = multi ? state.colors.includes(i) : introColor === i;
+      b.setAttribute("aria-pressed", String(on));
+      b.title = p.name + " " + p.hex;
+      b.innerHTML = '<span class="sw" style="background:' + p.hex + '"></span>' + p.name;
+      b.addEventListener("click", () => {
+        if (multi) {
+          if (on && state.colors.length <= 2) return;
+          state.colors = on ? state.colors.filter((x) => x !== i) : state.colors.concat(i).sort((a, b) => a - b);
+        } else introColor = i;
+        rebuild();
+      });
+      box.appendChild(b);
+    });
+  }
+
+  const tagInput = $("tagline");
+  tagInput.value = state.tagline;
+  tagInput.addEventListener("input", () => { state.tagline = tagInput.value; rebuild(true); });
+
+  const musicSel = $("music");
+  for (const [k, m] of Object.entries(V.MUSIC)) {
+    const o = document.createElement("option"); o.value = k; o.textContent = m.name; musicSel.appendChild(o);
+  }
+  musicSel.value = state.music;
+  musicSel.addEventListener("change", () => { state.music = musicSel.value; rebuild(true); });
+
+  // ---- preview
+  function currentConfig() {
+    return {
+      template: state.template, ratio: state.ratio,
+      colors: state.template === "palette" ? state.colors.slice() : [introColor],
+      tagline: state.tagline, music: state.music,
+    };
+  }
+
+  function fit() {
+    if (!cfg) return;
+    const box = $("stageBox");
+    const maxW = box.clientWidth - 24;
+    const maxH = Math.min(window.innerHeight * 0.62, 620);
+    const k = Math.min(maxW / cfg.width, maxH / cfg.height);
+    $("stageScale").style.width = cfg.width * k + "px";
+    $("stageScale").style.height = cfg.height * k + "px";
+    $("stage").style.transform = "scale(" + k + ")";
+  }
+
+  function rebuild(keepTime) {
+    const t = keepTime && tl ? tl.time() : 0;
+    pause();
+    if (tl) tl.kill();
+    renderChips();
+    const r = V.build($("stage"), currentConfig());
+    tl = r.timeline; cfg = r.config;
+    tl.eventCallback("onUpdate", onUpdate);
+    tl.eventCallback("onComplete", () => { audio.pause(); setPlaying(false); });
+    const m = V.MUSIC[cfg.music];
+    const src = m.file ? MUSIC_DIR + m.file + MUSIC_EXT : "";
+    if (audio.getAttribute("src") !== src) { if (src) audio.src = src; else audio.removeAttribute("src"); }
+    fit();
+    tl.seek(t);
+    onUpdate();
+    updateExport();
+  }
+
+  function onUpdate() {
+    const d = tl.duration();
+    $("scrub").value = String(Math.round((tl.time() / d) * 1000));
+    $("time").textContent = tl.time().toFixed(1) + " / " + cfg.duration.toFixed(1) + " 秒";
+    // short templates fade the music out over the last second
+    audio.volume = Math.max(0, Math.min(1, cfg.duration < 12 ? (cfg.duration - tl.time()) : 1));
+  }
+
+  function setPlaying(p) { $("playBtn").textContent = p ? "❚❚" : "▶"; $("playBtn").setAttribute("aria-label", p ? "暫停" : "播放"); }
+  function pause() { if (tl) tl.pause(); audio.pause(); setPlaying(false); }
+  function play() {
+    if (tl.time() >= tl.duration() - 0.01) tl.seek(0);
+    if (audio.getAttribute("src")) { try { audio.currentTime = tl.time(); } catch (e) {} audio.play().catch(() => {}); }
+    tl.play(); setPlaying(true);
+  }
+  $("playBtn").addEventListener("click", () => (tl.isActive() ? pause() : play()));
+  $("scrub").addEventListener("input", (e) => { pause(); tl.seek((e.target.value / 1000) * tl.duration()); onUpdate(); });
+  window.addEventListener("resize", fit);
+
+  // ---- export
+  function updateExport() {
+    const c = currentConfig();
+    const names = c.colors.map((i) => V.PALETTE[i].name).join("、");
+    const ratioName = { landscape: "橫式 16:9", portrait: "直式 9:16", square: "方形 1:1" }[c.ratio];
+    $("cmd").textContent =
+      "請用集思影片工作室輸出影片：\n" +
+      "・模板：" + V.TEMPLATES[c.template].name + "\n" +
+      "・比例：" + ratioName + "\n" +
+      "・色版：" + names + "\n" +
+      "・結尾文字：" + (c.tagline || "（無）") + "\n" +
+      "・配樂：" + V.MUSIC[c.music].name + "\n\n" +
+      "設定檔：" + JSON.stringify(c);
+  }
+  function flash(msg) { $("toast").textContent = msg; clearTimeout(flash.t); flash.t = setTimeout(() => ($("toast").textContent = ""), 2200); }
+  $("copyBtn").addEventListener("click", async () => {
+    const text = $("cmd").textContent;
+    try { await navigator.clipboard.writeText(text); flash("已複製"); }
+    catch (e) {
+      const r = document.createRange(); r.selectNodeContents($("cmd"));
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r); flash("已選取，請按 Ctrl+C 複製");
+    }
+  });
+  $("dlBtn").addEventListener("click", () => {
+    const c = currentConfig();
+    const blob = new Blob([JSON.stringify(c, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "集思影片設定_" + c.template + "_" + c.ratio + ".json";
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    flash("已下載設定檔");
+  });
+
+  rebuild();
+})();
+</script>
+</body>
+</html>

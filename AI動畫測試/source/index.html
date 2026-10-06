@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "JisiSerif"; src: url("serif700.woff2") format("woff2"); font-weight: 700; }
+      @font-face { font-family: "JisiSerif"; src: url("serif400.woff2") format("woff2"); font-weight: 400; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #16130e; }
+      #root {
+        position: relative; width: 100%; height: 100%;
+        background: radial-gradient(ellipse at 50% 45%, #2a2318 0%, #16130e 70%);
+        font-family: "JisiSerif", serif; color: #f3ead8;
+      }
+      #plan { position: absolute; left: 50%; top: 150px; transform: translateX(-50%); }
+      #plan path, #plan line, #plan rect { fill: none; stroke: #c9a24a; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+      #plan .thin { stroke-width: 2; stroke: #8b6914; }
+      #brand { position: absolute; top: 560px; width: 100%; text-align: center; font-size: 168px; font-weight: 700; letter-spacing: 0.35em; padding-left: 0.35em; }
+      #brand span { display: inline-block; }
+      #rule { position: absolute; top: 790px; left: 50%; width: 520px; height: 2px; margin-left: -260px; background: linear-gradient(90deg, transparent, #c9a24a, transparent); transform-origin: center; }
+      #company { position: absolute; top: 820px; width: 100%; text-align: center; font-size: 52px; font-weight: 700; letter-spacing: 0.4em; padding-left: 0.4em; color: #e2c77f; }
+      #tagline { position: absolute; top: 905px; width: 100%; text-align: center; font-size: 34px; font-weight: 400; letter-spacing: 0.6em; padding-left: 0.6em; color: #b9ab90; }
+      #sheen { position: absolute; top: 520px; left: -400px; width: 180px; height: 280px; background: linear-gradient(90deg, rgba(255,240,200,0) 0%, rgba(255,236,190,0.28) 50%, rgba(255,240,200,0) 100%); -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 30%, #000 70%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0%, #000 30%, #000 70%, transparent 100%); mix-blend-mode: soft-light; transform: skewX(-20deg); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="6" data-width="1920" data-height="1080">
+      <svg id="plan" class="clip" data-start="0" data-duration="6" data-track-index="0" width="520" height="360" viewBox="0 0 520 360">
+        <!-- roof -->
+        <path id="roof" d="M40 170 L260 30 L480 170" />
+        <!-- walls -->
+        <path id="walls" d="M80 150 L80 330 L440 330 L440 150" />
+        <!-- interior floor-plan lines -->
+        <line class="thin inner" x1="80" y1="240" x2="250" y2="240" />
+        <line class="thin inner" x1="250" y1="170" x2="250" y2="330" />
+        <line class="thin inner" x1="330" y1="240" x2="440" y2="240" />
+        <!-- door & window -->
+        <rect class="thin inner" x="300" y="270" width="50" height="60" />
+        <rect class="thin inner" x="130" y="180" width="70" height="40" />
+      </svg>
+      <div id="brand" class="clip" data-start="0" data-duration="6" data-track-index="1"><span>集</span><span>思</span></div>
+      <div id="sheen" class="clip" data-start="0" data-duration="6" data-track-index="2"></div>
+      <div id="rule" class="clip" data-start="0" data-duration="6" data-track-index="3"></div>
+      <div id="company" class="clip" data-start="0" data-duration="6" data-track-index="4">集思室內裝修企業社</div>
+      <div id="tagline" class="clip" data-start="0" data-duration="6" data-track-index="5">空間 · 設計 · 生活</div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      // 1. Line-drawing of the house / floor plan
+      const strokes = document.querySelectorAll("#plan path, #plan line, #plan rect");
+      strokes.forEach((el) => {
+        const len = el.getTotalLength();
+        gsap.set(el, { strokeDasharray: len, strokeDashoffset: len });
+      });
+      tl.to("#roof", { strokeDashoffset: 0, duration: 0.9, ease: "power2.inOut" }, 0.2);
+      tl.to("#walls", { strokeDashoffset: 0, duration: 0.9, ease: "power2.inOut" }, 0.5);
+      tl.to("#plan .inner", { strokeDashoffset: 0, duration: 0.6, ease: "power1.out", stagger: 0.1 }, 1.1);
+
+      // 2. Brand characters rise in
+      tl.fromTo("#brand span", { opacity: 0, y: 60, filter: "blur(12px)" },
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8, ease: "power3.out", stagger: 0.18 }, 1.8);
+
+      // 3. Gold light sweep across the characters
+      tl.fromTo("#sheen", { x: 0, skewX: -20 }, { x: 2300, skewX: -20, duration: 1.0, ease: "power2.inOut" }, 2.8);
+
+      // 4. Divider + company name + tagline
+      tl.fromTo("#rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power2.out" }, 3.0);
+      tl.fromTo("#company", { opacity: 0, scale: 1.12, filter: "blur(6px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.9, ease: "power3.out" }, 3.2);
+      tl.fromTo("#tagline", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" }, 3.7);
+
+      // 5. Gentle breathing hold, then fade out
+      tl.to("#plan", { scale: 1.03, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: 1 }, 3.4);
+      tl.to("#root", { opacity: 0, duration: 0.5, ease: "power1.in" }, 5.5);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

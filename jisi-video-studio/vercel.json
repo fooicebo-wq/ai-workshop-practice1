@@ -1,0 +1,7 @@
+{
+  "cleanUrls": true,
+  "headers": [
+    { "source": "/videos/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }] },
+    { "source": "/studio/music/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }] }
+  ]
+}
