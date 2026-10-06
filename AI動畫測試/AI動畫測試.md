@@ -121,6 +121,18 @@
 | `music/` | 三種配樂：輕爽、沉穩鋼琴、大提琴 |
 | `gsap.min.js` | 動畫函式庫 |
 
+### 部署到 Vercel（網站版）
+
+網站版放在專案根目錄的 `jisi-video-studio/`，由 `AI動畫測試/studio/build_site.py` 產生（配樂轉成 MP3、影片改英文檔名，共約 19 MB）。修改工作室後，執行 `python3 AI動畫測試/studio/build_site.py` 重新產生即可。
+
+| # | 步驟 | 說明 |
+|---|------|------|
+| 1 | 合併到 master | 目前在 `claude/compassionate-babbage-jcn54p` 分支，Vercel 預設部署 master |
+| 2 | Vercel → Add New → Project | 匯入 `fooicebo-wq/ai-workshop-practice1` |
+| 3 | Root Directory 選 `jisi-video-studio` | Framework Preset 選「Other」，Build Command 留空 |
+| 4 | Deploy | 會得到一個新網址，例如 `xxx.vercel.app` |
+| 5 | 加到 cheng-shih-hub | 在原網站加一個連到新網址的按鈕 |
+
 ### 已測試
 
 | 項目 | 結果 |

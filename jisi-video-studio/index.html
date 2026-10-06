@@ -143,7 +143,7 @@
             <button class="btn ghost" id="dlBtn">下載設定檔</button>
             <span class="toast" id="toast"></span>
           </div>
-          <div class="hint">把指令貼給 Claude，或在電腦上執行 <code>python3 studio/render_video.py 設定.json 輸出.mp4</code></div>
+          <div class="hint">把指令貼給 Claude 即可輸出 MP4；設定檔也可以在專案的 <code>AI動畫測試/studio/render_video.py</code> 自行輸出</div>
       </div>
     </div>
   </section>
@@ -151,13 +151,13 @@
   <!-- 作品庫 -->
   <section id="tab-gallery" hidden>
     <div class="gallery">
-      <figure><video src="集思Logo色版輪播_輕爽版.mp4" controls preload="metadata"></video><figcaption>色版輪播・輕爽版<small>16:9｜12 秒｜木吉他＋鋼琴</small></figcaption></figure>
-      <figure><video src="集思Logo色版輪播.mp4" controls preload="metadata"></video><figcaption>色版輪播・沉穩鋼琴版<small>16:9｜12 秒｜柔和鋼琴</small></figcaption></figure>
-      <figure><video src="集思Logo色版輪播_大提琴版.mp4" controls preload="metadata"></video><figcaption>色版輪播・大提琴版<small>16:9｜12 秒｜大提琴</small></figcaption></figure>
-      <figure><video src="範例_Logo開場.mp4" controls preload="metadata"></video><figcaption>Logo 開場・金色<small>16:9｜6 秒｜沉穩鋼琴</small></figcaption></figure>
-      <figure><video src="範例_直式色版輪播.mp4" controls preload="metadata"></video><figcaption>色版輪播・直式 5 色<small>9:16｜12 秒｜輕爽（Reels／Shorts 用）</small></figcaption></figure>
-      <figure><video src="範例_方形色版輪播.mp4" controls preload="metadata"></video><figcaption>色版輪播・方形 5 色<small>1:1｜12 秒｜結尾「一個集思 · 多種色彩」</small></figcaption></figure>
-      <figure><video src="集思Logo開場動畫.mp4" controls preload="metadata"></video><figcaption>第一版開場動畫（文字版）<small>16:9｜6 秒｜無配樂</small></figcaption></figure>
+      <figure><video src="videos/palette-light.mp4" controls preload="metadata"></video><figcaption>色版輪播・輕爽版<small>16:9｜12 秒｜木吉他＋鋼琴</small></figcaption></figure>
+      <figure><video src="videos/palette-calm.mp4" controls preload="metadata"></video><figcaption>色版輪播・沉穩鋼琴版<small>16:9｜12 秒｜柔和鋼琴</small></figcaption></figure>
+      <figure><video src="videos/palette-cello.mp4" controls preload="metadata"></video><figcaption>色版輪播・大提琴版<small>16:9｜12 秒｜大提琴</small></figcaption></figure>
+      <figure><video src="videos/intro-gold.mp4" controls preload="metadata"></video><figcaption>Logo 開場・金色<small>16:9｜6 秒｜沉穩鋼琴</small></figcaption></figure>
+      <figure><video src="videos/palette-portrait.mp4" controls preload="metadata"></video><figcaption>色版輪播・直式 5 色<small>9:16｜12 秒｜輕爽（Reels／Shorts 用）</small></figcaption></figure>
+      <figure><video src="videos/palette-square.mp4" controls preload="metadata"></video><figcaption>色版輪播・方形 5 色<small>1:1｜12 秒｜結尾「一個集思 · 多種色彩」</small></figcaption></figure>
+      <figure><video src="videos/intro-v1.mp4" controls preload="metadata"></video><figcaption>第一版開場動畫（文字版）<small>16:9｜6 秒｜無配樂</small></figcaption></figure>
     </div>
   </section>
 
@@ -211,7 +211,7 @@
 (function () {
   "use strict";
   const V = window.JisiVideo;
-  const MUSIC_DIR = "studio/music/", MUSIC_EXT = ".wav";
+  const MUSIC_DIR = "studio/music/", MUSIC_EXT = ".mp3";
   const $ = (id) => document.getElementById(id);
   document.documentElement.style.setProperty("--logo", "url(" + window.JISI_ASSETS.mask + ")");
 

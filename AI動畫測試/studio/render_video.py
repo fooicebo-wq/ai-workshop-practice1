@@ -25,7 +25,7 @@ STUDIO = os.path.dirname(os.path.abspath(__file__))
 HYPERFRAMES = "hyperframes@0.8.135"
 SIZES = {"landscape": (1920, 1080), "portrait": (1080, 1920), "square": (1080, 1080)}
 DURATIONS = {"palette": 12, "intro": 6}
-MUSIC = {"light": "輕爽.wav", "calm": "沉穩鋼琴.wav", "cello": "大提琴.wav"}
+MUSIC = {"light": "light.wav", "calm": "calm.wav", "cello": "cello.wav"}
 
 PAGE = """<!doctype html>
 <html lang="zh-Hant">
