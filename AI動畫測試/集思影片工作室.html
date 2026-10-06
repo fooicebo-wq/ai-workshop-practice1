@@ -16,7 +16,13 @@
     :root:not([data-theme="light"]) {
       --bg: #1E2321; --panel: #262C29; --ink: #ECE8DD; --muted: #A5A79F; --line: #3A423E;
       --brand: #CFD8D2; --accent: #D4B04A; --accent-soft: #3A3524; --ok: #8DBA96; --warn: #D9AE55; --no: #D58C8C;
+      color-scheme: dark;
     }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1E2321; --panel: #262C29; --ink: #ECE8DD; --muted: #A5A79F; --line: #3A423E;
+    --brand: #CFD8D2; --accent: #D4B04A; --accent-soft: #3A3524; --ok: #8DBA96; --warn: #D9AE55; --no: #D58C8C;
+    color-scheme: dark;
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif; line-height: 1.6; }
