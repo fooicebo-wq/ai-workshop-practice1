@@ -20,7 +20,7 @@ html, body { width: 1920px; height: 1080px; overflow: hidden; background: #F3F0E
 .label span { display: block; margin-top: 10px; font-size: 30px; font-weight: 400; letter-spacing: 0.25em; padding-left: 0.25em; opacity: 0.75; }
 #dots { position: absolute; left: 0; top: 760px; width: 100%; height: 40px; }
 #dots i { position: absolute; top: 6px; width: 28px; height: 28px; border-radius: 50%; box-shadow: 0 0 0 1px rgba(201,196,182,0.6); }
-#ring { position: absolute; top: 754px; left: 688.0px; width: 40px; height: 40px; border-radius: 50%; border: 2px solid #8A8A8A; }
+#ring { position: absolute; top: 0px; left: 688.0px; width: 40px; height: 40px; border-radius: 50%; border: 2px solid #8A8A8A; }
 #tagline { position: absolute; top: 720px; width: 100%; text-align: center; font-size: 40px; font-weight: 400; letter-spacing: 0.7em; padding-left: 0.7em; color: #E8D9A8; opacity: 0; }
 </style>
 </head>
@@ -40,8 +40,7 @@ html, body { width: 1920px; height: 1080px; overflow: hidden; background: #F3F0E
 <div class="logo clip" id="lg9" style="background:#AA8620" data-start="0" data-duration="12" data-track-index="19"></div>
 <div id="brush"></div>
 </div>
-<div id="dots" class="clip" data-start="0" data-duration="12" data-track-index="2"><i style="left:694.0px;background:#3F4A45;"></i><i style="left:750.0px;background:#A28A6C;"></i><i style="left:806.0px;background:#5F7D63;"></i><i style="left:862.0px;background:#4F7A92;"></i><i style="left:918.0px;background:#766FA8;"></i><i style="left:974.0px;background:#C07A8A;"></i><i style="left:1030.0px;background:#8A8A8A;"></i><i style="left:1086.0px;background:#231815;"></i><i style="left:1142.0px;background:#FFFFFF;"></i><i style="left:1198.0px;background:#AA8620;"></i></div>
-<div id="ring" class="clip" data-start="0" data-duration="12" data-track-index="3"></div>
+<div id="dots" class="clip" data-start="0" data-duration="12" data-track-index="2"><i style="left:694.0px;background:#3F4A45;"></i><i style="left:750.0px;background:#A28A6C;"></i><i style="left:806.0px;background:#5F7D63;"></i><i style="left:862.0px;background:#4F7A92;"></i><i style="left:918.0px;background:#766FA8;"></i><i style="left:974.0px;background:#C07A8A;"></i><i style="left:1030.0px;background:#8A8A8A;"></i><i style="left:1086.0px;background:#231815;"></i><i style="left:1142.0px;background:#FFFFFF;"></i><i style="left:1198.0px;background:#AA8620;"></i><div id="ring"></div></div>
 <audio id="bgm" class="clip" src="bgm.wav" data-start="0" data-duration="12" data-track-index="50" data-volume="1"></audio>
 <div id="tagline" class="clip" data-start="0" data-duration="12" data-track-index="4">空間 · 設計 · 生活</div>
 </div>
@@ -53,21 +52,21 @@ const tl = gsap.timeline({ paused: true });
 tl.fromTo("#brush", { x: 0 }, { x: 1250, duration: 1.6, ease: "power2.inOut" }, 0.3);
 tl.set("#brush", { opacity: 0 }, 2.0);
 tl.fromTo("#logo-wrap", { scale: 0.96 }, { scale: 1, duration: 2.0, ease: "power2.out" }, 0.3);
-tl.fromTo("#dots, #ring", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 1.6);
+tl.fromTo("#dots", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 1.6);
 
 // 2. Cycle through every color version
 const START = 2.6, STEP = 0.72;
 for (let i = 1; i < N; i++) {
   const t = START + (i - 1) * STEP;
-  tl.to("#lg" + (i - 1), { opacity: 0, duration: 0.35, ease: "power1.inOut" }, t);
-  tl.to("#lg" + i, { opacity: 1, duration: 0.35, ease: "power1.inOut" }, t);
-  tl.to("#ring", { x: i * DOT, duration: 0.4, ease: "power3.inOut" }, t);
+  tl.to("#lg" + (i - 1), { opacity: 0, duration: 0.5, ease: "sine.inOut" }, t);
+  tl.to("#lg" + i, { opacity: 1, duration: 0.5, ease: "sine.inOut" }, t);
+  tl.to("#ring", { x: i * DOT, duration: 0.5, ease: "sine.inOut" }, t);
   if (DARK[i] && !DARK[i - 1]) tl.to("#darkbg", { opacity: 1, duration: 0.5, ease: "power1.inOut" }, t);
 }
 
 // 3. Finale: 金色 on 墨綠, swap the label for the tagline, breathe, fade out
 const END = START + (N - 1) * STEP;
-tl.to("#dots, #ring", { opacity: 0, duration: 0.5, ease: "power1.in" }, END + 0.6);
+tl.to("#dots", { opacity: 0, duration: 0.5, ease: "power1.in" }, END + 0.6);
 tl.fromTo("#tagline", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, END + 1.0);
 tl.to("#logo-wrap", { scale: 1.04, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 1 }, END + 0.6);
 tl.to("#root", { opacity: 0, duration: 0.5, ease: "power1.in" }, 11.5);
