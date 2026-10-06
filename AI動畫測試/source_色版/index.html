@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="gsap.min.js"></script>
+<style>
+@font-face { font-family: "JisiSerif"; src: url("serif700.woff2") format("woff2"); font-weight: 700; }
+@font-face { font-family: "JisiSerif"; src: url("serif400.woff2") format("woff2"); font-weight: 400; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: #F3F0E7; }
+#root { position: relative; width: 100%; height: 100%; background: #F3F0E7; font-family: "JisiSerif", serif; }
+#darkbg { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 42%, #4d5953 0%, #3F4A45 55%, #2f3834 100%); opacity: 0; }
+#logo-wrap { position: absolute; left: 453px; top: 250px; width: 1014px; height: 354px; }
+.logo { position: absolute; inset: 0; -webkit-mask: url("logo_mask.png") center / contain no-repeat; mask: url("logo_mask.png") center / contain no-repeat; opacity: 0; }
+#lg0 { opacity: 1; }
+#brush { position: absolute; left: -80px; top: -40px; width: 1300px; height: 434px; background: linear-gradient(90deg, rgba(243,240,231,0) 0px, #F3F0E7 120px); }
+.label { position: absolute; top: 700px; width: 100%; text-align: center; opacity: 0; }
+.label b { display: block; font-size: 54px; font-weight: 700; letter-spacing: 0.3em; padding-left: 0.3em; }
+.label span { display: block; margin-top: 10px; font-size: 30px; font-weight: 400; letter-spacing: 0.25em; padding-left: 0.25em; opacity: 0.75; }
+#dots { position: absolute; left: 0; top: 900px; width: 100%; height: 40px; }
+#dots i { position: absolute; top: 6px; width: 28px; height: 28px; border-radius: 50%; box-shadow: 0 0 0 1px rgba(201,196,182,0.6); }
+#ring { position: absolute; top: 894px; left: 688.0px; width: 40px; height: 40px; border-radius: 50%; border: 2px solid #8A8A8A; }
+#tagline { position: absolute; top: 720px; width: 100%; text-align: center; font-size: 40px; font-weight: 400; letter-spacing: 0.7em; padding-left: 0.7em; color: #E8D9A8; opacity: 0; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="12" data-width="1920" data-height="1080">
+<div id="darkbg" class="clip" data-start="0" data-duration="12" data-track-index="0"></div>
+<div id="logo-wrap" class="clip" data-start="0" data-duration="12" data-track-index="1">
+<div class="logo clip" id="lg0" style="background:#3F4A45" data-start="0" data-duration="12" data-track-index="10"></div>
+<div class="logo clip" id="lg1" style="background:#A28A6C" data-start="0" data-duration="12" data-track-index="11"></div>
+<div class="logo clip" id="lg2" style="background:#5F7D63" data-start="0" data-duration="12" data-track-index="12"></div>
+<div class="logo clip" id="lg3" style="background:#4F7A92" data-start="0" data-duration="12" data-track-index="13"></div>
+<div class="logo clip" id="lg4" style="background:#766FA8" data-start="0" data-duration="12" data-track-index="14"></div>
+<div class="logo clip" id="lg5" style="background:#C07A8A" data-start="0" data-duration="12" data-track-index="15"></div>
+<div class="logo clip" id="lg6" style="background:#8A8A8A" data-start="0" data-duration="12" data-track-index="16"></div>
+<div class="logo clip" id="lg7" style="background:#231815" data-start="0" data-duration="12" data-track-index="17"></div>
+<div class="logo clip" id="lg8" style="background:#FFFFFF" data-start="0" data-duration="12" data-track-index="18"></div>
+<div class="logo clip" id="lg9" style="background:#AA8620" data-start="0" data-duration="12" data-track-index="19"></div>
+<div id="brush"></div>
+</div>
+<div class="label clip" id="lb0" style="color:#3F4A45" data-start="0" data-duration="12" data-track-index="30"><b>墨綠</b><span>#3F4A45</span></div>
+<div class="label clip" id="lb1" style="color:#3F4A45" data-start="0" data-duration="12" data-track-index="31"><b>品牌棕褐</b><span>#A28A6C</span></div>
+<div class="label clip" id="lb2" style="color:#3F4A45" data-start="0" data-duration="12" data-track-index="32"><b>鼠尾草綠</b><span>#5F7D63</span></div>
+<div class="label clip" id="lb3" style="color:#3F4A45" data-start="0" data-duration="12" data-track-index="33"><b>池水藍</b><span>#4F7A92</span></div>
+<div class="label clip" id="lb4" style="color:#3F4A45" data-start="0" data-duration="12" data-track-index="34"><b>薰衣草紫</b><span>#766FA8</span></div>
+<div class="label clip" id="lb5" style="color:#3F4A45" data-start="0" data-duration="12" data-track-index="35"><b>睡蓮粉</b><span>#C07A8A</span></div>
+<div class="label clip" id="lb6" style="color:#3F4A45" data-start="0" data-duration="12" data-track-index="36"><b>灰色</b><span>#8A8A8A</span></div>
+<div class="label clip" id="lb7" style="color:#3F4A45" data-start="0" data-duration="12" data-track-index="37"><b>黑色</b><span>#231815</span></div>
+<div class="label clip" id="lb8" style="color:#F3F0E7" data-start="0" data-duration="12" data-track-index="38"><b>白色</b><span>#FFFFFF</span></div>
+<div class="label clip" id="lb9" style="color:#F3F0E7" data-start="0" data-duration="12" data-track-index="39"><b>金色</b><span>#AA8620</span></div>
+<div id="dots" class="clip" data-start="0" data-duration="12" data-track-index="2"><i style="left:694.0px;background:#3F4A45;"></i><i style="left:750.0px;background:#A28A6C;"></i><i style="left:806.0px;background:#5F7D63;"></i><i style="left:862.0px;background:#4F7A92;"></i><i style="left:918.0px;background:#766FA8;"></i><i style="left:974.0px;background:#C07A8A;"></i><i style="left:1030.0px;background:#8A8A8A;"></i><i style="left:1086.0px;background:#231815;"></i><i style="left:1142.0px;background:#FFFFFF;"></i><i style="left:1198.0px;background:#AA8620;"></i></div>
+<div id="ring" class="clip" data-start="0" data-duration="12" data-track-index="3"></div>
+<div id="tagline" class="clip" data-start="0" data-duration="12" data-track-index="4">空間 · 設計 · 生活</div>
+</div>
+<script>
+const N = 10, DOT = 56, DARK = [0, 0, 0, 0, 0, 0, 0, 0, 1, 1];
+const tl = gsap.timeline({ paused: true });
+
+// 1. Brush-stroke reveal of the 墨綠 logo (cream panel slides off to the right)
+tl.fromTo("#brush", { x: 0 }, { x: 1250, duration: 1.6, ease: "power2.inOut" }, 0.3);
+tl.set("#brush", { opacity: 0 }, 2.0);
+tl.fromTo("#logo-wrap", { scale: 0.96 }, { scale: 1, duration: 2.0, ease: "power2.out" }, 0.3);
+tl.fromTo("#dots, #ring", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 1.6);
+tl.fromTo("#lb0", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 1.7);
+
+// 2. Cycle through every color version
+const START = 2.6, STEP = 0.72;
+for (let i = 1; i < N; i++) {
+  const t = START + (i - 1) * STEP;
+  tl.to("#lg" + (i - 1), { opacity: 0, duration: 0.35, ease: "power1.inOut" }, t);
+  tl.to("#lg" + i, { opacity: 1, duration: 0.35, ease: "power1.inOut" }, t);
+  tl.to("#lb" + (i - 1), { opacity: 0, y: -16, duration: 0.25, ease: "power1.in" }, t);
+  tl.fromTo("#lb" + i, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, t + 0.12);
+  tl.to("#ring", { x: i * DOT, duration: 0.4, ease: "power3.inOut" }, t);
+  if (DARK[i] && !DARK[i - 1]) tl.to("#darkbg", { opacity: 1, duration: 0.5, ease: "power1.inOut" }, t);
+}
+
+// 3. Finale: 金色 on 墨綠, swap the label for the tagline, breathe, fade out
+const END = START + (N - 1) * STEP;
+tl.to("#lb" + (N - 1) + ", #dots, #ring", { opacity: 0, duration: 0.5, ease: "power1.in" }, END + 0.6);
+tl.fromTo("#tagline", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, END + 1.0);
+tl.to("#logo-wrap", { scale: 1.04, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 1 }, END + 0.6);
+tl.to("#root", { opacity: 0, duration: 0.5, ease: "power1.in" }, 11.5);
+
+window.__timelines["main"] = tl;
+tl.seek(0);
+</script>
+</body>
+</html>
