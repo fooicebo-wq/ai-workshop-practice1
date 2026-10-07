@@ -95,6 +95,7 @@
   .done-box .ok{width:64px;height:64px;border-radius:50%;background:var(--gold);color:#fff;
     font-size:32px;display:grid;place-items:center;margin:0 auto 12px}
   .actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+  .photo-tip{background:var(--gold-l);color:var(--gold-d);border-radius:10px;padding:12px 14px;font-size:14px;text-align:left;margin:14px 0 0}
   .actions .btn{flex:0 1 200px;text-decoration:none;text-align:center}
   .actions .btn.line{flex-basis:100%;max-width:420px;background:#06C755;border-color:#06C755;color:#fff}
   footer{text-align:center;color:var(--muted);font-size:12px;margin-top:30px}
@@ -305,6 +306,7 @@
       <div class="ok">✓</div>
       <h2 style="justify-content:center" id="doneTitle">感謝您的填寫！</h2>
       <p class="hint" id="doneHint">設計師將於 1–2 個工作天內與您聯繫，確認需求後再安排見面。</p>
+      <p class="photo-tip" id="photoTip" hidden></p>
       <div class="actions">
         <a class="btn primary line" id="lineBtn" href="#" target="_blank" rel="noopener">用 LINE 傳送給集思</a>
         <button class="btn" id="copyBtn" type="button">複製填寫內容</button>
@@ -416,11 +418,16 @@ nextBtn.onclick = async ()=>{
       if(!r.ok) throw new Error(r.error);
     }catch(e){ failed = true; console.error(e); }
   }
-  const lineText = asText() + (pics.length ? `\n（另有 ${pics.length} 張風格照片，稍後補傳）` : '');
+  const lineText = asText() + (pics.length ? `\n\n📷 另有 ${pics.length} 張風格照片，將於下一則訊息傳送` : '');
   document.getElementById('lineBtn').href = `https://line.me/R/oaMessage/${encodeURIComponent(LINE_OA)}/?${encodeURIComponent(lineText)}`;
   if(!SUBMIT_URL){
     document.getElementById('doneTitle').textContent = '最後一步：傳送給我們';
-    document.getElementById('doneHint').textContent = '請按下方綠色按鈕，問卷內容會自動帶入集思的 LINE 對話框，按「傳送」即完成。風格照片可在 LINE 裡一起傳。';
+    document.getElementById('doneHint').textContent = '請按下方綠色按鈕，問卷內容會自動帶入集思的 LINE 對話框，按「傳送」即完成。';
+  }
+  if(pics.length){
+    const tip = document.getElementById('photoTip');
+    tip.innerHTML = `📷 <b>別忘了補傳 ${pics.length} 張風格照片</b><br>LINE 無法自動夾帶照片，傳送文字後，請在 LINE 對話框按左下角 <b>＋</b> → <b>相簿</b>，選取剛剛的照片傳送。`;
+    tip.hidden = false;
   }
   if(failed){
     document.getElementById('doneTitle').textContent = '送出時發生問題';
