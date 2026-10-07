@@ -301,8 +301,8 @@
   <section id="doneBox" hidden>
     <div class="card done-box">
       <div class="ok">✓</div>
-      <h2 style="justify-content:center">感謝您的填寫！</h2>
-      <p class="hint">設計師將於 1–2 個工作天內與您聯繫，確認需求後再安排見面。</p>
+      <h2 style="justify-content:center" id="doneTitle">感謝您的填寫！</h2>
+      <p class="hint" id="doneHint">設計師將於 1–2 個工作天內與您聯繫，確認需求後再安排見面。</p>
       <div class="actions">
         <button class="btn primary" id="copyBtn" type="button">複製填寫內容</button>
         <button class="btn" id="dlBtn" type="button">下載文字檔</button>
@@ -319,7 +319,7 @@
 </div></div>
 
 <script>
-/* 若要把問卷結果送到後端（例：Google Apps Script 網址），填在這裡；留空則只在本機顯示結果 */
+/* Google Apps Script 網頁應用程式網址（設定方式見「問卷收件/設定教學.md」）；留空則只在本機顯示結果 */
 const SUBMIT_URL = "";
 
 const form = document.getElementById('form');
@@ -400,8 +400,21 @@ function asText(){
 nextBtn.onclick = async ()=>{
   if(cur < steps.length-1){ if(validate(steps[cur])) show(cur+1); return; }
   nextBtn.disabled = true; nextBtn.textContent = '送出中…';
+  let failed = false;
   if(SUBMIT_URL){
-    try{ await fetch(SUBMIT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify(collect())}); }catch(e){}
+    try{
+      const payload = collect();
+      payload._photos = await Promise.all(pics.map(p=>shrink(p.file)));
+      // text/plain 可避免跨網域預檢，Apps Script 才收得到
+      const res = await fetch(SUBMIT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
+      const r = await res.json();
+      if(!r.ok) throw new Error(r.error);
+    }catch(e){ failed = true; console.error(e); }
+  }
+  if(failed){
+    document.getElementById('doneTitle').textContent = '送出時發生問題';
+    document.getElementById('doneHint').textContent = '網路連線可能不穩，請按下方「複製填寫內容」後，貼到 LINE 傳給我們，謝謝！';
+    document.querySelector('.done-box .ok').textContent = '!';
   }
   form.hidden = true;
   ['nav','stepTags','hero'].forEach(id=>document.getElementById(id).hidden = true);
@@ -412,9 +425,23 @@ nextBtn.onclick = async ()=>{
 prevBtn.onclick = ()=>show(cur-1);
 
 document.getElementById('pics').addEventListener('change', e=>{
-  [...e.target.files].slice(0, 5-pics.length).forEach(f=>pics.push({name:f.name,url:URL.createObjectURL(f)}));
+  [...e.target.files].slice(0, 5-pics.length).forEach(f=>pics.push({file:f,url:URL.createObjectURL(f)}));
   e.target.value=''; renderThumbs();
 });
+// 照片縮到長邊 1280px 的 JPEG，減少上傳量
+function shrink(file){
+  return new Promise((ok,no)=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const k = Math.min(1, 1280/Math.max(img.width,img.height));
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width*k); c.height = Math.round(img.height*k);
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+      ok({type:'image/jpeg', data:c.toDataURL('image/jpeg',0.8).split(',')[1]});
+    };
+    img.onerror = no; img.src = URL.createObjectURL(file);
+  });
+}
 function renderThumbs(){
   const box = document.getElementById('thumbs');
   box.innerHTML = pics.map((p,i)=>`<div><img src="${p.url}" alt=""><button type="button" data-i="${i}">×</button></div>`).join('');
