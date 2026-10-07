@@ -11,6 +11,7 @@
     --radius:14px;
   }
   *{box-sizing:border-box}
+  [hidden]{display:none!important}
   body{margin:0;background:var(--cream);color:var(--ink);
     font-family:"Microsoft JhengHei","Noto Sans TC","PingFang TC",sans-serif;line-height:1.6}
   header{background:var(--white);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
@@ -94,7 +95,8 @@
   .done-box .ok{width:64px;height:64px;border-radius:50%;background:var(--gold);color:#fff;
     font-size:32px;display:grid;place-items:center;margin:0 auto 12px}
   .actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px}
-  .actions .btn{flex:0 1 200px}
+  .actions .btn{flex:0 1 200px;text-decoration:none;text-align:center}
+  .actions .btn.line{flex-basis:100%;max-width:420px;background:#06C755;border-color:#06C755;color:#fff}
   footer{text-align:center;color:var(--muted);font-size:12px;margin-top:30px}
 </style>
 </head>
@@ -304,7 +306,8 @@
       <h2 style="justify-content:center" id="doneTitle">感謝您的填寫！</h2>
       <p class="hint" id="doneHint">設計師將於 1–2 個工作天內與您聯繫，確認需求後再安排見面。</p>
       <div class="actions">
-        <button class="btn primary" id="copyBtn" type="button">複製填寫內容</button>
+        <a class="btn primary line" id="lineBtn" href="#" target="_blank" rel="noopener">用 LINE 傳送給集思</a>
+        <button class="btn" id="copyBtn" type="button">複製填寫內容</button>
         <button class="btn" id="dlBtn" type="button">下載文字檔</button>
       </div>
     </div>
@@ -321,6 +324,8 @@
 <script>
 /* Google Apps Script 網頁應用程式網址（設定方式見「問卷收件/設定教學.md」）；留空則只在本機顯示結果 */
 const SUBMIT_URL = "";
+/* 集思 LINE 官方帳號，送出後可一鍵把問卷內容傳到這裡 */
+const LINE_OA = "@608iofzm";
 
 const form = document.getElementById('form');
 const steps = [...document.querySelectorAll('.step')];
@@ -411,9 +416,15 @@ nextBtn.onclick = async ()=>{
       if(!r.ok) throw new Error(r.error);
     }catch(e){ failed = true; console.error(e); }
   }
+  const lineText = asText() + (pics.length ? `\n（另有 ${pics.length} 張風格照片，稍後補傳）` : '');
+  document.getElementById('lineBtn').href = `https://line.me/R/oaMessage/${encodeURIComponent(LINE_OA)}/?${encodeURIComponent(lineText)}`;
+  if(!SUBMIT_URL){
+    document.getElementById('doneTitle').textContent = '最後一步：傳送給我們';
+    document.getElementById('doneHint').textContent = '請按下方綠色按鈕，問卷內容會自動帶入集思的 LINE 對話框，按「傳送」即完成。風格照片可在 LINE 裡一起傳。';
+  }
   if(failed){
     document.getElementById('doneTitle').textContent = '送出時發生問題';
-    document.getElementById('doneHint').textContent = '網路連線可能不穩，請按下方「複製填寫內容」後，貼到 LINE 傳給我們，謝謝！';
+    document.getElementById('doneHint').textContent = '網路連線可能不穩，請按下方綠色按鈕，用 LINE 傳給我們，謝謝！';
     document.querySelector('.done-box .ok').textContent = '!';
   }
   form.hidden = true;
