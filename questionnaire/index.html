@@ -328,6 +328,7 @@
 const SUBMIT_URL = "";
 /* 集思 LINE 官方帳號，送出後可一鍵把問卷內容傳到這裡 */
 const LINE_OA = "@608iofzm";
+const IS_MOBILE = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
 const form = document.getElementById('form');
 const steps = [...document.querySelectorAll('.step')];
@@ -426,7 +427,9 @@ nextBtn.onclick = async ()=>{
   }
   if(pics.length){
     const tip = document.getElementById('photoTip');
-    tip.innerHTML = `📷 <b>別忘了補傳 ${pics.length} 張風格照片</b><br>LINE 無法自動夾帶照片，傳送文字後，請在 LINE 對話框按左下角 <b>＋</b> → <b>相簿</b>，選取剛剛的照片傳送。`;
+    tip.innerHTML = `📷 <b>別忘了補傳 ${pics.length} 張風格照片</b><br>LINE 無法自動夾帶照片，傳送文字後，` + (IS_MOBILE
+      ? `請在 LINE 對話框按左下角 <b>＋</b> → <b>相簿</b>，選取剛剛的照片傳送。`
+      : `請把電腦裡的照片<b>直接拖進 LINE 電腦版</b>的集思對話框傳送。`);
     tip.hidden = false;
   }
   if(failed){
@@ -468,7 +471,7 @@ function renderThumbs(){
 
 // 電腦沒有 LINE App，無法自動帶入訊息：改為先複製內容，再開集思 LINE 的加好友頁（QR Code）
 document.getElementById('lineBtn').onclick = async e=>{
-  if(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) return;
+  if(IS_MOBILE) return;
   e.preventDefault();
   try{ await navigator.clipboard.writeText(asText()); }catch{}
   window.open(`https://line.me/R/ti/p/${encodeURIComponent(LINE_OA)}`, '_blank', 'noopener');
