@@ -459,6 +459,14 @@ function renderThumbs(){
   box.querySelectorAll('button').forEach(b=>b.onclick=()=>{pics.splice(+b.dataset.i,1);renderThumbs();});
 }
 
+// 電腦沒有 LINE App，無法自動帶入訊息：改為先複製內容，再開集思 LINE 的加好友頁（QR Code）
+document.getElementById('lineBtn').onclick = async e=>{
+  if(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) return;
+  e.preventDefault();
+  try{ await navigator.clipboard.writeText(asText()); }catch{}
+  window.open(`https://line.me/R/ti/p/${encodeURIComponent(LINE_OA)}`, '_blank', 'noopener');
+  document.getElementById('doneHint').textContent = '問卷內容已複製！請用手機 LINE 掃描新視窗的 QR Code 加入集思好友，再把內容貼上傳送。';
+};
 document.getElementById('copyBtn').onclick = async e=>{
   try{ await navigator.clipboard.writeText(asText()); e.target.textContent='已複製 ✓'; }
   catch{ e.target.textContent='複製失敗，請改用下載'; }
