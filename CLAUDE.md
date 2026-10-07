@@ -2,6 +2,13 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## 回覆語言
+
+- **與使用者對話一律使用繁體中文**（含說明、摘要、提問）。
+- 程式碼、指令、檔名維持原文。
+
+---
+
 ## 專案說明
 
 這是一個建材採購 / 室內設計案件的**檔案整理工作區**。  
