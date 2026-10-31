@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>和順路陳公館 追減明細表</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif; font-size: 13px; color: #222; background: #fff; padding: 40px; max-width: 960px; margin: 0 auto; }
+  .logo-area { display: flex; align-items: flex-end; gap: 10px; margin-bottom: 24px; }
+  .logo-box { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; width: 60px; }
+  .logo-box span { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border: 2px solid #8B6914; color: #8B6914; font-size: 15px; font-weight: bold; }
+  .logo-text { line-height: 1.4; }
+  .logo-text .cn { font-size: 11px; letter-spacing: 4px; color: #555; }
+  .logo-text .en { font-size: 10px; letter-spacing: 2px; color: #888; }
+  .doc-title { text-align: center; background: #c8d8e8; font-size: 18px; font-weight: bold; padding: 8px 0; margin-bottom: 16px; letter-spacing: 4px; }
+  .info-table { width: 100%; margin-bottom: 16px; }
+  .info-table td { padding: 3px 6px; font-weight: bold; }
+  .info-table td:first-child { width: 70px; }
+  h2 { font-size: 14px; background: #eee; border: 1px solid #aaa; border-bottom: none; padding: 6px 10px; margin-top: 18px; }
+  table.t { width: 100%; border-collapse: collapse; }
+  table.t th, table.t td { border: 1px solid #aaa; padding: 5px 8px; text-align: center; vertical-align: middle; }
+  table.t th { background: #ddd; }
+  table.t td.left { text-align: left; }
+  table.t td.amount { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  table.t td.note { font-size: 11.5px; color: #555; text-align: left; }
+  table.t tr.sec td { background: #e8f1f8; font-weight: bold; }
+  table.t tr.sub td { background: #fafafa; font-weight: bold; color: #555; }
+  table.t tr.tot td { background: #f0f0f0; font-weight: bold; }
+  .neg { color: #b00020; }
+  .overview td:first-child { text-align: left; }
+  .overview tr.grand td { background: #fff4d6; font-size: 15px; font-weight: bold; }
+  .remarks { border: 1px solid #aaa; border-top: none; padding: 10px 12px; }
+  .remarks p { font-weight: bold; margin-bottom: 4px; }
+  .remarks ol { padding-left: 18px; line-height: 1.8; font-size: 12px; }
+  .confirm-row { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #aaa; border-top: none; }
+  .confirm-cell { text-align: center; padding: 16px 16px 60px; font-weight: bold; }
+  .confirm-cell:first-child { border-right: 1px solid #aaa; }
+  .foot { margin-top: 10px; font-size: 11px; color: #888; text-align: right; }
+  @media (max-width: 640px) { body { padding: 16px; } .scroll { overflow-x: auto; } }
+  @media print { body { padding: 16px; } tr { page-break-inside: avoid; } h2 { page-break-after: avoid; } }
+</style>
+</head>
+<body>
+  <div class="logo-area">
+    <div class="logo-box"><span>集</span><span>思</span><span style="visibility:hidden"></span><span style="visibility:hidden"></span></div>
+    <div class="logo-text"><div class="cn">室　內　設　計</div><div class="en">G I S &nbsp; D E S I G N</div></div>
+  </div>
+  <div class="doc-title">追　減　明　細　表</div>
+  <table class="info-table">
+    <tr><td>客　戶：</td><td>和順路陳公館</td></tr>
+    <tr><td>地　址：</td><td>台中市北屯區和順路201號</td></tr>
+    <tr><td>日　期：</td><td>2026/10/31</td></tr>
+    <tr><td>依　據：</td><td>原工程估價單（2025/03/31）及室內裝修簽約總表（2025/04/16）</td></tr>
+  </table>
+
+  <h2>一、金額調整總覽</h2>
+  <table class="t overview">
+    <tr><th>項　目</th><th style="width:200px">金額（新台幣，未稅）</th></tr>
+    <tr><td>原報價合計</td><td class="amount">5,925,905</td></tr>
+    <tr><td>簽約優惠</td><td class="amount neg">−375,905</td></tr>
+    <tr><td>原簽約金額（優惠後）</td><td class="amount">5,550,000</td></tr>
+    <tr><td>追減金額（共 63 項）</td><td class="amount neg">−1,821,920</td></tr>
+    <tr class="grand"><td>追減後工程金額（稅另計）</td><td class="amount">3,728,080</td></tr>
+  </table>
+
+  <h2>二、各工程類別追減彙總</h2>
+  <div class="scroll"><table class="t">
+    <tr><th>工程類別</th><th style="width:130px">原報價金額</th><th style="width:130px">追減金額</th><th style="width:130px">追減後金額</th></tr>
+    <tr><td class="left">木作工程</td><td class="amount">2,438,125</td><td class="amount neg">−1,397,880</td><td class="amount">1,040,245</td></tr><tr><td class="left">水電工程</td><td class="amount">417,900</td><td class="amount neg">−93,300</td><td class="amount">324,600</td></tr><tr><td class="left">弱電工程（監視器／無線基地台）</td><td class="amount">132,200</td><td class="amount neg">−132,200</td><td class="amount">0</td></tr><tr><td class="left">鋁門窗工程</td><td class="amount">60,000</td><td class="amount neg">−60,000</td><td class="amount">0</td></tr><tr><td class="left">人造石工程</td><td class="amount">79,940</td><td class="amount neg">−79,940</td><td class="amount">0</td></tr><tr><td class="left">裱布工程</td><td class="amount">4,900</td><td class="amount neg">−4,900</td><td class="amount">0</td></tr><tr><td class="left">裝飾板工程</td><td class="amount">98,000</td><td class="amount neg">−47,200</td><td class="amount">50,800</td></tr><tr><td class="left">玻璃工程</td><td class="amount">125,060</td><td class="amount neg">−6,500</td><td class="amount">118,560</td></tr><tr><td class="left">其他 12 項工程類別（無追減）</td><td class="amount">2,569,780</td><td class="amount">0</td><td class="amount">2,569,780</td></tr><tr class="tot"><td class="left">合計</td><td class="amount">5,925,905</td><td class="amount neg">−1,821,920</td><td class="amount">4,103,985</td></tr>
+  </table></div>
+
+  <h2>三、追減明細</h2>
+  <div class="scroll"><table class="t">
+    <thead><tr><th style="width:46px">項次</th><th>工　程　項　目</th><th style="width:52px">數量</th><th style="width:44px">單位</th><th style="width:76px">單價</th><th style="width:90px">追減金額</th><th style="width:130px">備　註</th></tr></thead>
+    <tbody>
+    <tr class="sec"><td>一</td><td class="left" colspan="4">木作工程</td><td class="amount">1,397,880</td><td></td></tr><tr class="sub"><td></td><td class="left" colspan="6">1F 客廳</td></tr><tr><td>2</td><td class="left">電視牆高櫃(系統櫃)w290*h213</td><td>10</td><td>尺</td><td class="amount">7,800</td><td class="amount">78,000</td><td class="note"></td></tr><tr><td>4</td><td class="left">電視牆鞋架櫃((W81+40.5*D45*H283)(系統櫃)</td><td>4.5</td><td>尺</td><td class="amount">7,500</td><td class="amount">33,750</td><td class="note"></td></tr><tr><td>5</td><td class="left">沙發旁造型內崁櫃W150*H240(系統櫃)</td><td>5</td><td>尺</td><td class="amount">7,800</td><td class="amount">39,000</td><td class="note"></td></tr><tr class="sub"><td></td><td class="left" colspan="6">1F 餐廳／廚房</td></tr><tr><td>1</td><td class="left">廚具上新疊櫃W300+295*H47*D35</td><td>10</td><td>尺</td><td class="amount">3,000</td><td class="amount">30,000</td><td class="note"></td></tr><tr><td>2</td><td class="left">廚具上新疊櫃W295*H121*D35</td><td>10</td><td>尺</td><td class="amount">3,000</td><td class="amount">30,000</td><td class="note"></td></tr><tr><td>3</td><td class="left">廚具高櫃W45*275*D58</td><td>1.5</td><td>尺</td><td class="amount">7,000</td><td class="amount">10,500</td><td class="note">半邊怪物五金另計</td></tr><tr><td>4</td><td class="left">廚房左側櫃体W269*90</td><td>9</td><td>尺</td><td class="amount">3,200</td><td class="amount">28,800</td><td class="note">人造石檯面另計</td></tr><tr><td>5</td><td class="left">廚房左側吊櫃W269*90</td><td>9</td><td>尺</td><td class="amount">3,200</td><td class="amount">28,800</td><td class="note"></td></tr><tr><td>6</td><td class="left">廚房左高櫃W45/60*275*D58</td><td>3.5</td><td>尺</td><td class="amount">6,000</td><td class="amount">21,000</td><td class="note">半邊怪物五金另計</td></tr><tr><td>7</td><td class="left">廚具所有門片/結晶霧烤門片(M01)</td><td>1</td><td>式</td><td class="amount">53,000</td><td class="amount">53,000</td><td class="note"></td></tr><tr class="sub"><td></td><td class="left" colspan="6">2F 主臥／視廳室</td></tr><tr><td>1</td><td class="left">主臥造型電視矮櫃w280*h50*d44</td><td>14.5</td><td>尺</td><td class="amount">4,700</td><td class="amount">68,150</td><td class="note">鋁框滑門崁黑玻另計</td></tr><tr><td>2</td><td class="left">主臥造型電視高櫃w150*h224*d35</td><td>5</td><td>尺</td><td class="amount">11,200</td><td class="amount">56,000</td><td class="note"></td></tr><tr><td>3</td><td class="left">主臥造型牆w215/34*h274*d22</td><td>8.5</td><td>尺</td><td class="amount">3,000</td><td class="amount">25,500</td><td class="note">含圓弧</td></tr><tr><td>4</td><td class="left">主臥床吊櫃w281/35*h110*d35</td><td>11</td><td>尺</td><td class="amount">6,500</td><td class="amount">71,500</td><td class="note">含左側高櫃</td></tr><tr><td>5</td><td class="left">主臥床背櫃w281*h110*d35</td><td>9.5</td><td>尺</td><td class="amount">6,500</td><td class="amount">61,750</td><td class="note">含三組上掀櫃</td></tr><tr><td>6</td><td class="left">主臥凹槽處高櫃w142*h255*d26</td><td>5</td><td>尺</td><td class="amount">11,000</td><td class="amount">55,000</td><td class="note"></td></tr><tr><td>7</td><td class="left">主臥凹槽處木作包覆</td><td>1</td><td>式</td><td class="amount">6,500</td><td class="amount">6,500</td><td class="note">繃布-6814(台彊)/另計</td></tr><tr><td>8</td><td class="left">主臥廊道收納/衣櫃W222*H240*D60</td><td>7.5</td><td>尺</td><td class="amount">12,000</td><td class="amount">90,000</td><td class="note">鋁框掀門另計</td></tr><tr><td>9</td><td class="left">主臥更衣室更衣櫃W160/230/160*D60*H240</td><td>18.5</td><td>尺</td><td class="amount">8,500</td><td class="amount">157,250</td><td class="note">開式式無門片</td></tr><tr><td>11</td><td class="left">視廳室左側造型收納櫃W180*D23*H240</td><td>6</td><td>尺</td><td class="amount">9,800</td><td class="amount">58,800</td><td class="note"></td></tr><tr><td>12</td><td class="left">視廳室橫拉門/打壁板W112*H240</td><td>1</td><td>式</td><td class="amount">28,000</td><td class="amount">28,000</td><td class="note"></td></tr><tr class="sub"><td></td><td class="left" colspan="6">3F 男孩房／女孩房</td></tr><tr><td>1</td><td class="left">男孩房床L背櫃W195/245*D45/25*H115(系統櫃)</td><td>11.2</td><td>尺</td><td class="amount">5,400</td><td class="amount">60,480</td><td class="note"></td></tr><tr><td>2</td><td class="left">男孩房床底櫃W200*120*H30(系統櫃)</td><td>6.5</td><td>尺</td><td class="amount">3,600</td><td class="amount">23,400</td><td class="note">含抽屜</td></tr><tr><td>3</td><td class="left">男孩房衣櫃W148*D60*H240(系統櫃)</td><td>7</td><td>尺</td><td class="amount">8,000</td><td class="amount">56,000</td><td class="note">含抽屜</td></tr><tr><td>4</td><td class="left">男孩房衣櫃旁中高櫃W35*D60*H151(系統櫃)</td><td>1</td><td>尺</td><td class="amount">4,000</td><td class="amount">4,000</td><td class="note"></td></tr><tr><td>6</td><td class="left">女孩房床L背櫃W120/235*D45/25*H115(系統櫃)</td><td>12</td><td>尺</td><td class="amount">5,400</td><td class="amount">64,800</td><td class="note">琺瑯板另計</td></tr><tr><td>7</td><td class="left">女孩房床底櫃W195*120*H30(系統櫃)</td><td>6.5</td><td>尺</td><td class="amount">3,600</td><td class="amount">23,400</td><td class="note">含抽屜</td></tr><tr><td>8</td><td class="left">女孩房造型衣櫃W250*D60*H240(系統櫃)</td><td>8.5</td><td>尺</td><td class="amount">8,000</td><td class="amount">68,000</td><td class="note">含抽屜/圓弧櫃</td></tr><tr class="sub"><td></td><td class="left" colspan="6">4F 鋼琴室</td></tr><tr><td>1</td><td class="left">鋼琴室收納櫃W276CM*D39*H240(系統櫃)</td><td>9.5</td><td>尺</td><td class="amount">7,000</td><td class="amount">66,500</td><td class="note"></td></tr><tr class="sec"><td>二</td><td class="left" colspan="4">水電工程</td><td class="amount">93,300</td><td></td></tr><tr><td>6</td><td class="left">1F鐵捲門加裝車庫感應器</td><td>1</td><td>式</td><td class="amount">2,500</td><td class="amount">2,500</td><td class="note"></td></tr><tr><td>11</td><td class="left">1F新增專用迴路(餐廳/110V/220V)</td><td>3</td><td>迴</td><td class="amount">12,600</td><td class="amount">37,800</td><td class="note">爐連烤/電器櫃/冰箱/</td></tr><tr><td>16</td><td class="left">2F插座線路重新拉線</td><td>19</td><td>處</td><td class="amount">900</td><td class="amount">17,100</td><td class="note">前陽台/主臥</td></tr><tr><td>22</td><td class="left">2F電視/電話/網路線路重新拉線1/1/1</td><td>3</td><td>迴</td><td class="amount">2,300</td><td class="amount">6,900</td><td class="note"></td></tr><tr><td>26</td><td class="left">1F喇叭線配管拉線(線材業主提供)</td><td>1</td><td>式</td><td class="amount">4,000</td><td class="amount">4,000</td><td class="note"></td></tr><tr><td>27</td><td class="left">2F喇叭線配管拉線(線材業主提供)</td><td>1</td><td>式</td><td class="amount">4,000</td><td class="amount">4,000</td><td class="note"></td></tr><tr><td>29</td><td class="left">除濕器牆面穿管配排水管施作</td><td>5</td><td>處</td><td class="amount">2,500</td><td class="amount">12,500</td><td class="note">客/主臥/視廳室/女兒/男孩房</td></tr><tr><td>32</td><td class="left">2F開關/插座面板</td><td>1</td><td>式</td><td class="amount">8,500</td><td class="amount">8,500</td><td class="note"></td></tr><tr class="sec"><td>三</td><td class="left" colspan="4">弱電工程（監視器／無線基地台）</td><td class="amount">132,200</td><td></td></tr><tr><td>1</td><td class="left">IP攝影機 500萬</td><td>4</td><td>支</td><td class="amount">5,500</td><td class="amount">22,000</td><td class="note"></td></tr><tr><td>2</td><td class="left">監視錄影主機 8 PORRT NVR 4TB</td><td>1</td><td>台</td><td class="amount">18,000</td><td class="amount">18,000</td><td class="note"></td></tr><tr><td>3</td><td class="left">4 PORT POE HUB</td><td>1</td><td>台</td><td class="amount">4,200</td><td class="amount">4,200</td><td class="note"></td></tr><tr><td>4</td><td class="left">22吋液晶螢幕</td><td>1</td><td>台</td><td class="amount">3,500</td><td class="amount">3,500</td><td class="note"></td></tr><tr><td>5</td><td class="left">電梯無線模組(攝影機用)</td><td>1</td><td>組</td><td class="amount">4,500</td><td class="amount">4,500</td><td class="note"></td></tr><tr><td>6</td><td class="left">電梯施工</td><td>1</td><td>式</td><td class="amount">5,000</td><td class="amount">5,000</td><td class="note"></td></tr><tr><td>7</td><td class="left">安裝測試調整工資</td><td>1</td><td>式</td><td class="amount">19,000</td><td class="amount">19,000</td><td class="note"></td></tr><tr><td>8</td><td class="left">線管材及五金另料</td><td>1</td><td>式</td><td class="amount">12,000</td><td class="amount">12,000</td><td class="note"></td></tr><tr><td>9</td><td class="left">吸頂式無線基地台 WIFI 6</td><td>7</td><td>台</td><td class="amount">4,500</td><td class="amount">31,500</td><td class="note"></td></tr><tr><td>10</td><td class="left">交換式集線器 8埠 100/1000Mbps</td><td>3</td><td>台</td><td class="amount">1,500</td><td class="amount">4,500</td><td class="note"></td></tr><tr><td>11</td><td class="left">安裝測試調整工資</td><td>1</td><td>式</td><td class="amount">8,000</td><td class="amount">8,000</td><td class="note"></td></tr><tr class="sec"><td>四</td><td class="left" colspan="4">鋁門窗工程</td><td class="amount">60,000</td><td></td></tr><tr><td>1</td><td class="left">2F主臥落地拉窗W180*H240(YS氣密窗系列)</td><td>1</td><td>式</td><td class="amount">32,000</td><td class="amount">32,000</td><td class="note">5光T+5光T膠合玻璃</td></tr><tr><td>2</td><td class="left">2F主臥固定窗W160*H40(YS氣密窗系列)</td><td>1</td><td>式</td><td class="amount">9,000</td><td class="amount">9,000</td><td class="note">5光T+5光T膠合玻璃</td></tr><tr><td>3</td><td class="left">3F男孩房W75*H140(推射窗含折紗/YS氣密窗系列)</td><td>1</td><td>式</td><td class="amount">19,000</td><td class="amount">19,000</td><td class="note">5光T+5光T膠合玻璃</td></tr><tr class="sec"><td>五</td><td class="left" colspan="4">人造石工程</td><td class="amount">79,940</td><td></td></tr><tr><td>1</td><td class="left">廚房水槽櫃/收納櫃SI-236矽鋼石檯面294.5+22.5+90.5cm-30(檯面深度65CM)</td><td>576</td><td>cm</td><td class="amount">90</td><td class="amount">51,840</td><td class="note">SI-236</td></tr><tr><td>2</td><td class="left">廚房矽鋼石檯面-電器櫃面收納櫃270cm</td><td>270</td><td>cm</td><td class="amount">80</td><td class="amount">21,600</td><td class="note">SI-236</td></tr><tr><td>3</td><td class="left">檯面加深220.5+90.5-60=311*5/60*55</td><td>1</td><td>式</td><td class="amount">2,000</td><td class="amount">2,000</td><td class="note"></td></tr><tr><td>4</td><td class="left">側落接合工資</td><td>1</td><td>式</td><td class="amount">3,000</td><td class="amount">3,000</td><td class="note"></td></tr><tr><td>5</td><td class="left">水槽下崁工資</td><td>1</td><td>式</td><td class="amount">1,500</td><td class="amount">1,500</td><td class="note"></td></tr><tr class="sec"><td>六</td><td class="left" colspan="4">裱布工程</td><td class="amount">4,900</td><td></td></tr><tr><td>1</td><td class="left">1F客廳臥榻座墊 W65*188CM</td><td>14</td><td>才</td><td class="amount">350</td><td class="amount">4,900</td><td class="note"></td></tr><tr><td>2</td><td class="left">2F主臥凹槽座墊</td><td>1</td><td>式</td><td class="amount">0</td><td class="amount">0</td><td class="note">依選材後另行報價</td></tr><tr class="sec"><td>七</td><td class="left" colspan="4">裝飾板工程</td><td class="amount">47,200</td><td></td></tr><tr><td>4</td><td class="left">女兒房造型-琺瑯壁板(奶茶色)w155*100cm</td><td>1</td><td>式</td><td class="amount">11,000</td><td class="amount">11,000</td><td class="note"></td></tr><tr><td>5</td><td class="left">男孩房當造型-琺瑯壁板(消冷灰)w270*80cm</td><td>1</td><td>式</td><td class="amount">20,000</td><td class="amount">20,000</td><td class="note"></td></tr><tr><td>6</td><td class="left">4F鋼琴室-琺瑯壁板(消光白)155*100cm</td><td>1</td><td>式</td><td class="amount">11,000</td><td class="amount">11,000</td><td class="note"></td></tr><tr><td>7</td><td class="left">琺瑯壁板安裝/造型板費用</td><td>1</td><td>式</td><td class="amount">5,200</td><td class="amount">5,200</td><td class="note"></td></tr><tr class="sec"><td>八</td><td class="left" colspan="4">玻璃工程</td><td class="amount">6,500</td><td></td></tr><tr><td>9</td><td class="left">餐廳左側面貼烤漆玻璃W270*H71cm</td><td>1</td><td>式</td><td class="amount">6,500</td><td class="amount">6,500</td><td class="note">優白</td></tr>
+    <tr class="tot"><td></td><td class="left" colspan="4">追減金額合計</td><td class="amount">1,821,920</td><td></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="remarks">
+    <p>備　　　註</p>
+    <ol>
+      <li>追減金額依原報價單之單價 × 數量計算；項次為原工程估價單各工程類別內的編號。</li>
+      <li>原簽約優惠 375,905 元維持不變。</li>
+      <li>以上金額均未含 5% 營業稅。</li>
+      <li>未列於本表之項目，依原報價單及合約內容施作。</li>
+      <li>本表經雙方簽認後，作為合約金額調整依據。</li>
+    </ol>
+  </div>
+  <div class="confirm-row"><div class="confirm-cell">公司確認</div><div class="confirm-cell">客戶確認</div></div>
+  <div class="foot">集思室內設計｜2026/10/31</div>
+</body>
+</html>
